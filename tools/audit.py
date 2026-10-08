@@ -27,6 +27,7 @@ except ImportError:          # the audit still runs, it just cannot spot faded p
 
 MEDIA_RE = re.compile(r"""(?:\.\./)*(?:[\w-]+/)*media/[\w.\-/]+\.(?:png|jpe?g|webp)""", re.I)
 AUDIO_RE = re.compile(r"""speech/[^"'`\s)]+\.(?:mp3|wav)""", re.I)
+PAIR_RE = re.compile(r"""["']?(word|title|label|caption|text|line|desc|verse|storyTitle)["']?\s*:\s*["']([^"'\n]{2,160})["']""")
 TEXT_RE = re.compile(r"""(?:word|title|label|caption|text|mean|meaning|desc|sub|line|prompt|model|ask)\s*["']?\s*:\s*["']([^"'\n]{2,200})["']""")
 EMOJI_RE = re.compile("[\U0001F300-\U0001FAFF☀-➿]")
 
@@ -71,6 +72,7 @@ def audit_day(day_dir):
     junk = [a for a in audios if "/._" in a or a.startswith("speech/._")]
     amiss = [a for a in audios if a not in junk and not os.path.exists(os.path.join(inter, a))]
     texts = [m.strip() for m in TEXT_RE.findall(html)]
+    r["pairs"] = list(dict.fromkeys((k, v.strip()) for k, v in PAIR_RE.findall(html)))
     long_t = [x for x in texts if len(x.split()) > 14]
 
     if missing:
@@ -97,6 +99,7 @@ def audit_day(day_dir):
     if rel.replace(os.sep, "/") == "GRADE1/Q1/WEEK1/DAY1":
         r["status"] = "KEEP (gold standard)"
         r["issues"] = []
+        r["pairs"] = []
         return r
     r["status"] = "REBUILT" if rebuilt and len(r["issues"]) == 0 else ("REBUILT-CHECK" if rebuilt else "REBUILD")
     r["content"] = {
@@ -108,6 +111,76 @@ def audit_day(day_dir):
                             and not f.startswith("._")),
     }
     return r
+
+
+AGE = {"1": 6, "2": 7, "3": 8}
+
+
+def slug(t):
+    return re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-")[:40] or "picture"
+
+
+def draft_pictures(r):
+    """A first picture list for a lesson that is not rebuilt yet, from its old words and story lines.
+    The agent rewriting the lesson keeps, fixes or replaces these when writing the real art prompts."""
+    if r["status"] != "REBUILD":
+        return []
+    g = re.search(r"GRADE(\d)", r["lesson"])
+    grade = g.group(1) if g else "1"
+    topic = re.sub(r"^.*?[:•]\s*", "", r.get("title", "")).strip() or r["lesson"]
+    out, seen = [], set()
+    cover = {"save_to": "%s/INTERACTIVE/media/art/cover.png" % r["lesson"], "shape": "16:9", "for": "cover",
+             "prompt": "Cover scene for a Grade %s English lesson about \"%s\": Tala and her family/friends in a "
+                       "bright Filipino setting that shows the topic at a glance." % (grade, topic)}
+    out.append(cover)
+    for key, val in r.get("pairs", []):
+        words = len(val.split())
+        if key in ("word", "label") and words <= 5:
+            kind, shape = "word card", "square"
+            prompt = ("Picture card that shows \"%s\" so a %d-year-old Filipino child understands it at once "
+                      "(lesson: %s)." % (val, AGE.get(grade, 6), topic))
+        elif key in ("caption", "text", "line", "desc") and 4 <= words <= 30:
+            kind, shape = "story/scene", "16:9"
+            prompt = ("Story scene for the line: \"%s\" (lesson: %s). Show exactly this moment with the "
+                      "characters large and clear." % (val, topic))
+        elif key == "verse":
+            kind, shape = "verse", "16:9"
+            prompt = "A warm everyday Filipino family scene that shows the meaning of the Bible verse: \"%s\"." % val
+        else:
+            continue
+        name = slug(val)
+        if name in seen:
+            continue
+        seen.add(name)
+        out.append({"save_to": "%s/INTERACTIVE/media/art/%s.png" % (r["lesson"], name), "shape": shape,
+                    "for": kind, "text": val, "prompt": prompt})
+    return out
+
+
+def write_picture_guide(results):
+    rows = [(r, p) for r in results for p in draft_pictures(r)]
+    out = ["# Picture guide — all Grades (draft from the audit)", "",
+           "%d pictures across %d lessons that still need rebuilding." % (len(rows), len({r["lesson"] for r, _ in rows})),
+           "",
+           "How to use: these drafts come from each old lesson's words and story lines. While rewriting a lesson,",
+           "the agent turns the right ones into `art` entries in `tools/lessons/<code>.py` (fixing the prompt to match",
+           "the new script) — then `python3 tools/build.py` writes the FINAL list to IMAGE_PROMPTS_ALL.json.",
+           "Generate from the final list. Rebuilt lessons are already in IMAGE_PROMPTS_ALL.json and are not repeated here.",
+           "", "Style for every picture: soft 2D picture-book cartoon matching the Tala character sheets "
+           "(POSES/SHEET-*.png), warm colours, clear subject, plain background for cards, no text in the picture. "
+           "Square = 1024x1024, 16:9 = 1600x900.", ""]
+    cur = None
+    for r, p in rows:
+        if r["lesson"] != cur:
+            cur = r["lesson"]
+            out += ["", "## %s — %s" % (cur, r.get("title", "")), "", "| Save to (inside ENG) | Shape | For | Prompt |",
+                    "|---|---|---|---|"]
+        out.append("| `%s` | %s | %s | %s |" % (p["save_to"], p["shape"], p["for"], p["prompt"].replace("|", "/")))
+    with open(os.path.join(ROOT, "PICTURE_GUIDE_ALL_GRADES.md"), "w", encoding="utf-8") as f:
+        f.write("\n".join(out) + "\n")
+    with open(os.path.join(ROOT, "PICTURE_GUIDE_ALL_GRADES.json"), "w", encoding="utf-8") as f:
+        json.dump([dict(p, lesson=r["lesson"]) for r, p in rows], f, indent=1, ensure_ascii=False)
+    return len(rows)
 
 
 def main():
@@ -139,7 +212,9 @@ def main():
                    r.get("size_kb", ""), r["status"], "<br>".join(i.replace("|", "/") for i in r["issues"])))
     with open(os.path.join(ROOT, "AUDIT_REPORT.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(out) + "\n")
+    n = write_picture_guide(results)
     print("Audited %d lessons: %s" % (len(results), count))
+    print("Picture guide: %d draft pictures -> PICTURE_GUIDE_ALL_GRADES.md/.json" % n)
     print("Wrote AUDIT_REPORT.md and AUDIT_REPORT.json")
 
 

@@ -8,42 +8,42 @@
 Slide 2 — discover
 
 ```
-Miko (Filipino boy, 7, blue T-shirt, brown shorts) looking through a big magnifying glass at a colourful butterfly on a flower, amazed happy face. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Miko (Filipino boy, 7, blue T-shirt, brown shorts) looking through a big magnifying glass at a colourful butterfly on a flower, amazed happy face. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/tree.png`
 Slide 6 — tree
 
 ```
-One big green mango tree in a grassy field. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+One big green mango tree in a grassy field. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/turtle-card.png`
 Slide 10 — Turtle
 
 ```
-A friendly green turtle with a kind smile, standing upright, full body. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+A friendly green turtle with a kind smile, standing upright, full body. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/pina-card.png`
 Slide 10 — Pina
 
 ```
-Little girl Pina (7, long black hair, simple dress), full body, standing. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Little girl Pina (7, long black hair, simple dress), full body, standing. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/big-city.png`
 Slide 10 — a big city
 
 ```
-A big busy city with tall buildings, cars and jeepneys. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+A big busy city with tall buildings, cars and jeepneys. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/boat.png`
 Slide 10 — a boat
 
 ```
-A small Filipino bangka boat floating on blue water. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+A small Filipino bangka boat floating on blue water. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/rizal-mango-streets.png`
@@ -57,21 +57,21 @@ Ate Hinhin (10) and Bunso (5) on a Filipino town corner: on one side a street wi
 Slide 13 — Mango Street
 
 ```
-A quiet village street lined with big mango trees full of yellow mangoes. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+A quiet village street lined with big mango trees full of yellow mangoes. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/fish-street.png`
 Slide 13 — Fish Street
 
 ```
-A seaside street with fishermen and fish baskets. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+A seaside street with fishermen and fish baskets. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/car-street.png`
 Slide 13 — Car Street
 
 ```
-A street full of cars and tricycles. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+A street full of cars and tricycles. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/verse-heart.png`

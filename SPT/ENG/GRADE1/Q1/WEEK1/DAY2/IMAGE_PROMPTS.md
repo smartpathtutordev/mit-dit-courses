@@ -15,14 +15,14 @@ Tala (6) and her little brother Bunso (5) in Filipino public-school uniforms wit
 Slide 2 — wake up
 
 ```
-Tala (Filipino girl, 6) sitting up in her bed, stretching both arms high and yawning, morning sunlight on her face. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) sitting up in her bed, stretching both arms high and yawning, morning sunlight on her face. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/get-dressed.png`
 Slide 2 — get dressed
 
 ```
-Tala (Filipino girl, 6) putting on her Filipino public-school uniform: buttoning a white blouse, blue skirt, school bag beside her. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) putting on her Filipino public-school uniform: buttoning a white blouse, blue skirt, school bag beside her. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/story-wake-up.png`
@@ -43,7 +43,7 @@ Inside a Filipino home in the morning: Tala and Bunso, hair still wet from the b
 Slide 7 — went to sleep
 
 ```
-Bunso (Filipino boy, 5) asleep in his bed at night, moon and stars outside the window. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Bunso (Filipino boy, 5) asleep in his bed at night, moon and stars outside the window. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/story-missing.png`
@@ -78,21 +78,21 @@ Evening in the bedroom: Tala putting her crayons into her school bag and Bunso z
 Slide 14 — in the bag
 
 ```
-An open blue school bag with books inside, seen from above. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+An open blue school bag with books inside, seen from above. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/on-the-table.png`
 Slide 14 — on the table
 
 ```
-A small wooden dining table with a plate and a glass of milk on it. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+A small wooden dining table with a plate and a glass of milk on it. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/talk-my-morning.png`
 Slide 16 — Your Turn to Talk!
 
 ```
-Tala (6) talking happily, with two picture bubbles beside her: in the first she wakes up and stretches, in the second she eats breakfast. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (6) talking happily, with two picture bubbles beside her: in the first she wakes up and stretches, in the second she eats breakfast. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/verse-family.png`

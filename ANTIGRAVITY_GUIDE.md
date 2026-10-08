@@ -95,6 +95,15 @@ open AUDIT_REPORT.md
   as content, broken audio like `speech/._age-talk.mp3`, pop-ups, phonetic spellings, long adult sentences,
   one-screen stubs…).
 
+It also writes the **complete picture guide for all grades**: `PICTURE_GUIDE_ALL_GRADES.md` (+ `.json`) —
+for every lesson that still needs rebuilding, one picture per word card, story line and verse, with a draft
+prompt and the exact place to save it (`<ENG>/GRADE?/Q?/WEEK?/DAY?/INTERACTIVE/media/art/<name>.png`).
+Use it to plan and to start generating; the FINAL prompts come from the rewritten lessons
+(`IMAGE_PROMPTS_ALL.json`, section 4), so generate from that list once a week is rewritten.
+
+Grade rules are built in: Grade 1 (age 6), Grade 2 (age 7), Grade 3 (age 8) — sentence and card length limits
+grow with the grade (`LIMITS` in `tools/build.py`).
+
 `AUDIT_REPORT.json` → `content` holds each old lesson's words, titles, story lines, the pictures it uses and the
 pictures in its folder, so the agent can rewrite it without opening the old HTML.
 
@@ -114,8 +123,9 @@ between slides; images don't support the lesson; stories aren't complete."* Ever
   are only shortcuts on the Mac — open them in the browser or export as .txt/.pdf into
   `<ENG>/GRADE?/Q?/WEEK?/DAY?/source/`. The verse picture `LANG1-Q1Wx-DAYy.png` in each WEEK folder gives the
   day's Bible verse. If no DepEd source exists, use the old lesson's topic from `AUDIT_REPORT.json`.
-- Grade level: Grade 1 = age 6, Grade 2 = age 7, Grade 3 = age 8. Grades 2–3 may use slightly longer sentences
-  (change the limits in `build.py` → `check()` per grade if needed) but the same design.
+- Grade level: Grade 1 = age 6, Grade 2 = age 7, Grade 3 = age 8. The build already applies the right limits per
+  grade (`LIMITS` in `tools/build.py`). Same design and player for all grades. Lesson file name:
+  `g{grade}q{quarter}w{week}d{day}.py`, e.g. `g3q2w5d1.py`.
 
 ### 3.2 Be interconnected (one flowing lesson, not separate slides)
 - **Cover** recalls yesterday and says today's 2–3 goals ("Yesterday we… Today we…").

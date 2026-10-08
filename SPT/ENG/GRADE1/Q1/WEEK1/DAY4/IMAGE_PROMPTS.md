@@ -15,70 +15,70 @@ Tala (6), Bunso (5) and Kuya Gas (11) standing in a bright classroom, all touchi
 Slide 2 — head
 
 ```
-Tala (Filipino girl, 6) touching the top of her HEAD with both hands. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) touching the top of her HEAD with both hands. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-eyes.png`
 Slide 2 — eyes
 
 ```
-Tala (Filipino girl, 6) pointing to her two EYES, eyes wide open and sparkling. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) pointing to her two EYES, eyes wide open and sparkling. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-ears.png`
 Slide 2 — ears
 
 ```
-Tala (Filipino girl, 6) cupping one hand behind her EAR as if listening. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) cupping one hand behind her EAR as if listening. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-nose.png`
 Slide 2 — nose
 
 ```
-Tala (Filipino girl, 6) touching the tip of her NOSE with one finger. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) touching the tip of her NOSE with one finger. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-mouth.png`
 Slide 2 — mouth
 
 ```
-Tala (Filipino girl, 6) pointing to her MOUTH with a big open smile. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) pointing to her MOUTH with a big open smile. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-shoulders.png`
 Slide 3 — shoulders
 
 ```
-Tala (Filipino girl, 6) touching both SHOULDERS with her hands, arms crossed. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) touching both SHOULDERS with her hands, arms crossed. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-hands.png`
 Slide 3 — hands
 
 ```
-Tala (Filipino girl, 6) holding up both open HANDS, palms facing us, fingers spread. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) holding up both open HANDS, palms facing us, fingers spread. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-tummy.png`
 Slide 3 — tummy
 
 ```
-Tala (Filipino girl, 6) patting her TUMMY with both hands, happy face. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) patting her TUMMY with both hands, happy face. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-knees.png`
 Slide 3 — knees
 
 ```
-Tala (Filipino girl, 6) bending forward and touching both KNEES with her hands. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) bending forward and touching both KNEES with her hands. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/body-feet.png`
 Slide 3 — feet
 
 ```
-Tala (Filipino girl, 6) standing and pointing down to her two FEET in white sneakers. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (Filipino girl, 6) standing and pointing down to her two FEET in white sneakers. That body part is gently highlighted with a soft yellow glow so a child can see which body part it is. Full body, front view. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/sing-touch.png`
@@ -92,21 +92,21 @@ Four Filipino children in a row singing and touching their shoulders at the same
 Slide 8 — listen
 
 ```
-Two Filipino children sitting face to face; one is speaking, the other listens with a kind smile and a hand behind the ear. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Two Filipino children sitting face to face; one is speaking, the other listens with a kind smile and a hand behind the ear. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/kid-laughing-at-friend.png`
 Slide 8 — laugh
 
 ```
-A child covering his mouth and laughing while a friend looks down, a little sad. Soft and gentle, not mean-looking. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+A child covering his mouth and laughing while a friend looks down, a little sad. Soft and gentle, not mean-looking. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/home-word.png`
 Slide 9 — What Do You Say at Home?
 
 ```
-Tala (6) at home pointing to her ear and talking with her Lola, who smiles and listens; a cosy Filipino living room. Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
+Tala (6) at home pointing to her ear and talking with her Lola, who smiles and listens; a cosy Filipino living room. Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. Square 1024x1024 PNG.
 ```
 
 ## NEEDED `media/art/ph-languages.png`

@@ -6,6 +6,7 @@
   "title": "Grade 1 Language • Day 1: Myself and My Family",
   "size_kb": 87,
   "slides": 17,
+  "pairs": [],
   "status": "KEEP (gold standard)"
  },
  {
@@ -120,6 +121,168 @@
   "title": "Grade 1 English • Getting Ready for School",
   "size_kb": 101,
   "slides": 18,
+  "pairs": [
+   [
+    "title",
+    "Getting Ready for School"
+   ],
+   [
+    "label",
+    "Quarter 1 • Week 1 • Day 2"
+   ],
+   [
+    "title",
+    "5 Morning Words"
+   ],
+   [
+    "word",
+    "wake up"
+   ],
+   [
+    "word",
+    "take a bath"
+   ],
+   [
+    "word",
+    "get dressed"
+   ],
+   [
+    "word",
+    "eat breakfast"
+   ],
+   [
+    "word",
+    "brush teeth"
+   ],
+   [
+    "title",
+    "Show Me! Act It Out!"
+   ],
+   [
+    "word",
+    "Wake up!"
+   ],
+   [
+    "word",
+    "Take a bath!"
+   ],
+   [
+    "word",
+    "Get dressed!"
+   ],
+   [
+    "word",
+    "Eat breakfast!"
+   ],
+   [
+    "word",
+    "Brush your teeth!"
+   ],
+   [
+    "title",
+    "Listen and Tap!"
+   ],
+   [
+    "title",
+    "Story: Before Going to School"
+   ],
+   [
+    "title",
+    "Quick! What Did They Do?"
+   ],
+   [
+    "word",
+    "went to sleep"
+   ],
+   [
+    "word",
+    "got dressed"
+   ],
+   [
+    "title",
+    "How Do They Feel?"
+   ],
+   [
+    "word",
+    "worried"
+   ],
+   [
+    "word",
+    "happy"
+   ],
+   [
+    "title",
+    "What Happened First?"
+   ],
+   [
+    "word",
+    "They got ready."
+   ],
+   [
+    "word",
+    "Things were missing."
+   ],
+   [
+    "word",
+    "They found them!"
+   ],
+   [
+    "title",
+    "Think About the Story"
+   ],
+   [
+    "word",
+    "Nanay"
+   ],
+   [
+    "word",
+    "Kuya"
+   ],
+   [
+    "word",
+    "Ate"
+   ],
+   [
+    "word",
+    "in the bag"
+   ],
+   [
+    "word",
+    "under the bed"
+   ],
+   [
+    "word",
+    "on the table"
+   ],
+   [
+    "title",
+    "What do YOU do in the morning?"
+   ],
+   [
+    "word",
+    "brush my teeth"
+   ],
+   [
+    "title",
+    "Your Turn to Talk!"
+   ],
+   [
+    "label",
+    "Tala says"
+   ],
+   [
+    "text",
+    "First, I wake up. Next, I eat breakfast."
+   ],
+   [
+    "verse",
+    "Honor your father and your mother."
+   ],
+   [
+    "title",
+    "You Are Ready for School!"
+   ]
+  ],
   "status": "REBUILT"
  },
  {
@@ -242,6 +405,132 @@
   "title": "Grade 1 English • Songs and Stories",
   "size_kb": 100,
   "slides": 19,
+  "pairs": [
+   [
+    "title",
+    "Songs and Stories"
+   ],
+   [
+    "label",
+    "Quarter 1 • Week 1 • Day 3"
+   ],
+   [
+    "title",
+    "Vegetables in the Garden"
+   ],
+   [
+    "word",
+    "pechay"
+   ],
+   [
+    "word",
+    "bawang"
+   ],
+   [
+    "word",
+    "luya"
+   ],
+   [
+    "title",
+    "Let Us Sing: Bahay Kubo"
+   ],
+   [
+    "text",
+    "Bahay kubo, kahit munti,"
+   ],
+   [
+    "text",
+    "ang halaman doon ay sari-sari."
+   ],
+   [
+    "text",
+    "Singkamas at talong, sigarilyas at mani,"
+   ],
+   [
+    "text",
+    "sibuyas, kamatis, bawang at luya!"
+   ],
+   [
+    "title",
+    "Find the Vegetable!"
+   ],
+   [
+    "title",
+    "Sing and Move!"
+   ],
+   [
+    "word",
+    "Touch your feet!"
+   ],
+   [
+    "word",
+    "Touch your knees!"
+   ],
+   [
+    "word",
+    "Touch your shoulders!"
+   ],
+   [
+    "word",
+    "Touch your head!"
+   ],
+   [
+    "title",
+    "The Turtle and the Monkey"
+   ],
+   [
+    "title",
+    "Quick! Who Planted It?"
+   ],
+   [
+    "word",
+    "Turtle"
+   ],
+   [
+    "word",
+    "Monkey"
+   ],
+   [
+    "title",
+    "Think About the Story"
+   ],
+   [
+    "title",
+    "The Legend of the Pineapple"
+   ],
+   [
+    "title",
+    "Quick! Did Pina Look?"
+   ],
+   [
+    "word",
+    "No"
+   ],
+   [
+    "word",
+    "Yes"
+   ],
+   [
+    "title",
+    "What Does the Story Teach?"
+   ],
+   [
+    "word",
+    "Help!"
+   ],
+   [
+    "word",
+    "Do not help."
+   ],
+   [
+    "verse",
+    "Honor your father and your mother."
+   ],
+   [
+    "title",
+    "Great Singing and Listening!"
+   ]
+  ],
   "status": "REBUILT"
  },
  {
@@ -377,6 +666,172 @@
   "title": "Grade 1 English • My Body, Many Languages",
   "size_kb": 97,
   "slides": 12,
+  "pairs": [
+   [
+    "title",
+    "My Body, Many Languages"
+   ],
+   [
+    "label",
+    "Quarter 1 • Week 1 • Day 4"
+   ],
+   [
+    "title",
+    "My Head and Face"
+   ],
+   [
+    "word",
+    "head"
+   ],
+   [
+    "word",
+    "eyes"
+   ],
+   [
+    "word",
+    "ears"
+   ],
+   [
+    "word",
+    "nose"
+   ],
+   [
+    "word",
+    "mouth"
+   ],
+   [
+    "title",
+    "My Body"
+   ],
+   [
+    "word",
+    "shoulders"
+   ],
+   [
+    "word",
+    "hands"
+   ],
+   [
+    "word",
+    "tummy"
+   ],
+   [
+    "word",
+    "knees"
+   ],
+   [
+    "word",
+    "feet"
+   ],
+   [
+    "title",
+    "Sing and Touch!"
+   ],
+   [
+    "text",
+    "Head, shoulders, knees and feet,"
+   ],
+   [
+    "text",
+    "knees and feet!"
+   ],
+   [
+    "text",
+    "Eyes and ears and mouth and nose,"
+   ],
+   [
+    "text",
+    "Paa, tuhod, balikat, ulo!"
+   ],
+   [
+    "title",
+    "Touch Your Body!"
+   ],
+   [
+    "word",
+    "Touch your head!"
+   ],
+   [
+    "word",
+    "Touch your feet!"
+   ],
+   [
+    "word",
+    "Blink your eyes!"
+   ],
+   [
+    "word",
+    "Touch your knees!"
+   ],
+   [
+    "word",
+    "Pat your tummy!"
+   ],
+   [
+    "word",
+    "Touch your ears!"
+   ],
+   [
+    "title",
+    "Listen and Tap!"
+   ],
+   [
+    "title",
+    "Different Words, Same Meaning!"
+   ],
+   [
+    "word",
+    "tenga"
+   ],
+   [
+    "word",
+    "dalunggan"
+   ],
+   [
+    "word",
+    "lapayag"
+   ],
+   [
+    "word",
+    "balugbug"
+   ],
+   [
+    "title",
+    "Think About It!"
+   ],
+   [
+    "word",
+    "listen"
+   ],
+   [
+    "word",
+    "laugh"
+   ],
+   [
+    "title",
+    "What Do You Say at Home?"
+   ],
+   [
+    "label",
+    "Tala says"
+   ],
+   [
+    "text",
+    "At home, I say tenga."
+   ],
+   [
+    "title",
+    "All Languages Are Beautiful"
+   ],
+   [
+    "verse",
+    "Honor your father and your mother."
+   ],
+   [
+    "title",
+    "You Finished Week 1!"
+   ]
+  ],
   "status": "REBUILT"
  },
  {
@@ -480,6 +935,148 @@
   "title": "Grade 1 English • Names of Places",
   "size_kb": 98,
   "slides": 16,
+  "pairs": [
+   [
+    "title",
+    "Names of Places"
+   ],
+   [
+    "label",
+    "Quarter 1 • Week 2 • Day 1"
+   ],
+   [
+    "title",
+    "4 Place Words"
+   ],
+   [
+    "word",
+    "barangay"
+   ],
+   [
+    "word",
+    "street"
+   ],
+   [
+    "word",
+    "scenery"
+   ],
+   [
+    "word",
+    "discover"
+   ],
+   [
+    "title",
+    "Listen and Tap!"
+   ],
+   [
+    "title",
+    "Miko and the Streets"
+   ],
+   [
+    "title",
+    "Quick! Bayani Means..."
+   ],
+   [
+    "word",
+    "hero"
+   ],
+   [
+    "word",
+    "tree"
+   ],
+   [
+    "title",
+    "Think About the Story"
+   ],
+   [
+    "word",
+    "Miko"
+   ],
+   [
+    "word",
+    "Turtle"
+   ],
+   [
+    "word",
+    "Pina"
+   ],
+   [
+    "word",
+    "Barangay Masaya"
+   ],
+   [
+    "word",
+    "a big city"
+   ],
+   [
+    "word",
+    "a boat"
+   ],
+   [
+    "title",
+    "Where Did Miko Go?"
+   ],
+   [
+    "word",
+    "Bayani Street"
+   ],
+   [
+    "word",
+    "Likas Street"
+   ],
+   [
+    "word",
+    "Bridge of Hope"
+   ],
+   [
+    "title",
+    "Names Tell a Story!"
+   ],
+   [
+    "title",
+    "Why This Name?"
+   ],
+   [
+    "word",
+    "Mango Street"
+   ],
+   [
+    "word",
+    "Fish Street"
+   ],
+   [
+    "word",
+    "Car Street"
+   ],
+   [
+    "word",
+    "many trees"
+   ],
+   [
+    "word",
+    "many cars"
+   ],
+   [
+    "title",
+    "Tell Me About Your Place!"
+   ],
+   [
+    "label",
+    "Miko says"
+   ],
+   [
+    "text",
+    "I live in Barangay Masaya."
+   ],
+   [
+    "verse",
+    "Whatever you do, work at it with all your heart."
+   ],
+   [
+    "title",
+    "Great Exploring!"
+   ]
+  ],
   "status": "REBUILT"
  },
  {
@@ -593,6 +1190,176 @@
   "title": "Grade 1 English • Listen, Follow, and Ask",
   "size_kb": 99,
   "slides": 16,
+  "pairs": [
+   [
+    "title",
+    "Listen, Follow, and Ask"
+   ],
+   [
+    "label",
+    "Quarter 1 • Week 2 • Day 2"
+   ],
+   [
+    "title",
+    "Action Words"
+   ],
+   [
+    "word",
+    "stand"
+   ],
+   [
+    "word",
+    "sit"
+   ],
+   [
+    "word",
+    "clap"
+   ],
+   [
+    "word",
+    "smile"
+   ],
+   [
+    "word",
+    "wave"
+   ],
+   [
+    "word",
+    "bow"
+   ],
+   [
+    "title",
+    "How to Play Simon Says"
+   ],
+   [
+    "title",
+    "Simon Says!"
+   ],
+   [
+    "word",
+    "Stand!"
+   ],
+   [
+    "word",
+    "Clap!"
+   ],
+   [
+    "word",
+    "Smile!"
+   ],
+   [
+    "word",
+    "Bow!"
+   ],
+   [
+    "word",
+    "Sit!"
+   ],
+   [
+    "word",
+    "Wave!"
+   ],
+   [
+    "title",
+    "Question Words"
+   ],
+   [
+    "word",
+    "Who?"
+   ],
+   [
+    "word",
+    "What?"
+   ],
+   [
+    "word",
+    "Where?"
+   ],
+   [
+    "title",
+    "Which Question Word?"
+   ],
+   [
+    "title",
+    "Katkat the Kitten"
+   ],
+   [
+    "title",
+    "How Does Katkat Feel?"
+   ],
+   [
+    "word",
+    "sad"
+   ],
+   [
+    "word",
+    "happy"
+   ],
+   [
+    "title",
+    "Ask About the Story!"
+   ],
+   [
+    "word",
+    "Katkat"
+   ],
+   [
+    "word",
+    "Miko"
+   ],
+   [
+    "word",
+    "his hat"
+   ],
+   [
+    "word",
+    "his ball"
+   ],
+   [
+    "word",
+    "in the garden"
+   ],
+   [
+    "word",
+    "in the sea"
+   ],
+   [
+    "title",
+    "Now YOU Ask a Question!"
+   ],
+   [
+    "word",
+    "Who is your best friend?"
+   ],
+   [
+    "word",
+    "What is your favorite toy?"
+   ],
+   [
+    "word",
+    "Where do you want to go?"
+   ],
+   [
+    "title",
+    "Answer Like Katkat!"
+   ],
+   [
+    "label",
+    "Katkat says"
+   ],
+   [
+    "text",
+    "My favorite toy is my ball."
+   ],
+   [
+    "verse",
+    "Train up a child in the way he should go."
+   ],
+   [
+    "title",
+    "Super Listener!"
+   ]
+  ],
   "status": "REBUILT"
  }
 ]

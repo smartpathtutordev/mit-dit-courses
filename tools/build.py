@@ -41,9 +41,13 @@ FX = {
 
 PASSIVE = {"cover", "story", "verse", "celebrate"}
 
+# Limits per grade: (words per teacher sentence, words per slide narration, words per card, words per story line)
+LIMITS = {1: (14, 75, 4, 12), 2: (16, 90, 5, 14), 3: (18, 110, 6, 16)}
+AGE = {1: 6, 2: 7, 3: 8}
+
 # One look for every generated picture, matching the Tala character sheets.
 ART_STYLE_CARD = (
-    "Children's picture-book illustration for Filipino Grade 1 learners (age 6). Soft 2D cartoon style "
+    "Children's picture-book illustration for young Filipino learners (Grades 1-3, ages 6-8). Soft 2D cartoon style "
     "matching the Tala character sheet: rounded shapes, clean dark-brown outlines, warm pastel colours, "
     "gentle shading. ONE clear subject, centered, filling about 70% of the frame, on a plain soft cream "
     "background (#FFF8EC). No text, no letters, no numbers, no watermark, no extra objects. "
@@ -260,20 +264,21 @@ class Builder:
             nar = s.get("narration", {}).get("t", "")
             if not nar:
                 self.warn(where, "no narration")
-            if words(nar) > 75:
-                self.warn(where, "narration %d words; keep under 75 (about 30 seconds)" % words(nar))
+            sen_max, nar_max, card_max, line_max = LIMITS.get(self.L["grade"], LIMITS[3])
+            if words(nar) > nar_max:
+                self.warn(where, "narration %d words; keep under %d" % (words(nar), nar_max))
             for sen in sentences(nar):
-                if words(sen) > 14:
+                if words(sen) > sen_max:
                     self.warn(where, "long sentence (%d words): %r" % (words(sen), sen))
             screen = []
             if s.get("title"):
                 screen.append(("title", s["title"], 8))
             for it in s.get("items", []) + s.get("options", []) + s.get("cmds", []):
-                screen.append(("word", it.get("word", ""), 6 if s["type"] in ("sentence", "order") else 4))
+                screen.append(("word", it.get("word", ""), 6 if s["type"] in ("sentence", "order") else card_max))
                 if it.get("sub"):
                     screen.append(("sub", it["sub"], 6))
             for ln in s.get("lines", []):
-                screen.append(("line", ln if isinstance(ln, str) else ln["text"], 12))
+                screen.append(("line", ln if isinstance(ln, str) else ln["text"], line_max))
             if s.get("mean"):
                 screen.append(("meaning", s["mean"], 10))
             for rd in s.get("rounds", []):
