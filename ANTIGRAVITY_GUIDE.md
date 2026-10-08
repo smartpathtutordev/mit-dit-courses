@@ -1,5 +1,10 @@
 # SmartPath English — Guide for Google Antigravity (local Mac)
 
+**Status when Claude stopped (out of usage):** 11 lessons are fully written by Claude (Grade 1 Q1: W1 D2–D4,
+W2 D1–D3, W4 D1, W7 D1–D2, W8 D1–D2) plus the original W1 D1. Their pictures and voices are ready to generate
+(sections 1–4). **All other lessons still need writing** — section 7 tells Antigravity how, using the same
+system and rules, so the quality matches.
+
 **Who does what**
 - **Claude (cloud)** writes everything: every lesson script, every voice line, every picture prompt, and the exact
   file name and folder for each. These are in the GitHub repo.
@@ -121,6 +126,29 @@ find "$SPT_ENG_ROOT" -name '._*' -delete
 > 5 random generated pictures. If a call fails because of login/project/API, fix the setup from section 1.
 
 ---
+
+## 7. Writing the remaining lessons (Antigravity takes over Claude's part)
+
+Claude can no longer write lessons, so Antigravity must, exactly the way Claude did:
+1. Read `HANDOFF.md` (rules + per-lesson plan) and `tools/AGENT_BRIEF.md` (step-by-step for one lesson).
+   Study the finished lessons in `tools/lessons/` (best models: `g1q1w2d1.py`, `g1q1w1d2.py`).
+2. Run `python3 tools/audit.py` → `AUDIT_REPORT.md` lists every lesson (all grades) and what is wrong;
+   `AUDIT_REPORT.json` has each old lesson's words, story lines and pictures.
+3. For each lesson, in order (Grade 1 Q1 first, one week at a time): get the DepEd source (Drive search
+   `LANG{grade}Q{q}W{w}DAY{d}`, or the old lesson from the audit), write
+   `tools/lessons/g{G}q{Q}w{W}d{D}.py` (complete story, a `bridge` on every slide, cover recalls yesterday,
+   celebration previews tomorrow, every slide/card/choice has a matching picture or an `art` prompt), then
+   `python3 tools/build.py g{G}q{Q}w{W}d{D} --strict` until `[OK ]`.
+   Unfinished drafts from Claude's helpers, if any, are `tools/lessons/_draft_*.py` (not built; finish or delete).
+4. After each week: run sections 2–4 (generate pictures + voices, check, upload) and
+   `git add tools/ HANDOFF.md && git commit -m "G? Q? Week ?" && git push`.
+
+Copy-paste prompt for that:
+> Read `ANTIGRAVITY_GUIDE.md`, `HANDOFF.md` and `tools/AGENT_BRIEF.md` in `~/mit-dit-courses`. Run
+> `python3 tools/audit.py`. Then write the next missing week of lessons (start Grade 1 Q1 Week 2 Day 4) as
+> `tools/lessons/*.py` exactly like the finished ones, until `python3 tools/build.py <code> --strict` prints
+> `[OK ]` for each. Then generate pictures and voices with `python3 tools/generate_vertex.py --only <that week>`,
+> rebuild, run the play-test, and show me the week before continuing.
 
 ## 6. Troubleshooting
 

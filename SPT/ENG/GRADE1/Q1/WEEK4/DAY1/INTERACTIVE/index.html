@@ -1,0 +1,3264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Grade 1 English • Things at Home and Polite Words</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --stage-w: 1600px;
+      --stage-h: 900px;
+      --ink: #1E1B18;
+      --amber: #F59E0B;
+      --amber-dark: #B45309;
+      --amber-light: #FEF3C7;
+      --teal: #0D9488;
+      --teal-dark: #0F766E;
+      --teal-light: #CCFBF1;
+      --coral: #F43F5E;
+      --coral-dark: #BE123C;
+      --sky: #0284C7;
+      --sky-light: #E0F2FE;
+      --green: #16A34A;
+      --green-dark: #15803D;
+      --purple: #9333EA;
+      --cream: #FFFDF9;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --border-radius-card: 32px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 20%, #FFF4E4 0%, #F5E6CC 100%);
+      font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+      color: var(--ink);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 16:9 Stage Wrap */
+    #stagewrap {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9));
+      aspect-ratio: 16 / 9;
+      max-height: 100vh;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28), 0 0 0 4px rgba(245, 158, 11, 0.45);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    #stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--stage-w);
+      height: var(--stage-h);
+      transform-origin: top left;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* SINGLE CONSISTENT SCENIC BACKGROUND (Tala's Warm Living Room) */
+    .scenic-bg {
+      position: absolute;
+      inset: 0;
+      background-color: #F5E6CC;
+      background-size: cover;
+      background-position: center bottom;
+      z-index: 1;
+    }
+
+    .scenic-vignette {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 15, 10, 0.40) 0%, rgba(20, 15, 10, 0.05) 20%, rgba(20, 15, 10, 0.08) 75%, rgba(20, 15, 10, 0.65) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* TOP HEADER INSIDE THE MODULE */
+    .module-top-bar {
+      position: relative;
+      z-index: 10;
+      padding: 16px 32px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .deped-tag {
+      background: rgba(255, 255, 255, 0.96);
+      border: 3px solid #D97706;
+      border-radius: 999px;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+    }
+    .deped-tag .ph-flag-svg {
+      width: 32px;
+      height: 22px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .deped-tag .title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #92400E;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .deped-tag .subtitle {
+      font-size: 17px;
+      font-weight: 700;
+      color: #78350F;
+    }
+
+    .top-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .star-pill {
+      background: #FEF3C7;
+      border: 3px solid #F59E0B;
+      color: #92400E;
+      padding: 8px 22px;
+      border-radius: 999px;
+      font-size: 24px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .star-pill.bump {
+      transform: scale(1.3) rotate(5deg);
+    }
+
+    .mode-btn {
+      background: rgba(255, 255, 255, 0.94);
+      border: 3px solid #0D9488;
+      color: #0F766E;
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mode-btn:hover {
+      background: #CCFBF1;
+      transform: translateY(-2px);
+    }
+    .mode-btn.active {
+      background: #0D9488;
+      color: #FFF;
+    }
+
+    /* MAIN STAGE CONTENT - CENTER HERO LESSON AREA */
+    .module-main-stage {
+      position: relative;
+      z-index: 5;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 36px;
+      min-height: 0;
+    }
+
+    .stage-canvas-body {
+      width: 100%;
+      max-width: 1536px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    /* REALISTIC GROUNDED CHARACTER ACTOR (LEFT OR RIGHT) */
+    .char-actor-wrap {
+      position: absolute;
+      bottom: 12px;
+      left: 30px;
+      width: 300px;
+      height: 520px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      pointer-events: auto;
+      transition: left 0.4s ease, right 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+    }
+    .char-actor-wrap.right-side {
+      left: auto;
+      right: 30px;
+    }
+    .char-actor-wrap.minimized {
+      bottom: 12px;
+      left: 20px;
+      width: 140px;
+      height: 200px;
+      z-index: 15;
+      opacity: 0.95;
+    }
+    .char-actor-wrap.hidden-actor {
+      display: none;
+    }
+
+    .char-img {
+      max-height: 450px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.35));
+      animation: gentleBreath 3.6s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      z-index: 2;
+    }
+    .char-img:active {
+      transform: scale(0.96);
+    }
+
+    /* REALISTIC CONTACT SHADOW (ANCHORS FEET TO THE FLOOR) */
+    .char-contact-shadow {
+      width: 190px;
+      height: 22px;
+      background: radial-gradient(ellipse at center, rgba(35, 20, 10, 0.52) 0%, rgba(35, 20, 10, 0.2) 55%, transparent 75%);
+      border-radius: 50%;
+      margin-top: -14px;
+      margin-bottom: 8px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes gentleBreath {
+      0% { transform: scale(1); }
+      100% { transform: scaleY(1.018) scaleX(0.993); }
+    }
+
+    .char-name-tag {
+      background: rgba(255, 255, 255, 0.96);
+      border: 3px solid #1E293B;
+      color: #1E293B;
+      font-size: 19px;
+      font-weight: 800;
+      padding: 6px 20px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .speaking-pulse {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: #10B981;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseGreen 1.4s infinite;
+    }
+    @keyframes pulseGreen {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* TWO-PHASE "LISTEN FIRST, THEN TAP" SYSTEM */
+    .interactive-zone {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: opacity 0.3s ease;
+    }
+    .interactive-zone.locked {
+      opacity: 0.95;
+    }
+    .interactive-zone.unlocked {
+      opacity: 1;
+    }
+
+    .phase-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 24px;
+      border-radius: 999px;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      transition: all 0.3s ease;
+    }
+
+    .phase-status-badge.listening {
+      background: #FEF3C7;
+      border: 2px solid #F59E0B;
+      color: #92400E;
+    }
+
+    .phase-status-badge.interactive {
+      background: #D1FAE5;
+      border: 3px solid #10B981;
+      color: #065F46;
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+    }
+
+    .skip-phase-btn {
+      background: #FFF;
+      border: 2px solid #F59E0B;
+      color: #B45309;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      margin-left: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .skip-phase-btn:hover {
+      background: #FDE68A;
+      transform: scale(1.05);
+    }
+
+    /* TEACHER SPEAKING SEQUENTIAL HIGHLIGHT */
+    .card-teacher-speaking {
+      border-color: #F59E0B !important;
+      background: #FFFBEB !important;
+      transform: translateY(-8px) scale(1.06) !important;
+      box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.45), 0 18px 36px rgba(245, 158, 11, 0.35) !important;
+    }
+
+    /* STEP CARD ACTIVE HIGHLIGHT */
+    .step-card.active {
+      border-color: #10B981 !important;
+      background: #ECFDF5 !important;
+      transform: translateY(-6px) scale(1.04) !important;
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.35), 0 16px 32px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    /* DESCRIBE CARD ACTIVE HIGHLIGHT */
+    .describe-card.active {
+      border-color: #10B981 !important;
+      background: #ECFDF5 !important;
+      transform: translateY(-6px) scale(1.04) !important;
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.35), 0 16px 32px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    /* READY PULSE FOR UNLOCKED INTERACTIVE CARDS */
+    .interactive-zone.unlocked .word-card,
+    .interactive-zone.unlocked .btn-choice,
+    .interactive-zone.unlocked .step-card,
+    .interactive-zone.unlocked .family-member-card,
+    .interactive-zone.unlocked .describe-card,
+    .interactive-zone.unlocked .giant-word {
+      animation: readyPulse 2.4s infinite ease-in-out;
+    }
+
+    @keyframes readyPulse {
+      0%, 100% { box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12); }
+      50% { box-shadow: 0 12px 28px rgba(16, 185, 129, 0.35); }
+    }
+
+    /* INTERACTIVE ACTIVITY ZONE (MAIN STAGE HERO) */
+    .activity-stage-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      margin-left: 330px; /* Ample breathing room so card never overlaps Tala */
+      transition: margin 0.35s ease;
+    }
+    .stage-canvas-body.char-on-right .activity-stage-area {
+      margin-left: 0;
+      margin-right: 330px;
+    }
+    .stage-canvas-body.story-mode .activity-stage-area {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    /* CARD POP ANIMATION FOR KEY WORDS ENTRANCE */
+    @keyframes cardPopIn {
+      0% { opacity: 0; transform: scale(0.88) translateY(20px); }
+      70% { transform: scale(1.02) translateY(-4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* HERO LESSON CARD STYLES */
+    .big-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius-card);
+      border: 5px solid #F59E0B;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+      padding: 32px 46px;
+      width: 100%;
+      max-width: 1140px;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 22px;
+      position: relative;
+      animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .big-card.teal-theme {
+      border-color: #0D9488;
+    }
+    .big-card.purple-theme {
+      border-color: #8B5CF6;
+    }
+    .big-card.pink-theme {
+      border-color: #EC4899;
+    }
+
+    /* GIANT WORD DISPLAY FOR 6-8 Y/O NON-READERS */
+    .giant-word-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .giant-word {
+      font-size: 96px;
+      font-weight: 800;
+      color: #92400E;
+      background: linear-gradient(180deg, #FDE68A 0%, #F59E0B 100%);
+      border: 6px solid #D97706;
+      border-radius: 36px;
+      padding: 16px 68px;
+      box-shadow: 0 14px 30px rgba(245, 158, 11, 0.4);
+      letter-spacing: 2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .giant-word:hover {
+      transform: scale(1.08) rotate(-1.5deg);
+    }
+    .giant-word:active {
+      transform: scale(0.96);
+    }
+
+    .word-meaning-banner {
+      font-size: 38px;
+      font-weight: 800;
+      color: #1F2937;
+      background: #F3F4F6;
+      padding: 14px 36px;
+      border-radius: 24px;
+      border: 3px solid #E5E7EB;
+      animation: cardPopIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .model-sentence-box {
+      font-size: 42px;
+      font-weight: 800;
+      color: #0F766E;
+      background: #CCFBF1;
+      border: 4px dashed #0D9488;
+      border-radius: 24px;
+      padding: 16px 40px;
+      box-shadow: 0 8px 20px rgba(13, 148, 136, 0.2);
+      animation: cardPopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .tap-hint-pill {
+      font-size: 22px;
+      font-weight: 800;
+      color: #92400E;
+      background: #FEF3C7;
+      border: 2px solid #F59E0B;
+      padding: 8px 24px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* CLEAN AUDIO TAP BADGE (REPLACES RAW EMOJIS) */
+    .audio-tap-badge {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0D9488;
+      background: #CCFBF1;
+      padding: 5px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .audio-tap-badge.amber {
+      color: #92400E;
+      background: #FEF3C7;
+    }
+    .audio-tap-badge.pink {
+      color: #9D174D;
+      background: #FCE7F3;
+    }
+
+    /* INTERACTIVE BLANK SENTENCE BUILDER */
+    .interactive-sentence-builder {
+      font-size: 46px;
+      font-weight: 800;
+      color: #1F2937;
+      background: #FFF;
+      border: 5px solid #0D9488;
+      border-radius: 28px;
+      padding: 22px 44px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .blank-slot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+      height: 72px;
+      padding: 0 24px;
+      border: 4px dashed #F59E0B;
+      background: #FEF3C7;
+      border-radius: 20px;
+      color: #B45309;
+      font-size: 42px;
+      font-weight: 800;
+      animation: slotPulse 1.8s infinite alternate;
+    }
+    @keyframes slotPulse {
+      0% { border-color: #F59E0B; background: #FEF3C7; }
+      100% { border-color: #D97706; background: #FDE68A; box-shadow: 0 0 18px rgba(245, 158, 11, 0.5); }
+    }
+    .blank-slot.filled {
+      animation: none;
+      background: #D1FAE5;
+      border: 4px solid #10B981;
+      color: #065F46;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+    }
+
+    /* CHOICE BUTTONS ROW */
+    .choices-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .btn-choice {
+      background: #FFF;
+      border: 4px solid #3B82F6;
+      border-radius: 24px;
+      padding: 16px 36px;
+      font-size: 36px;
+      font-weight: 800;
+      color: #1D4ED8;
+      box-shadow: 0 10px 22px rgba(59, 130, 246, 0.28);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-choice:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: #EFF6FF;
+      box-shadow: 0 14px 28px rgba(59, 130, 246, 0.38);
+    }
+    .btn-choice:active {
+      transform: translateY(2px);
+    }
+    .btn-choice.selected {
+      background: #10B981;
+      border-color: #059669;
+      color: #FFF;
+      box-shadow: 0 10px 26px rgba(16, 185, 129, 0.45);
+    }
+
+    /* 3 STEPS GRID */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1060px;
+    }
+    .step-card {
+      background: #FFF;
+      border: 5px solid #0D9488;
+      border-radius: 26px;
+      padding: 24px 20px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .step-card:hover {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 18px 36px rgba(13, 148, 136, 0.35);
+    }
+    .step-card:active {
+      transform: scale(0.97);
+    }
+    .step-card .num-badge {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #0D9488;
+      color: #FFF;
+      font-size: 36px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      border: 4px solid #FFF;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    }
+    .step-card .step-title {
+      font-size: 30px;
+      font-weight: 800;
+      color: #1F2937;
+    }
+    .step-card .step-example {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0F766E;
+      background: #CCFBF1;
+      padding: 10px 18px;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    /* ILLUSTRATED CARDS FOR 3 WORDS (NO EMOJIS) */
+    .word-cards-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      width: 100%;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .word-card {
+      background: #FFF;
+      border: 5px solid #0D9488;
+      border-radius: 26px;
+      padding: 22px 18px;
+      width: 260px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .word-card:hover {
+      transform: translateY(-8px) scale(1.05);
+      border-color: #0F766E;
+      box-shadow: 0 18px 36px rgba(13, 148, 136, 0.35);
+    }
+    .word-card:active {
+      transform: scale(0.96);
+    }
+    .word-card.active {
+      border-color: #10B981;
+      background: #ECFDF5;
+      box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.35), 0 16px 32px rgba(16, 185, 129, 0.25);
+      transform: translateY(-6px) scale(1.04);
+    }
+    .portrait-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: #CCFBF1;
+      border: 4px solid #0D9488;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(13, 148, 136, 0.25);
+    }
+    .portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .word-card .word-title {
+      font-size: 46px;
+      font-weight: 800;
+      color: #0D9488;
+    }
+    .word-card .word-desc {
+      font-size: 20px;
+      font-weight: 700;
+      color: #4B5563;
+    }
+
+    /* FAMILY GALLERY CARDS (REAL ILLUSTRATIONS, NO EMOJIS) */
+    .family-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .family-member-card {
+      background: #FFF;
+      border: 4px solid #F59E0B;
+      border-radius: 24px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .family-member-card:hover {
+      transform: translateY(-8px) scale(1.06);
+      border-color: #D97706;
+      box-shadow: 0 16px 32px rgba(245, 158, 11, 0.38);
+    }
+    .family-member-card:active {
+      transform: scale(0.96);
+    }
+    .family-member-card.active {
+      border-color: #10B981;
+      background: #ECFDF5;
+      box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.35);
+    }
+    .family-portrait-frame {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #FEF3C7;
+      border: 3px solid #F59E0B;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    .family-portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .family-member-card .member-en {
+      font-size: 24px;
+      font-weight: 800;
+      color: #92400E;
+    }
+    .family-member-card .member-fil {
+      font-size: 19px;
+      font-weight: 700;
+      color: #0D9488;
+      background: #CCFBF1;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    /* DESCRIBE WORDS GRID (REAL ILLUSTRATIONS, NO EMOJIS) */
+    .describe-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      width: 100%;
+      max-width: 1050px;
+    }
+    .describe-card {
+      background: #FFF;
+      border: 5px solid #EC4899;
+      border-radius: 26px;
+      padding: 22px 16px;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .describe-card:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 18px 36px rgba(236, 72, 153, 0.38);
+    }
+    .describe-card:active {
+      transform: scale(0.96);
+    }
+    .trait-portrait-frame {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: #FCE7F3;
+      border: 4px solid #EC4899;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(236, 72, 153, 0.25);
+    }
+    .trait-portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .describe-card .d-word {
+      font-size: 34px;
+      font-weight: 800;
+      color: #BE185D;
+    }
+    .describe-card .d-meaning {
+      font-size: 20px;
+      font-weight: 700;
+      color: #4B5563;
+    }
+
+    /* STORY FOCUS: HAND-DRAWN FAMILY PORTRAIT IS HERO CENTERPIECE */
+    .story-center-container {
+      width: 100%;
+      max-width: 1080px;
+      height: 520px;
+      border-radius: 32px;
+      border: 6px solid #FFF;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      position: relative;
+      background: #FDF4E3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .story-art-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #FDF4E3;
+    }
+    .story-caption-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.94) 85%);
+      padding: 38px 44px 24px;
+      color: #FFF;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+    }
+    .story-tag {
+      color: #FDE68A;
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+    .story-text {
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    /* QUIZ GAME VIEW */
+    .quiz-container {
+      background: var(--card-bg);
+      border-radius: var(--border-radius-card);
+      border: 5px solid #8B5CF6;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+      padding: 30px 42px;
+      width: 100%;
+      max-width: 1050px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .quiz-question-text {
+      font-size: 42px;
+      font-weight: 800;
+      color: #4C1D95;
+      text-align: center;
+    }
+    .quiz-choices-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      width: 100%;
+    }
+    .quiz-choice-btn {
+      background: #FFF;
+      border: 4px solid #A78BFA;
+      border-radius: 24px;
+      padding: 18px 42px;
+      font-size: 36px;
+      font-weight: 800;
+      color: #5B21B6;
+      box-shadow: 0 10px 22px rgba(139, 92, 246, 0.25);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .quiz-choice-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: #F5F3FF;
+    }
+    .quiz-choice-btn:active {
+      transform: scale(0.96);
+    }
+    .quiz-choice-btn.correct {
+      background: #10B981;
+      border-color: #059669;
+      color: #FFF;
+      box-shadow: 0 0 28px rgba(16, 185, 129, 0.65);
+    }
+    .quiz-choice-btn.wrong {
+      background: #F43F5E;
+      border-color: #BE123C;
+      color: #FFF;
+      opacity: 0.6;
+    }
+    .quiz-feedback-box {
+      font-size: 28px;
+      font-weight: 800;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .quiz-feedback-box.ok {
+      color: #059669;
+    }
+    .quiz-feedback-box.no {
+      color: #DC2626;
+    }
+
+    /* BIBLE VERSE / VALUES VIEW (NO EMOJIS) */
+    .verse-card {
+      background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+      border: 5px solid #F59E0B;
+      border-radius: var(--border-radius-card);
+      box-shadow: 0 18px 45px rgba(245, 158, 11, 0.35);
+      padding: 38px 48px;
+      max-width: 1020px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .verse-heart-svg {
+      width: 48px;
+      height: 48px;
+      fill: #D97706;
+    }
+    .verse-text {
+      font-size: 44px;
+      font-weight: 800;
+      color: #78350F;
+      line-height: 1.35;
+    }
+    .verse-ref {
+      font-size: 28px;
+      font-weight: 800;
+      color: #B45309;
+      background: #FDE68A;
+      padding: 6px 24px;
+      border-radius: 999px;
+    }
+
+    /* CELEBRATION FINISH SCREEN */
+    .celebrate-card {
+      background: rgba(255, 255, 255, 0.98);
+      border: 6px solid #10B981;
+      border-radius: var(--border-radius-card);
+      box-shadow: 0 22px 55px rgba(16, 185, 129, 0.38);
+      padding: 44px 64px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .celebrate-card h2 {
+      font-size: 54px;
+      font-weight: 800;
+      color: #065F46;
+    }
+    .celebrate-card p {
+      font-size: 32px;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    /* DOCK & TRANSPORT CONTROLS INSIDE STAGE */
+    .module-dock {
+      position: relative;
+      z-index: 15;
+      padding: 12px 32px 16px;
+      background: rgba(255, 255, 255, 0.94);
+      border-top: 3px solid rgba(245, 158, 11, 0.4);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dock-seekbar-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+    .time-lbl {
+      font-size: 16px;
+      font-weight: 800;
+      color: #4B5563;
+      width: 45px;
+      text-align: center;
+    }
+    .seek-slider {
+      flex: 1;
+      height: 10px;
+      -webkit-appearance: none;
+      background: #E5E7EB;
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+    .seek-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #F59E0B;
+      border: 3px solid #FFF;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+
+    .dock-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .btn-dock {
+      background: #FFF;
+      border: 3px solid #D1D5DB;
+      color: #374151;
+      padding: 10px 22px;
+      border-radius: 18px;
+      font-size: 19px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 0 #9CA3AF;
+      transition: all 0.15s ease;
+    }
+    .btn-dock:hover {
+      background: #F9FAFB;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #9CA3AF;
+    }
+    .btn-dock:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #9CA3AF;
+    }
+    .btn-dock.primary {
+      background: #0D9488;
+      border-color: #0F766E;
+      color: #FFF;
+      box-shadow: 0 4px 0 #0F766E;
+    }
+    .btn-dock.primary:hover {
+      background: #14B8A6;
+      box-shadow: 0 6px 0 #0F766E;
+    }
+    .btn-dock.amber {
+      background: #F59E0B;
+      border-color: #D97706;
+      color: #FFF;
+      box-shadow: 0 4px 0 #D97706;
+    }
+    .btn-dock.amber:hover {
+      background: #FBBF24;
+      box-shadow: 0 6px 0 #D97706;
+    }
+
+    .slide-dots-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .slide-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #D1D5DB;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .slide-dot.active {
+      width: 32px;
+      border-radius: 10px;
+      background: #0D9488;
+    }
+
+    .slide-counter-badge {
+      font-size: 18px;
+      font-weight: 800;
+      color: #4B5563;
+      background: #F3F4F6;
+      padding: 6px 16px;
+      border-radius: 999px;
+    }
+
+    /* BIG TOUCH HELPER FOR 6 Y/O */
+    .bouncy {
+      animation: gentleBounce 2s infinite alternate;
+    }
+    @keyframes gentleBounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
+    }
+
+    /* =====================================================================
+       SHARED PLAYER ADDITIONS (built on the Week 1 Day 1 design)
+       ===================================================================== */
+
+    /* START SCREEN: one big tap unlocks sound for the whole lesson */
+    .start-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      background: radial-gradient(circle at 50% 40%, rgba(255, 244, 228, 0.92) 0%, rgba(245, 230, 204, 0.97) 100%);
+    }
+    .start-overlay.gone { display: none; }
+    .start-overlay img {
+      height: 520px;
+      filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.3));
+      animation: gentleBreath 3.6s ease-in-out infinite alternate;
+    }
+    .start-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      max-width: 760px;
+      text-align: center;
+    }
+    .start-box .start-tag {
+      font-size: 26px;
+      font-weight: 800;
+      color: #B45309;
+      background: #FEF3C7;
+      border: 3px solid #FDE68A;
+      border-radius: 999px;
+      padding: 8px 24px;
+    }
+    .start-box h1 {
+      font-size: 64px;
+      font-weight: 800;
+      color: #92400E;
+      line-height: 1.1;
+    }
+    .start-btn {
+      font-family: inherit;
+      font-size: 46px;
+      font-weight: 800;
+      color: #FFF;
+      background: linear-gradient(180deg, #22C55E 0%, #16A34A 100%);
+      border: none;
+      border-radius: 999px;
+      padding: 26px 72px;
+      box-shadow: 0 12px 0 #15803D, 0 20px 40px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: readyPulse 1.6s ease-in-out infinite;
+    }
+    .start-btn:active { transform: translateY(6px); box-shadow: 0 6px 0 #15803D; }
+
+    /* NEXT BUTTON INVITES THE CHILD ON ONCE THE SLIDE IS DONE */
+    .btn-dock.primary.go-glow {
+      animation: goGlow 1.1s ease-in-out infinite;
+    }
+    @keyframes goGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); transform: scale(1); }
+      50% { box-shadow: 0 0 0 14px rgba(37, 99, 235, 0); transform: scale(1.06); }
+    }
+
+    /* GENERIC TAP CARD GRID (2-6 picture cards) */
+    .pic-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px;
+      width: 100%;
+    }
+    .pic-card {
+      background: #FFF;
+      border: 4px solid #FDE68A;
+      border-radius: 28px;
+      padding: 14px 14px 16px;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s;
+      animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      position: relative;
+    }
+    .pic-grid.n3 .pic-card, .pic-grid.n2 .pic-card { width: 260px; }
+    .pic-grid.n2 .pic-card .pic-frame, .pic-grid.n3 .pic-card .pic-frame { height: 210px; }
+    .pic-card:hover { transform: translateY(-6px) scale(1.03); border-color: #F59E0B; }
+    .pic-card:active { transform: scale(0.96); }
+    .pic-card.done { border-color: #16A34A; background: #F0FDF4; }
+    .pic-card.done::after {
+      content: '';
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #16A34A url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/28px no-repeat;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .pic-card.speaking { border-color: #0D9488; box-shadow: 0 0 0 6px rgba(13, 148, 136, 0.35); }
+    .pic-frame {
+      width: 100%;
+      height: 160px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #FFFBEB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pic-frame img { width: 100%; height: 100%; object-fit: contain; }
+    .pic-frame.pose img { object-fit: contain; object-position: center bottom; }
+    .pic-word {
+      font-size: 30px;
+      font-weight: 800;
+      color: #1F2937;
+      line-height: 1.1;
+      text-align: center;
+    }
+    .pic-sub {
+      font-size: 20px;
+      font-weight: 700;
+      color: #6B7280;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .pic-card.text-only { justify-content: center; min-height: 140px; }
+    .pic-card.text-only .pic-word { font-size: 38px; }
+
+    .card-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: #92400E;
+      line-height: 1.15;
+    }
+    .teal-theme .card-title { color: #0F766E; }
+    .purple-theme .card-title { color: #6D28D9; }
+    .pink-theme .card-title { color: #BE185D; }
+
+    .progress-pips { display: flex; gap: 10px; justify-content: center; }
+    .progress-pips span {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #E5E7EB; border: 3px solid #D1D5DB;
+    }
+    .progress-pips span.on { background: #F59E0B; border-color: #D97706; }
+
+    /* WORD FOCUS WITH PICTURE */
+    .word-focus-row {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      justify-content: center;
+    }
+    .word-focus-pic {
+      width: 300px;
+      height: 260px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #FFFBEB;
+      border: 4px solid #FDE68A;
+    }
+    .word-focus-pic img { width: 100%; height: 100%; object-fit: contain; }
+    .word-sub-lang {
+      font-size: 30px;
+      font-weight: 800;
+      color: #0F766E;
+      background: #CCFBF1;
+      border-radius: 999px;
+      padding: 6px 24px;
+      margin-top: 8px;
+      display: inline-block;
+    }
+
+    /* STORY PAGE (picture is the hero, short read-along caption) */
+    .story-page {
+      width: 100%;
+      max-width: 1180px;
+      height: 600px;
+      border-radius: 32px;
+      border: 6px solid #FFF;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      position: relative;
+      background: #FDF4E3;
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .story-page img.story-pic {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .story-page .story-caption-overlay { padding: 46px 48px 26px; }
+    .story-page .story-text { font-size: 40px; line-height: 1.25; }
+    .story-page .story-line { display: block; transition: color 0.2s; }
+    .story-page .story-line.now { color: #FDE68A; }
+    .story-page .page-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #FDE68A;
+      font-size: 22px;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 8px 20px;
+    }
+
+    /* PICK THE RIGHT ONE (gentle check: no fail state) */
+    .ask-line {
+      font-size: 40px;
+      font-weight: 800;
+      color: #4C1D95;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+    .ask-line .hear-btn, .hear-btn {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: none;
+      background: #EDE9FE;
+      color: #6D28D9;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .pic-card.wobble { animation: wobble 0.5s ease; border-color: #FCA5A5; }
+    @keyframes wobble {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-12px) rotate(-3deg); }
+      40% { transform: translateX(10px) rotate(2deg); }
+      60% { transform: translateX(-8px); }
+      80% { transform: translateX(6px); }
+    }
+    .pic-card.right { border-color: #16A34A; background: #DCFCE7; transform: scale(1.06); }
+    .feedback-line {
+      min-height: 48px;
+      font-size: 32px;
+      font-weight: 800;
+      color: #059669;
+    }
+    .feedback-line.hint { color: #B45309; }
+
+    /* PUT IN ORDER */
+    .order-slots { display: flex; gap: 22px; justify-content: center; }
+    .order-slot {
+      width: 230px;
+      height: 64px;
+      border-radius: 18px;
+      border: 4px dashed #C4B5FD;
+      background: #F5F3FF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      color: #7C3AED;
+    }
+    .order-slot.filled { border-style: solid; background: #EDE9FE; color: #4C1D95; }
+    .order-num {
+      position: absolute;
+      top: -16px;
+      left: -16px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #7C3AED;
+      color: #FFF;
+      font-size: 28px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ACTION GAME (move your body) + SIMON SAYS */
+    .act-card {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      background: #FFF;
+      border: 5px solid #FDE68A;
+      border-radius: 30px;
+      padding: 22px 40px;
+      animation: cardPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .act-card .pic-frame { width: 280px; height: 240px; }
+    .act-cmd {
+      font-size: 64px;
+      font-weight: 800;
+      color: #1F2937;
+      line-height: 1.1;
+    }
+    .act-cmd small {
+      display: block;
+      font-size: 30px;
+      color: #6B7280;
+      margin-bottom: 6px;
+    }
+    .simon-tag {
+      display: inline-block;
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFF;
+      background: #7C3AED;
+      border-radius: 999px;
+      padding: 6px 22px;
+      margin-bottom: 8px;
+    }
+    .big-btn-row { display: flex; gap: 26px; justify-content: center; }
+    .big-btn {
+      font-family: inherit;
+      font-size: 34px;
+      font-weight: 800;
+      color: #FFF;
+      border: none;
+      border-radius: 26px;
+      padding: 18px 44px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.18);
+      transition: transform 0.15s;
+    }
+    .big-btn:active { transform: translateY(5px); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18); }
+    .big-btn.green { background: #16A34A; }
+    .big-btn.amber { background: #F59E0B; }
+    .big-btn.purple { background: #7C3AED; }
+    .big-btn.gray { background: #64748B; }
+
+    /* CHANT / SONG LINES */
+    .chant-lines { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 900px; }
+    .chant-line {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: #FFF;
+      border: 4px solid #FDE68A;
+      border-radius: 22px;
+      padding: 14px 24px;
+      font-size: 36px;
+      font-weight: 800;
+      color: #1F2937;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .chant-line.now { border-color: #F59E0B; background: #FEF3C7; transform: scale(1.03); }
+    .chant-line.done { border-color: #16A34A; }
+    .chant-line .note-ic { flex-shrink: 0; color: #F59E0B; }
+
+    /* YOUR TURN TO TALK */
+    .talk-frame {
+      font-size: 44px;
+      font-weight: 800;
+      color: #1F2937;
+      background: #FFF;
+      border: 5px dashed #0D9488;
+      border-radius: 26px;
+      padding: 20px 36px;
+      line-height: 1.3;
+    }
+    .talk-frame .gap {
+      display: inline-block;
+      min-width: 170px;
+      border-bottom: 5px solid #0D9488;
+      margin: 0 8px;
+    }
+    .talk-example {
+      font-size: 28px;
+      font-weight: 700;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* SAME WORD, MANY LANGUAGES */
+    .lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; width: 100%; }
+    .lang-card {
+      background: #FFF;
+      border: 4px solid #99F6E4;
+      border-radius: 24px;
+      padding: 18px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .lang-card .lang-name { font-size: 22px; font-weight: 800; color: #0F766E; text-transform: uppercase; letter-spacing: 1px; }
+    .lang-card .lang-word { font-size: 40px; font-weight: 800; color: #1F2937; }
+    .lang-card.done { border-color: #16A34A; background: #F0FDF4; }
+    .lang-card.speaking { border-color: #0D9488; box-shadow: 0 0 0 6px rgba(13, 148, 136, 0.35); }
+    .same-meaning {
+      font-size: 36px;
+      font-weight: 800;
+      color: #0F766E;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .same-meaning img { height: 110px; border-radius: 18px; background: #FFFBEB; }
+
+    /* RECAP ON CELEBRATION */
+    .recap-list { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+    .recap-list div {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1F2937;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* 5-6 cards must fit on one row */
+    .pic-grid.n5, .pic-grid.n6 { flex-wrap: nowrap; gap: 14px; }
+    .pic-grid.n5 .pic-card { width: 178px; }
+    .pic-grid.n6 .pic-card { width: 150px; }
+    .pic-grid.n5 .pic-frame, .pic-grid.n6 .pic-frame { height: 130px; }
+    .pic-grid.n5 .pic-word, .pic-grid.n6 .pic-word { font-size: 25px; }
+
+  </style>
+</head>
+<body>
+  <!-- GENERATED FILE: edit tools/lessons/g1q1w4d1.py and run tools/build.py -->
+  <div id="stagewrap">
+    <div id="stage">
+      <div class="scenic-bg" id="scenicBg"></div>
+      <div class="scenic-vignette"></div>
+
+      <header class="module-top-bar">
+        <div class="deped-tag">
+          <svg class="ph-flag-svg" viewBox="0 0 600 300">
+            <rect width="600" height="150" fill="#0038A8"/>
+            <rect y="150" width="600" height="150" fill="#CE1126"/>
+            <polygon points="0,0 260,150 0,300" fill="#FFF"/>
+            <circle cx="85" cy="150" r="32" fill="#FCD116"/>
+          </svg>
+          <div>
+            <div class="title">DepEd MATATAG • Grade 1 Language</div>
+            <div class="subtitle">Quarter 1 • Week 4 • Day 1</div>
+          </div>
+        </div>
+        <div class="top-stats">
+          <div class="star-pill" id="starPill">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <span id="starCounter">0</span>
+          </div>
+          <button class="btn-dock" id="btnSoundMute" onclick="toggleMute()" title="Sound effects on/off">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          </button>
+          <button class="btn-dock" onclick="toggleFullscreen()" title="Fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="module-main-stage">
+        <div class="stage-canvas-body" id="stageCanvasBody">
+          <div class="char-actor-wrap" id="charActorWrap">
+            <img class="char-img" id="charImg" alt="Teacher" onclick="playActorCheer()" draggable="false">
+            <div class="char-contact-shadow"></div>
+            <div class="char-name-tag" onclick="replayAudio()">
+              <span class="speaking-pulse" id="actorPulse"></span>
+              <span id="charNameLabel">Tala</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            </div>
+          </div>
+          <div class="activity-stage-area" id="activityStageArea"></div>
+        </div>
+      </main>
+
+      <footer class="module-dock">
+        <div class="dock-seekbar-row">
+          <span class="time-lbl" id="currTime">0:00</span>
+          <input type="range" class="seek-slider" id="seekSlider" min="0" max="1000" value="0" oninput="onSeekChange(this.value)">
+          <span class="time-lbl" id="totTime">0:00</span>
+        </div>
+        <div class="dock-controls-row">
+          <div style="display:flex;gap:10px;align-items:center;">
+            <button class="btn-dock" onclick="prevSlide()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+              <span>Back</span>
+            </button>
+            <button class="btn-dock amber" id="btnPlayPause" onclick="togglePlayPause()">
+              <svg id="svgPlayPause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span id="txtPlayPause">Play</span>
+            </button>
+            <button class="btn-dock" onclick="replayAudio()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+              <span>Hear Again</span>
+            </button>
+          </div>
+          <div class="slide-dots-indicator" id="slideDotsIndicator"></div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <button class="btn-dock" id="btnAutoAdvance" onclick="toggleAutoAdvance()">Auto: OFF</button>
+            <span class="slide-counter-badge" id="slideCounterBadge"></span>
+            <button class="btn-dock primary" id="btnNextSlide" onclick="nextSlide()">
+              <span>Next</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+      </footer>
+
+      <div class="start-overlay" id="startOverlay">
+        <img src="../../../../POSES/TALA/waving.png" alt="" draggable="false">
+        <div class="start-box">
+          <div class="start-tag">Quarter 1 • Week 4 • Day 1</div>
+          <h1>Things at Home and Polite Words</h1>
+          <button class="start-btn" onclick="startLesson()">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Start!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioNarrator" preload="auto"></audio>
+
+  <script>
+const LESSON = {
+ "code": "g1q1w4d1",
+ "title": "Things at Home and Polite Words",
+ "label": "Quarter 1 • Week 4 • Day 1",
+ "bg": "media/image3.jpg",
+ "posesRoot": "../../../../POSES",
+ "nextHref": "../../DAY2/INTERACTIVE/index.html",
+ "slides": [
+  {
+   "type": "cover",
+   "goal": 1,
+   "title": "Things at Home and Polite Words",
+   "goals": [
+    "Name things in my home",
+    "Ask nicely with please",
+    "Say thank you"
+   ],
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "id": "s01",
+   "who": {
+    "char": "TALA",
+    "pose": "waving.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/s01",
+    "t": "Hello, my friend! (pause) Last week, we retold the story of the Rooster and the Little Bird. (pause) The rooster was kind and shared. (pause) Today, we name things at home. (pause) And we learn kind words!"
+   },
+   "bridge": ""
+  },
+  {
+   "id": "room",
+   "type": "cards",
+   "goal": 1,
+   "title": "Things in My Bedroom",
+   "yourTurn": "Tap each picture!",
+   "items": [
+    {
+     "word": "bed",
+     "sub": "we sleep here",
+     "artPending": true,
+     "clip": {
+      "a": "speech/room-1",
+      "t": "Bed. (pause) We sleep on a bed."
+     }
+    },
+    {
+     "word": "pillow",
+     "sub": "for my head",
+     "artPending": true,
+     "clip": {
+      "a": "speech/room-2",
+      "t": "Pillow. (pause) My head rests on a soft pillow."
+     }
+    },
+    {
+     "word": "blanket",
+     "sub": "keeps me warm",
+     "artPending": true,
+     "clip": {
+      "a": "speech/room-3",
+      "t": "Blanket. (pause) A blanket keeps me warm."
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "pointing.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/room",
+    "t": "First, let us look around my house. (pause) This is my bedroom. (pause) Listen to three words. (pause) Tap each picture and say it with me!"
+   },
+   "bridge": "First, let us look around my house."
+  },
+  {
+   "id": "school",
+   "type": "cards",
+   "goal": 1,
+   "title": "My School Things",
+   "yourTurn": "Tap each picture!",
+   "items": [
+    {
+     "word": "book",
+     "sub": "I read it",
+     "artPending": true,
+     "clip": {
+      "a": "speech/school-1",
+      "t": "Book. (pause) I read a book."
+     }
+    },
+    {
+     "word": "bag",
+     "sub": "I carry it",
+     "artPending": true,
+     "clip": {
+      "a": "speech/school-2",
+      "t": "Bag. (pause) My bag carries my things."
+     }
+    },
+    {
+     "word": "pencil",
+     "sub": "I write with it",
+     "artPending": true,
+     "clip": {
+      "a": "speech/school-3",
+      "t": "Pencil. (pause) I write with a pencil."
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/school",
+    "t": "Bed, pillow, blanket. Now let us find my school things. (pause) Here are my school things. (pause) Tap each one. (pause) Say the word!"
+   },
+   "bridge": "Bed, pillow, blanket. Now let us find my school things."
+  },
+  {
+   "id": "kitchen",
+   "type": "cards",
+   "goal": 1,
+   "title": "At the Dining Table",
+   "yourTurn": "Tap each picture!",
+   "items": [
+    {
+     "word": "plate",
+     "sub": "holds my food",
+     "artPending": true,
+     "clip": {
+      "a": "speech/kitchen-1",
+      "t": "Plate. (pause) My rice is on the plate."
+     }
+    },
+    {
+     "word": "spoon",
+     "sub": "I eat with it",
+     "artPending": true,
+     "clip": {
+      "a": "speech/kitchen-2",
+      "t": "Spoon. (pause) I eat with a spoon."
+     }
+    },
+    {
+     "word": "glass",
+     "sub": "holds my water",
+     "artPending": true,
+     "clip": {
+      "a": "speech/kitchen-3",
+      "t": "Glass. (pause) A glass of water."
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "eating.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/kitchen",
+    "t": "Book, bag, pencil. Now let us go to the kitchen. (pause) It is time to eat! (pause) Tap each thing on the table. (pause) Say it with me!"
+   },
+   "bridge": "Book, bag, pencil. Now let us go to the kitchen."
+  },
+  {
+   "id": "find",
+   "type": "pick",
+   "goal": 1,
+   "title": "Listen and Tap!",
+   "yourTurn": "Tap the right picture!",
+   "rounds": [
+    {
+     "ask": "Tap: spoon",
+     "choices": [
+      {
+       "word": "pillow",
+       "artPending": true
+      },
+      {
+       "word": "spoon",
+       "ok": true,
+       "artPending": true
+      },
+      {
+       "word": "bag",
+       "artPending": true
+      }
+     ],
+     "clip": {
+      "a": "speech/find-q1",
+      "t": "Where is the spoon? Tap it!"
+     }
+    },
+    {
+     "ask": "Tap: pillow",
+     "choices": [
+      {
+       "word": "pencil",
+       "artPending": true
+      },
+      {
+       "word": "glass",
+       "artPending": true
+      },
+      {
+       "word": "pillow",
+       "ok": true,
+       "artPending": true
+      }
+     ],
+     "clip": {
+      "a": "speech/find-q2",
+      "t": "Where is the pillow? Tap it!"
+     }
+    },
+    {
+     "ask": "Tap: book",
+     "choices": [
+      {
+       "word": "book",
+       "ok": true,
+       "artPending": true
+      },
+      {
+       "word": "plate",
+       "artPending": true
+      },
+      {
+       "word": "blanket",
+       "artPending": true
+      }
+     ],
+     "clip": {
+      "a": "speech/find-q3",
+      "t": "Where is the book? Tap it!"
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "thinking.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/find",
+    "t": "You know nine things at home! Let us play a game. (pause) Listen carefully. (pause) I say a word. (pause) You tap the picture."
+   },
+   "bridge": "You know nine things at home! Let us play a game."
+  },
+  {
+   "id": "please",
+   "type": "word",
+   "goal": 2,
+   "word": "please",
+   "mean": "A kind word when we ask",
+   "model": "Please pass the spoon.",
+   "yourTurn": "Tap the word and say it!",
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "please.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/please",
+    "t": "Sometimes we need a spoon, a book or some water. How do we ask? (pause) Here is a magic word. (pause) Please! (pause) We say please when we ask for something. (pause) Say: Please pass the spoon."
+   },
+   "bridge": "Sometimes we need a spoon, a book or some water. How do we ask?",
+   "clip": {
+    "a": "speech/please-word",
+    "t": "Please."
+   }
+  },
+  {
+   "id": "ask",
+   "type": "chant",
+   "goal": 2,
+   "title": "Kind Ways to Ask",
+   "yourTurn": "Tap a line and say it!",
+   "allLabel": "Say them all!",
+   "lines": [
+    {
+     "text": "May I please borrow your book?",
+     "clip": {
+      "a": "speech/ask-1",
+      "t": "May I please borrow your book?"
+     }
+    },
+    {
+     "text": "Please pass the spoon.",
+     "clip": {
+      "a": "speech/ask-2",
+      "t": "Please pass the spoon."
+     }
+    },
+    {
+     "text": "May I have a glass of water, please?",
+     "clip": {
+      "a": "speech/ask-3",
+      "t": "May I have a glass of water, please?"
+     }
+    },
+    {
+     "text": "Can you please help me carry my bag?",
+     "clip": {
+      "a": "speech/ask-4",
+      "t": "Can you please help me carry my bag?"
+     }
+    }
+   ],
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "talking.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/ask",
+    "t": "Please is a magic word. Let us use it with our home words. (pause) Here are kind ways to ask. (pause) Tap a line and say it with me. (pause) Use a soft voice!"
+   },
+   "bridge": "Please is a magic word. Let us use it with our home words."
+  },
+  {
+   "id": "s1",
+   "type": "story",
+   "goal": 2,
+   "title": "Bunso Asks Nicely",
+   "page": "Page 1",
+   "lines": [
+    "Tala reads her new book.",
+    "Bunso sees the book.",
+    "He wants to read it too!"
+   ],
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/s1",
+    "t": "You can ask nicely. Let us see if Bunso can! (pause) Story time! (pause) Our story is called, Bunso Asks Nicely. (pause) First, Tala reads her new book. (pause) Bunso sees it. (pause) He wants to read it too!"
+   },
+   "bridge": "You can ask nicely. Let us see if Bunso can!"
+  },
+  {
+   "id": "s2",
+   "type": "story",
+   "goal": 2,
+   "title": "Bunso Asks Nicely",
+   "page": "Page 2",
+   "lines": [
+    "Bunso grabs the book.",
+    "\"Give me that!\" he says.",
+    "Tala is sad."
+   ],
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/s2",
+    "t": "What does Bunso do? (pause) Next, Bunso grabs the book! (pause) Give me that, he says. (pause) Oh no! (pause) Tala is sad."
+   },
+   "bridge": "What does Bunso do?"
+  },
+  {
+   "id": "feel",
+   "type": "pick",
+   "goal": 2,
+   "title": "How Does Tala Feel?",
+   "yourTurn": "Tap the feeling!",
+   "rounds": [
+    {
+     "ask": "Tala feels...",
+     "choices": [
+      {
+       "word": "happy",
+       "pose": "TALA/laughing.png"
+      },
+      {
+       "word": "sad",
+       "pose": "TALA/sad.png",
+       "ok": true
+      }
+     ],
+     "yes": "Yes! Tala feels sad.",
+     "clip": {
+      "a": "speech/feel-q1",
+      "t": "How does Tala feel now?"
+     },
+     "yesClip": {
+      "a": "speech/feel-q1-yes",
+      "t": "Yes! Tala feels sad. (pause) Grabbing is not kind."
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "sad.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/feel",
+    "t": "Oh no! Let us stop and think. (pause) Bunso grabbed the book. (pause) How does Tala feel?"
+   },
+   "bridge": "Oh no! Let us stop and think."
+  },
+  {
+   "id": "s3",
+   "type": "story",
+   "goal": 2,
+   "title": "Bunso Asks Nicely",
+   "page": "Page 3",
+   "lines": [
+    "Nanay says, \"Use the magic word.\"",
+    "Bunso gives the book back.",
+    "\"May I please borrow your book?\""
+   ],
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/s3",
+    "t": "Who will help Bunso? (pause) Then Nanay says, Bunso, use the magic word. (pause) Bunso gives the book back. (pause) He asks, May I please borrow your book?"
+   },
+   "bridge": "Who will help Bunso?"
+  },
+  {
+   "id": "s4",
+   "type": "story",
+   "goal": 3,
+   "title": "Bunso Asks Nicely",
+   "page": "Page 4",
+   "lines": [
+    "Tala smiles. \"Yes, you may!\"",
+    "Bunso says, \"Thank you, Tala!\"",
+    "Kind words make us happy."
+   ],
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/s4",
+    "t": "Bunso asked nicely. What will Tala say? (pause) Last, Tala smiles. (pause) Yes, you may! (pause) Bunso says, Thank you, Tala! (pause) Kind words make everyone happy."
+   },
+   "bridge": "Bunso asked nicely. What will Tala say?"
+  },
+  {
+   "id": "story-check",
+   "type": "pick",
+   "goal": 2,
+   "title": "Think About the Story",
+   "yourTurn": "Tap your answer!",
+   "rounds": [
+    {
+     "ask": "Which is the kind way?",
+     "choices": [
+      {
+       "word": "Give me that!",
+       "artPending": true
+      },
+      {
+       "word": "May I please?",
+       "ok": true,
+       "artPending": true
+      }
+     ],
+     "yes": "Yes! May I please?",
+     "clip": {
+      "a": "speech/story-check-q1",
+      "t": "Which is the kind way to ask?"
+     },
+     "yesClip": {
+      "a": "speech/story-check-q1-yes",
+      "t": "Yes! May I please borrow your book? (pause) That is kind."
+     }
+    },
+    {
+     "ask": "What did Bunso say at the end?",
+     "choices": [
+      {
+       "word": "Thank you!",
+       "ok": true,
+       "artPending": true
+      },
+      {
+       "word": "Go away!",
+       "pose": "BUNSO/sad.png"
+      }
+     ],
+     "yes": "Yes! Thank you!",
+     "clip": {
+      "a": "speech/story-check-q2",
+      "t": "What did Bunso say at the end?"
+     },
+     "yesClip": {
+      "a": "speech/story-check-q2-yes",
+      "t": "Yes! Bunso said, thank you! (pause) We say thank you when someone shares."
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "raising_hand.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/story-check",
+    "t": "That is the end of the story. Let us think. (pause) Let us think about the story."
+   },
+   "bridge": "That is the end of the story. Let us think."
+  },
+  {
+   "id": "pass",
+   "type": "sentence",
+   "goal": 2,
+   "title": "Ask at the Table",
+   "yourTurn": "Tap one and say it!",
+   "pre": "Please pass the",
+   "post": ".",
+   "options": [
+    {
+     "word": "spoon",
+     "artPending": true,
+     "clip": {
+      "a": "speech/pass-1",
+      "t": "Please pass the spoon."
+     }
+    },
+    {
+     "word": "plate",
+     "artPending": true,
+     "clip": {
+      "a": "speech/pass-2",
+      "t": "Please pass the plate."
+     }
+    },
+    {
+     "word": "glass",
+     "artPending": true,
+     "clip": {
+      "a": "speech/pass-3",
+      "t": "Please pass the glass."
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "giving.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/pass",
+    "t": "Bunso asked for a book. What will you ask for? (pause) Now you ask! (pause) What do you need at the table? (pause) Tap one. Then say it with me."
+   },
+   "bridge": "Bunso asked for a book. What will you ask for?"
+  },
+  {
+   "id": "talk",
+   "type": "talk",
+   "goal": 3,
+   "title": "Say Thank You!",
+   "yourTurn": "Say it out loud!",
+   "frame": "Thank you, ____!",
+   "example": {
+    "label": "Tala says",
+    "text": "Thank you, Nanay!",
+    "clip": {
+     "a": "speech/talk-example",
+     "t": "Thank you, Nanay!"
+    }
+   },
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "talking.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/talk",
+    "t": "Nanay passes the glass. What do you say? (pause) When someone helps you, say thank you. (pause) Say: Thank you, Nanay! (pause) Now say it to someone at home!"
+   },
+   "bridge": "Nanay passes the glass. What do you say?"
+  },
+  {
+   "id": "verse",
+   "type": "verse",
+   "verse": "Present your requests to God with thanksgiving.",
+   "ref": "Philippians 4:6",
+   "meaning": "We can ask God for what we need, and say thank you.",
+   "artPending": true,
+   "img": "media/image3.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "praying.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/verse",
+    "t": "We ask people nicely. We can ask God too! (pause) Our Bible verse is, (pause) Present your requests to God with thanksgiving. (pause) We ask God nicely. (pause) And we say thank you to God!"
+   },
+   "bridge": "We ask people nicely. We can ask God too!",
+   "verseClip": {
+    "a": "speech/verse-verse",
+    "t": "Present your requests to God (pause) with thanksgiving. (pause) Philippians four, verse six."
+   }
+  },
+  {
+   "id": "done",
+   "type": "celebrate",
+   "title": "Kind Words Champion!",
+   "recap": [
+    "I can name things in my home.",
+    "I can ask with please and may I.",
+    "I can say thank you."
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "clapping.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/done",
+    "t": "What a kind day! (pause) Hooray! (pause) You named things at home. (pause) You asked with please. (pause) And you said thank you. (pause) Tomorrow, we look for things that are the same and different!"
+   },
+   "bridge": "What a kind day!"
+  }
+ ],
+ "fx": {
+  "good": [
+   {
+    "a": "speech/fx-good-1",
+    "t": "Great job!"
+   },
+   {
+    "a": "speech/fx-good-2",
+    "t": "Yes! You did it!"
+   },
+   {
+    "a": "speech/fx-good-3",
+    "t": "Wonderful!"
+   },
+   {
+    "a": "speech/fx-good-4",
+    "t": "Very good!"
+   }
+  ],
+  "try": [
+   {
+    "a": "speech/fx-try-1",
+    "t": "Almost! Try again."
+   },
+   {
+    "a": "speech/fx-try-2",
+    "t": "Look again. You can do it!"
+   }
+  ],
+  "cheer": [
+   {
+    "a": "speech/fx-cheer-1",
+    "t": "Hi! You are doing so well!"
+   },
+   {
+    "a": "speech/fx-cheer-2",
+    "t": "I am happy to learn with you!"
+   }
+  ],
+  "still": [
+   {
+    "a": "speech/fx-still-1",
+    "t": "Good listening! Simon did not say it."
+   }
+  ],
+  "oops": [
+   {
+    "a": "speech/fx-oops-1",
+    "t": "Oops! Simon did not say it. Stay still next time!"
+   }
+  ],
+  "doit": [
+   {
+    "a": "speech/fx-doit-1",
+    "t": "Simon said it! Let us do it!"
+   }
+  ]
+ }
+};
+/* =========================================================================
+   SMARTPATH GRADE 1 LESSON PLAYER
+   Built on the Week 1 Day 1 design: one teacher voice, big pictures,
+   "listen first, then your turn", stars for every try, no fail states.
+   Lesson content lives in LESSON (injected by tools/build.py).
+   ========================================================================= */
+
+/* ---------- tiny helpers ---------- */
+const $ = (id) => document.getElementById(id);
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+const ICON = {
+  speaker: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>',
+  star: '<svg width="22" height="22" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>',
+  play: '<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+  check: '<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>',
+  hand: '<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M23 5.5V20c0 2.2-1.8 4-4 4h-7.3c-1.08 0-2.1-.43-2.85-1.19L1 14.83s1.26-1.23 1.3-1.25c.22-.19.49-.29.79-.29.22 0 .42.06.6.16.04.01 4.31 2.46 4.31 2.46V4c0-.83.67-1.5 1.5-1.5S11 3.17 11 4v7h1V1.5c0-.83.67-1.5 1.5-1.5S15 .67 15 1.5V11h1V2.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5V11h1V5.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5z"/></svg>',
+  stop: '<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8 0-1.85.63-3.55 1.69-4.9L16.9 18.31C15.55 19.37 13.85 20 12 20zm6.31-3.1L7.1 5.69C8.45 4.63 10.15 4 12 4c4.42 0 8 3.58 8 8 0 1.85-.63 3.55-1.69 4.9z"/></svg>',
+  note: '<svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>',
+  mic: '<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>',
+  book: '<svg width="64" height="64" viewBox="0 0 24 24" fill="#D97706"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>',
+  heart: '<svg class="verse-heart-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
+  trophy: '<svg width="80" height="80" viewBox="0 0 24 24" fill="#F59E0B"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.76 2.72 3.19 3.39V19H8v2h8v-2h-2.58v-2.67c1.43-.67 2.56-1.89 3.19-3.39C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>'
+};
+
+/* ---------- sound effects (synthesized, no files needed) ---------- */
+class SoundEngine {
+  constructor() { this.ctx = null; this.muted = false; }
+  init() {
+    if (!this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) this.ctx = new AC();
+    }
+    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+  }
+  tone(freq, type, start, dur, vol) {
+    const osc = this.ctx.createOscillator();
+    const g = this.ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, start);
+    g.gain.setValueAtTime(vol, start);
+    g.gain.exponentialRampToValueAtTime(0.01, start + dur);
+    osc.connect(g).connect(this.ctx.destination);
+    osc.start(start);
+    osc.stop(start + dur + 0.01);
+    return osc;
+  }
+  pop() {
+    if (this.muted) return; this.init(); if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    const o = this.tone(440, 'sine', now, 0.08, 0.3);
+    o.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+  }
+  star() {
+    if (this.muted) return; this.init(); if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => this.tone(f, 'triangle', now + i * 0.07, 0.25, 0.22));
+  }
+  soft() {
+    if (this.muted) return; this.init(); if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    this.tone(330, 'sine', now, 0.18, 0.18);
+    this.tone(262, 'sine', now + 0.12, 0.22, 0.15);
+  }
+  cheer() { this.star(); }
+}
+const sound = new SoundEngine();
+
+/* =========================================================================
+   VOICE: one channel for everything the teacher says.
+   Plays speech/<name>.mp3, then .wav; if neither exists, the browser
+   reads the same words aloud so the lesson always works.
+   ========================================================================= */
+const audio = $('audioNarrator');
+const Voice = {
+  token: 0,
+  mode: 'idle',          // 'file' | 'tts' | 'idle'
+  isNarration: false,
+  ttsVoice: null,
+  clean(t) {
+    return String(t || '').replace(/\(pause(?:\s*\d+)?\)/gi, ' ').replace(/\s+/g, ' ').trim();
+  },
+  pickVoice() {
+    if (!('speechSynthesis' in window)) return null;
+    const vs = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
+    const pref = ['Samantha', 'Google US English', 'Microsoft Aria', 'Microsoft Jenny', 'Karen', 'Moira', 'Tessa', 'Zira', 'Female'];
+    for (const p of pref) {
+      const v = vs.find(x => x.name.indexOf(p) !== -1);
+      if (v) return v;
+    }
+    return vs[0] || null;
+  },
+  stop() {
+    this.token++;
+    try { audio.pause(); } catch (e) {}
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    this.mode = 'idle';
+  },
+  /* clip = {a: 'speech/name', t: 'words to say'} */
+  play(clip, opts) {
+    opts = opts || {};
+    this.stop();
+    const my = ++this.token;
+    this.isNarration = !!opts.narration;
+    if (!clip || (!clip.a && !clip.t)) { if (opts.onend) opts.onend(); return; }
+    const done = () => {
+      if (my !== this.token) return;
+      this.mode = 'idle';
+      onVoiceEnded(this.isNarration);
+      if (opts.onend) opts.onend();
+    };
+    onVoiceStarted(this.isNarration);
+    const tryTts = () => {
+      if (my !== this.token) return;
+      if (!('speechSynthesis' in window) || !clip.t) { done(); return; }
+      this.mode = 'tts';
+      const parts = String(clip.t).split(/\(pause(?:\s*\d+)?\)/i).map(p => p.trim()).filter(Boolean);
+      if (!this.ttsVoice) this.ttsVoice = this.pickVoice();
+      parts.forEach((p, i) => {
+        const u = new SpeechSynthesisUtterance(p);
+        u.rate = 0.86; u.pitch = 1.08; u.lang = 'en-US';
+        if (this.ttsVoice) u.voice = this.ttsVoice;
+        if (i === parts.length - 1) { u.onend = done; u.onerror = done; }
+        speechSynthesis.speak(u);
+      });
+      if (!parts.length) done();
+    };
+    if (!clip.a) { tryTts(); return; }
+    const exts = ['.mp3', '.wav'];
+    const tryFile = (k) => {
+      if (my !== this.token) return;
+      if (k >= exts.length) { tryTts(); return; }
+      audio.onended = done;
+      audio.onerror = () => tryFile(k + 1);
+      audio.src = clip.a + exts[k];
+      audio.currentTime = 0;
+      this.mode = 'file';
+      audio.play().catch((err) => {
+        if (err && err.name === 'NotAllowedError') { done(); return; }
+      });
+    };
+    tryFile(0);
+  }
+};
+if ('speechSynthesis' in window) {
+  speechSynthesis.onvoiceschanged = () => { Voice.ttsVoice = Voice.pickVoice(); };
+}
+
+/* =========================================================================
+   PLAYER STATE
+   ========================================================================= */
+let cur = 0;
+let stars = 0;
+let isAutoAdvance = false;
+let autoTimer = null;
+let slideState = {};
+const doneSlides = new Set();
+
+const stagewrap = $('stagewrap');
+const stage = $('stage');
+const charActorWrap = $('charActorWrap');
+const charImg = $('charImg');
+const charNameLabel = $('charNameLabel');
+const actorPulse = $('actorPulse');
+const area = $('activityStageArea');
+const body = $('stageCanvasBody');
+const seekSlider = $('seekSlider');
+
+function fitStage() {
+  const scale = stagewrap.clientWidth / 1600;
+  stage.style.transform = `scale(${scale})`;
+}
+window.addEventListener('resize', fitStage);
+fitStage();
+
+function initDots() {
+  const box = $('slideDotsIndicator');
+  box.innerHTML = '';
+  LESSON.slides.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'slide-dot' + (i === cur ? ' active' : '') + (doneSlides.has(i) ? ' seen' : '');
+    d.onclick = () => goToSlide(i);
+    box.appendChild(d);
+  });
+}
+
+function addStar() {
+  stars++;
+  $('starCounter').textContent = stars;
+  const pill = $('starPill');
+  pill.classList.add('bump');
+  setTimeout(() => pill.classList.remove('bump'), 400);
+  sound.star();
+  if (window.confetti) confetti({ particleCount: 35, spread: 60, origin: { y: 0.8 } });
+}
+
+function fx(kind) {
+  const list = (LESSON.fx && LESSON.fx[kind]) || [];
+  if (!list.length) return null;
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function playActorCheer() {
+  charImg.style.transform = 'scale(1.1) rotate(3deg)';
+  setTimeout(() => (charImg.style.transform = ''), 300);
+  Voice.play(fx('cheer'));
+}
+
+/* ---------- listen first, then your turn ---------- */
+function phaseBadgeHTML(s) {
+  return `<div class="phase-status-badge listening" id="phaseBadge">
+      <span class="speaking-pulse"></span><span>Listen to ${esc(s.who.name)}...</span>
+      <button class="skip-phase-btn" onclick="unlockEarly(event)">Tap Now</button>
+    </div>`;
+}
+function setPhase(listening) {
+  const zone = $('interactiveZone');
+  const badge = $('phaseBadge');
+  if (!zone || !badge) return;
+  if (listening) {
+    zone.classList.add('locked'); zone.classList.remove('unlocked');
+  } else {
+    zone.classList.remove('locked'); zone.classList.add('unlocked');
+    badge.className = 'phase-status-badge interactive bouncy';
+    const s = LESSON.slides[cur];
+    badge.innerHTML = `${ICON.hand.replace(/30/g, '22')}<span>${esc(s.yourTurn || 'Your turn! Tap!')}</span>`;
+  }
+}
+function unlockEarly(e) {
+  if (e) e.stopPropagation();
+  Voice.stop();
+  onVoiceEnded(true);
+  sound.pop();
+}
+
+function onVoiceStarted(isNarration) {
+  actorPulse.style.display = 'inline-block';
+  setPlayPauseUI(false);
+  if (isNarration) setPhase(true);
+}
+function onVoiceEnded(isNarration) {
+  actorPulse.style.display = 'none';
+  setPlayPauseUI(true);
+  if (!isNarration) return;
+  setPhase(false);
+  const s = LESSON.slides[cur];
+  if (s && s.passive) markDone();
+  if (s && s.onNarrationEnd) s.onNarrationEnd();
+  if (isAutoAdvance && cur < LESSON.slides.length - 1 && s && s.passive) {
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(nextSlide, 4000);
+  }
+}
+
+/* slide finished: invite the child forward */
+function markDone() {
+  if (doneSlides.has(cur)) { $('btnNextSlide').classList.add('go-glow'); return; }
+  doneSlides.add(cur);
+  $('btnNextSlide').classList.add('go-glow');
+  initDots();
+}
+
+/* audio progress bar (only for recorded files) */
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  seekSlider.value = Math.floor((audio.currentTime / audio.duration) * 1000);
+  $('currTime').textContent = fmt(audio.currentTime);
+  $('totTime').textContent = fmt(audio.duration);
+});
+function fmt(s) {
+  if (!s || isNaN(s)) return '0:00';
+  const m = Math.floor(s / 60), x = Math.floor(s % 60);
+  return `${m}:${x < 10 ? '0' : ''}${x}`;
+}
+
+/* =========================================================================
+   SLIDE RENDERING
+   ========================================================================= */
+function poseSrc(who) {
+  return `${LESSON.posesRoot}/${who.char}/${who.pose}`;
+}
+function imgTag(src, alt, cls) {
+  if (!src) return '';
+  return `<img src="${esc(src)}" alt="${esc(alt || '')}" class="${cls || ''}" draggable="false">`;
+}
+function itemPic(it) {
+  if (it.img) return `<div class="pic-frame">${imgTag(it.img, it.word)}</div>`;
+  if (it.pose) return `<div class="pic-frame pose">${imgTag(`${LESSON.posesRoot}/${it.pose}`, it.word)}</div>`;
+  return '';
+}
+
+function renderSlide(idx) {
+  clearTimeout(autoTimer);
+  Voice.stop();
+  cur = idx;
+  const s = LESSON.slides[idx];
+  slideState = {};
+  $('btnNextSlide').classList.remove('go-glow');
+  if (doneSlides.has(idx)) $('btnNextSlide').classList.add('go-glow');
+  initDots();
+  $('slideCounterBadge').textContent = `${idx + 1} / ${LESSON.slides.length}`;
+  seekSlider.value = 0;
+  $('currTime').textContent = '0:00';
+  $('totTime').textContent = '0:00';
+
+  if (s.bg) $('scenicBg').style.backgroundImage = `url('${s.bg}')`;
+  else $('scenicBg').style.backgroundImage = `url('${LESSON.bg}')`;
+
+  const story = s.type === 'story';
+  body.classList.toggle('story-mode', story);
+  charActorWrap.classList.toggle('minimized', story);
+  const right = !story && s.side === 'right';
+  body.classList.toggle('char-on-right', right);
+  charActorWrap.classList.toggle('right-side', right);
+  charImg.src = poseSrc(s.who);
+  charNameLabel.textContent = s.who.name;
+
+  area.innerHTML = '';
+  const fn = RENDER[s.type];
+  if (fn) fn(s); else area.innerHTML = `<div class="big-card"><p>Missing slide type: ${esc(s.type)}</p></div>`;
+
+  if (s.narration) Voice.play(s.narration, { narration: true });
+}
+
+const RENDER = {
+  cover(s) {
+    area.innerHTML = `
+      <div class="big-card bouncy">
+        ${s.img ? `<div class="word-focus-pic" style="width:420px;height:236px;">${imgTag(s.img, s.title)}</div>` : ICON.book}
+        <h1 style="font-size:58px;font-weight:800;color:#92400E;line-height:1.15;">${esc(s.title)}</h1>
+        <p style="font-size:26px;font-weight:700;color:#4B5563;">${esc(LESSON.label)}</p>
+        <div style="display:flex;flex-direction:column;gap:14px;text-align:left;background:#FFFBEB;padding:22px 34px;border-radius:22px;border:3px solid #FDE68A;width:100%;max-width:700px;">
+          <div style="font-size:22px;font-weight:800;color:#B45309;letter-spacing:1px;">TODAY I WILL...</div>
+          ${s.goals.map(g => `<div style="font-size:30px;font-weight:800;color:#78350F;display:flex;align-items:center;gap:12px;">${ICON.star}<span>${esc(g)}</span></div>`).join('')}
+        </div>
+        <button class="btn-dock amber" style="font-size:32px;padding:16px 56px;border-radius:26px;margin-top:6px;" onclick="sound.pop();nextSlide();">Let's Begin!</button>
+      </div>`;
+  },
+
+  cards(s) {
+    const n = s.items.length;
+    slideState.heard = new Set();
+    area.innerHTML = `
+      <div class="big-card ${s.theme || ''}">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <h2 class="card-title">${esc(s.title)}</h2>
+          <div class="pic-grid n${n}">
+            ${s.items.map((it, i) => `
+              <div class="pic-card ${it.img || it.pose ? '' : 'text-only'}" id="card${i}" style="animation-delay:${i * 0.12}s" onclick="tapCard(${i})">
+                ${itemPic(it)}
+                <div class="pic-word">${esc(it.word)}</div>
+                ${it.sub ? `<div class="pic-sub">${esc(it.sub)}</div>` : ''}
+                <div class="audio-tap-badge">${ICON.speaker.replace(/22/g, '15')} Tap</div>
+              </div>`).join('')}
+          </div>
+          <div class="progress-pips" id="pips">${s.items.map(() => '<span></span>').join('')}</div>
+        </div>
+      </div>`;
+  },
+
+  word(s) {
+    area.innerHTML = `
+      <div class="big-card ${s.theme || ''}">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <div class="word-focus-row">
+            ${s.img ? `<div class="word-focus-pic">${imgTag(s.img, s.word)}</div>` : ''}
+            <div>
+              <div class="giant-word" onclick="tapWord()" title="Tap to hear!">
+                <span>${esc(s.word)}</span>${ICON.speaker.replace(/22/g, '44')}
+              </div>
+              ${s.sub ? `<div class="word-sub-lang">${esc(s.sub)}</div>` : ''}
+            </div>
+          </div>
+          <div class="word-meaning-banner">${esc(s.mean)}</div>
+          ${s.model ? `<div class="model-sentence-box"><span style="color:#0D9488;">Say: </span>"${esc(s.model)}"</div>` : ''}
+        </div>
+      </div>`;
+  },
+
+  sentence(s) {
+    area.innerHTML = `
+      <div class="big-card teal-theme">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <h2 class="card-title">${esc(s.title)}</h2>
+          <div class="interactive-sentence-builder">
+            <span>${esc(s.pre)}</span>
+            <span class="blank-slot" id="targetSlot">______</span>
+            <span>${esc(s.post || '')}</span>
+          </div>
+          <div class="pic-grid n${s.options.length}">
+            ${s.options.map((o, i) => `
+              <div class="pic-card ${o.img || o.pose ? '' : 'text-only'}" id="card${i}" onclick="pickSentence(${i})">
+                ${itemPic(o)}
+                <div class="pic-word">${esc(o.word)}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  },
+
+  story(s) {
+    area.innerHTML = `
+      <div class="story-page">
+        ${imgTag(s.img, s.title, 'story-pic')}
+        ${s.page ? `<div class="page-badge">${esc(s.page)}</div>` : ''}
+        <div class="story-caption-overlay">
+          <div class="story-tag">${esc(s.title)}</div>
+          <div class="story-text">${s.lines.map((l, i) => `<span class="story-line" id="sl${i}">${esc(l)}</span>`).join('')}</div>
+        </div>
+      </div>`;
+  },
+
+  pick(s) {
+    slideState.round = 0;
+    area.innerHTML = `
+      <div class="big-card purple-theme">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <h2 class="card-title">${esc(s.title)}</h2>
+          <div id="pickRound" style="display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;"></div>
+          <div class="progress-pips" id="pips">${s.rounds.map(() => '<span></span>').join('')}</div>
+        </div>
+      </div>`;
+    drawPickRound(false);
+  },
+
+  order(s) {
+    slideState.next = 0;
+    slideState.shuffled = s.items.map((it, i) => i);
+    // deterministic shuffle so the first card is never already in place
+    slideState.shuffled.push(slideState.shuffled.shift());
+    if (s.items.length > 2) slideState.shuffled.reverse();
+    area.innerHTML = `
+      <div class="big-card purple-theme">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <h2 class="card-title">${esc(s.title)}</h2>
+          <div class="order-slots">${s.slots.map((l, i) => `<div class="order-slot" id="slot${i}">${i + 1}. ${esc(l)}</div>`).join('')}</div>
+          <div class="pic-grid n${s.items.length}">
+            ${slideState.shuffled.map((k) => {
+              const it = s.items[k];
+              return `<div class="pic-card" id="ord${k}" onclick="tapOrder(${k})">${itemPic(it)}<div class="pic-sub" style="color:#1F2937;font-size:22px;">${esc(it.word)}</div></div>`;
+            }).join('')}
+          </div>
+          <div class="feedback-line" id="feedback"></div>
+        </div>
+      </div>`;
+  },
+
+  act(s) {
+    slideState.step = 0;
+    area.innerHTML = `
+      <div class="big-card ${s.simon ? 'purple-theme' : ''}">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <h2 class="card-title">${esc(s.title)}</h2>
+          <div id="actBox"></div>
+          <div class="feedback-line" id="feedback"></div>
+          <div class="progress-pips" id="pips">${s.cmds.map(() => '<span></span>').join('')}</div>
+        </div>
+      </div>`;
+    s.onNarrationEnd = () => { if (cur === LESSON.slides.indexOf(s) && slideState.step === 0 && !slideState.started) { slideState.started = true; drawAct(true); } };
+    drawAct(false);
+  },
+
+  chant(s) {
+    slideState.heard = new Set();
+    area.innerHTML = `
+      <div class="big-card">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <h2 class="card-title">${esc(s.title)}</h2>
+          <div style="display:flex;gap:30px;align-items:center;width:100%;justify-content:center;">
+            ${s.img ? `<div class="word-focus-pic" style="width:300px;height:300px;flex-shrink:0;">${imgTag(s.img, s.title)}</div>` : ''}
+            <div class="chant-lines">
+              ${s.lines.map((l, i) => `<div class="chant-line" id="cl${i}" onclick="tapChant(${i})"><span class="note-ic">${ICON.note}</span><span>${esc(l.text)}</span></div>`).join('')}
+            </div>
+          </div>
+          <button class="big-btn amber" onclick="chantAll()">${ICON.play} ${esc(s.allLabel || 'Say it all together!')}</button>
+        </div>
+      </div>`;
+  },
+
+  talk(s) {
+    const frame = esc(s.frame).replace(/_{3,}/g, '<span class="gap"></span>');
+    area.innerHTML = `
+      <div class="big-card teal-theme">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <h2 class="card-title">${esc(s.title)}</h2>
+          ${s.img ? `<div class="word-focus-pic" style="height:220px;width:340px;">${imgTag(s.img, s.title)}</div>` : ''}
+          <div class="talk-frame">${frame}</div>
+          ${s.example ? `<div class="talk-example"><button class="hear-btn" onclick="hearExample()">${ICON.speaker}</button><span>${esc(s.example.label || 'Listen to Tala')}: "${esc(s.example.text)}"</span></div>` : ''}
+          <button class="big-btn green" onclick="saidIt(this)">${ICON.mic} I said it!</button>
+        </div>
+      </div>`;
+  },
+
+  langs(s) {
+    slideState.heard = new Set();
+    area.innerHTML = `
+      <div class="big-card teal-theme">
+        <div class="interactive-zone locked" id="interactiveZone">
+          ${phaseBadgeHTML(s)}
+          <h2 class="card-title">${esc(s.title)}</h2>
+          <div class="lang-grid">
+            ${s.items.map((it, i) => `<div class="lang-card" id="card${i}" style="animation-delay:${i * 0.12}s" onclick="tapLang(${i})"><div class="lang-name">${esc(it.lang)}</div><div class="lang-word">${esc(it.word)}</div><div class="audio-tap-badge">${ICON.speaker.replace(/22/g, '15')} Tap</div></div>`).join('')}
+          </div>
+          <div class="same-meaning">${s.img ? imgTag(s.img, s.meaning) : ''}<span>${esc(s.meaning)}</span></div>
+        </div>
+      </div>`;
+  },
+
+  verse(s) {
+    area.innerHTML = `
+      <div class="verse-card bouncy">
+        ${s.img ? `<div class="word-focus-pic" style="width:380px;height:214px;">${imgTag(s.img, s.ref)}</div>` : ICON.heart}
+        <div class="verse-text">"${esc(s.verse)}"</div>
+        <div class="verse-ref">${esc(s.ref)}</div>
+        <p style="font-size:30px;font-weight:700;color:#92400E;max-width:760px;line-height:1.35;">${esc(s.meaning)}</p>
+        <button class="btn-dock amber" style="font-size:24px;padding:12px 30px;border-radius:20px;margin-top:6px;" onclick="sayVerse()">${ICON.speaker} Say it with me</button>
+      </div>`;
+  },
+
+  celebrate(s) {
+    area.innerHTML = `
+      <div class="celebrate-card">
+        ${ICON.trophy}
+        <h2>${esc(s.title)}</h2>
+        <div class="recap-list">${s.recap.map(r => `<div>${ICON.star}<span>${esc(r)}</span></div>`).join('')}</div>
+        <div style="font-size:40px;font-weight:800;color:#92400E;background:#FEF3C7;padding:12px 36px;border-radius:26px;border:4px solid #F59E0B;display:flex;align-items:center;gap:12px;">
+          ${ICON.star.replace(/22/g, '36')}<span>My Stars: ${stars}</span>
+        </div>
+        <div style="display:flex;gap:18px;margin-top:8px;">
+          <button class="btn-dock amber" style="font-size:26px;padding:16px 38px;border-radius:22px;" onclick="goToSlide(0)">Play Again</button>
+          ${LESSON.nextHref ? `<button class="btn-dock primary" style="font-size:26px;padding:16px 38px;border-radius:22px;" onclick="location.href='${esc(LESSON.nextHref)}'">Next Lesson</button>` : ''}
+        </div>
+      </div>`;
+    sound.cheer();
+    if (window.confetti) confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
+  }
+};
+
+/* =========================================================================
+   INTERACTIONS
+   ========================================================================= */
+function S() { return LESSON.slides[cur]; }
+function turnOn() { setPhase(false); }
+function pip(i) { const p = document.querySelectorAll('#pips span')[i]; if (p) p.classList.add('on'); }
+function speakingCard(id) {
+  document.querySelectorAll('.speaking').forEach(c => c.classList.remove('speaking'));
+  const el = $(id); if (el) el.classList.add('speaking');
+}
+
+function tapCard(i) {
+  const s = S(); const it = s.items[i];
+  turnOn(); sound.pop(); speakingCard('card' + i);
+  Voice.play(it.clip);
+  if (!slideState.heard.has(i)) {
+    slideState.heard.add(i);
+    $('card' + i).classList.add('done');
+    pip(i); addStar();
+    if (slideState.heard.size === s.items.length) setTimeout(markDone, 600);
+  }
+}
+
+function tapWord() {
+  const s = S();
+  turnOn(); Voice.play(s.clip);
+  if (!slideState.tapped) { slideState.tapped = true; addStar(); markDone(); }
+}
+
+function pickSentence(i) {
+  const s = S(); const o = s.options[i];
+  turnOn();
+  const slot = $('targetSlot');
+  slot.textContent = o.word; slot.classList.add('filled');
+  document.querySelectorAll('.pic-card').forEach(c => c.classList.remove('done'));
+  $('card' + i).classList.add('done');
+  Voice.play(o.clip);
+  addStar(); markDone();
+}
+
+function drawPickRound(withVoice) {
+  const s = S(); const r = s.rounds[slideState.round];
+  const box = $('pickRound');
+  slideState.tries = 0;
+  box.innerHTML = `
+    <div class="ask-line"><button class="hear-btn" onclick="hearAsk()">${ICON.speaker}</button><span>${esc(r.ask)}</span></div>
+    <div class="pic-grid n${r.choices.length}">
+      ${r.choices.map((c, i) => `<div class="pic-card ${c.img || c.pose ? '' : 'text-only'}" id="ch${i}" style="animation-delay:${i * 0.1}s" onclick="tapPick(${i})">${itemPic(c)}<div class="pic-word">${esc(c.word)}</div></div>`).join('')}
+    </div>
+    <div class="feedback-line" id="feedback"></div>`;
+  if (withVoice) Voice.play(r.clip);
+}
+function hearAsk() { const r = S().rounds[slideState.round]; turnOn(); Voice.play(r.clip); }
+function tapPick(i) {
+  const s = S(); const r = s.rounds[slideState.round]; const c = r.choices[i];
+  turnOn();
+  if (slideState.locked) return;
+  const card = $('ch' + i); const fb = $('feedback');
+  if (c.ok) {
+    slideState.locked = true;
+    card.classList.add('right');
+    fb.className = 'feedback-line'; fb.textContent = r.yes || 'Yes! Great job!';
+    pip(slideState.round); addStar();
+    Voice.play(r.yesClip || fx('good'), {
+      onend: () => {
+        if (S() !== s) return;
+        slideState.locked = false;
+        if (slideState.round < s.rounds.length - 1) { slideState.round++; drawPickRound(true); }
+        else markDone();
+      }
+    });
+  } else {
+    slideState.tries++;
+    sound.soft();
+    card.classList.remove('wobble'); void card.offsetWidth; card.classList.add('wobble');
+    fb.className = 'feedback-line hint'; fb.textContent = r.hint || 'Almost! Try again.';
+    Voice.play(r.hintClip || fx('try'));
+  }
+}
+
+function tapOrder(k) {
+  const s = S();
+  turnOn();
+  const card = $('ord' + k); const fb = $('feedback');
+  if (card.classList.contains('done')) return;
+  if (k === slideState.next) {
+    card.classList.add('done');
+    card.insertAdjacentHTML('beforeend', `<div class="order-num">${k + 1}</div>`);
+    const slot = $('slot' + k); slot.classList.add('filled'); slot.textContent = `${k + 1}. ${s.items[k].word}`;
+    addStar();
+    Voice.play(s.items[k].clip);
+    slideState.next++;
+    fb.className = 'feedback-line'; fb.textContent = '';
+    if (slideState.next === s.items.length) {
+      fb.textContent = s.yes || 'You put the story in order!';
+      setTimeout(() => { if (S() === s) Voice.play(s.yesClip || fx('good')); markDone(); }, 1600);
+    }
+  } else {
+    sound.soft();
+    card.classList.remove('wobble'); void card.offsetWidth; card.classList.add('wobble');
+    fb.className = 'feedback-line hint';
+    fb.textContent = `${s.ask[slideState.next]}`;
+    Voice.play(s.askClips[slideState.next]);
+  }
+}
+
+function drawAct(withVoice) {
+  const s = S(); const c = s.cmds[slideState.step];
+  const box = $('actBox'); const fb = $('feedback');
+  if (fb) { fb.textContent = ''; fb.className = 'feedback-line'; }
+  slideState.locked = false;
+  box.innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
+      <div class="act-card" onclick="hearCmd()">
+        ${itemPic(c)}
+        <div class="act-cmd">${s.simon && c.simon ? '<span class="simon-tag">Simon says...</span><br>' : ''}${esc(c.word)}${c.sub ? `<small>${esc(c.sub)}</small>` : ''}</div>
+      </div>
+      <div class="big-btn-row">
+        ${s.simon
+          ? `<button class="big-btn green" onclick="actAnswer(true)">${ICON.check} I did it!</button>
+             <button class="big-btn gray" onclick="actAnswer(false)">${ICON.stop} I stayed still!</button>`
+          : `<button class="big-btn green" onclick="actAnswer(true)">${ICON.check} I did it!</button>`}
+      </div>
+    </div>`;
+  if (withVoice) Voice.play(c.clip);
+}
+function hearCmd() { const c = S().cmds[slideState.step]; turnOn(); Voice.play(c.clip); }
+function actAnswer(didIt) {
+  const s = S(); const c = s.cmds[slideState.step];
+  turnOn();
+  if (slideState.locked) return;
+  slideState.started = true;
+  const shouldDo = s.simon ? !!c.simon : true;
+  const fb = $('feedback');
+  if (didIt === shouldDo) {
+    slideState.locked = true;
+    pip(slideState.step); addStar();
+    fb.className = 'feedback-line';
+    fb.textContent = s.simon ? (shouldDo ? 'Yes! Simon said it!' : 'Good listening! You stayed still!') : 'Great moving!';
+    Voice.play(s.simon && !shouldDo ? fx('still') : fx('good'), {
+      onend: () => {
+        if (S() !== s) return;
+        if (slideState.step < s.cmds.length - 1) { slideState.step++; drawAct(true); }
+        else markDone();
+      }
+    });
+  } else {
+    sound.soft();
+    fb.className = 'feedback-line hint';
+    fb.textContent = shouldDo ? 'Simon said it! Do it!' : 'Oops! Simon did not say it.';
+    Voice.play(shouldDo ? fx('doit') : fx('oops'));
+  }
+}
+
+function tapChant(i) {
+  const s = S();
+  turnOn();
+  document.querySelectorAll('.chant-line').forEach(c => c.classList.remove('now'));
+  const el = $('cl' + i); el.classList.add('now');
+  Voice.play(s.lines[i].clip, { onend: () => el.classList.remove('now') });
+  if (!slideState.heard.has(i)) {
+    slideState.heard.add(i); el.classList.add('done'); addStar();
+    if (slideState.heard.size === s.lines.length) markDone();
+  }
+}
+function chantAll() {
+  const s = S();
+  turnOn();
+  let i = 0;
+  const step = () => {
+    if (S() !== s || i >= s.lines.length) { if (S() === s) { addStar(); markDone(); } return; }
+    document.querySelectorAll('.chant-line').forEach(c => c.classList.remove('now'));
+    const el = $('cl' + i); el.classList.add('now', 'done');
+    slideState.heard.add(i);
+    const k = i; i++;
+    Voice.play(s.lines[k].clip, { onend: step });
+  };
+  step();
+}
+
+function hearExample() { const s = S(); turnOn(); Voice.play(s.example.clip); }
+function saidIt(btn) {
+  turnOn();
+  addStar();
+  btn.innerHTML = `${ICON.check} Great talking!`;
+  Voice.play(fx('good'));
+  markDone();
+}
+
+function tapLang(i) {
+  const s = S(); const it = s.items[i];
+  turnOn(); speakingCard('card' + i);
+  Voice.play(it.clip);
+  if (!slideState.heard.has(i)) {
+    slideState.heard.add(i); $('card' + i).classList.add('done'); addStar();
+    if (slideState.heard.size === s.items.length) setTimeout(markDone, 600);
+  }
+}
+
+function sayVerse() { const s = S(); Voice.play(s.verseClip || s.narration); if (!slideState.v) { slideState.v = 1; addStar(); } }
+
+/* =========================================================================
+   NAVIGATION
+   ========================================================================= */
+function goToSlide(i) { sound.pop(); renderSlide(i); }
+function prevSlide() { if (cur > 0) goToSlide(cur - 1); }
+function nextSlide() { if (cur < LESSON.slides.length - 1) goToSlide(cur + 1); }
+function replayAudio() { sound.pop(); const s = S(); if (s.narration) Voice.play(s.narration, { narration: true }); }
+function setPlayPauseUI(paused) {
+  $('svgPlayPause').innerHTML = paused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+  $('txtPlayPause').textContent = paused ? 'Play' : 'Pause';
+}
+function togglePlayPause() {
+  sound.pop();
+  if (Voice.mode === 'file') { if (audio.paused) audio.play().catch(() => {}); else audio.pause(); return; }
+  if (Voice.mode === 'tts') {
+    if (speechSynthesis.paused) { speechSynthesis.resume(); setPlayPauseUI(false); }
+    else { speechSynthesis.pause(); setPlayPauseUI(true); }
+    return;
+  }
+  replayAudio();
+}
+function onSeekChange(v) { if (Voice.mode === 'file' && audio.duration) audio.currentTime = (v / 1000) * audio.duration; }
+function toggleAutoAdvance() {
+  sound.pop();
+  isAutoAdvance = !isAutoAdvance;
+  const b = $('btnAutoAdvance');
+  b.textContent = isAutoAdvance ? 'Auto: ON' : 'Auto: OFF';
+  b.classList.toggle('primary', isAutoAdvance);
+}
+function toggleMute() { sound.muted = !sound.muted; $('btnSoundMute').style.opacity = sound.muted ? 0.5 : 1; }
+function toggleFullscreen() {
+  sound.pop();
+  if (!document.fullscreenElement) stagewrap.requestFullscreen().catch(() => {});
+  else document.exitFullscreen().catch(() => {});
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); nextSlide(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prevSlide(); }
+  else if (e.key === ' ') { e.preventDefault(); togglePlayPause(); }
+  else if (e.key.toLowerCase() === 'r') { e.preventDefault(); replayAudio(); }
+});
+
+/* START: wait for one tap so the browser lets us play sound */
+function startLesson() {
+  sound.init();
+  $('startOverlay').classList.add('gone');
+  renderSlide(0);
+}
+initDots();
+$('slideCounterBadge').textContent = `1 / ${LESSON.slides.length}`;
+charImg.src = poseSrc(LESSON.slides[0].who);
+$('scenicBg').style.backgroundImage = `url('${LESSON.bg}')`;
+
+  </script>
+</body>
+</html>
