@@ -1749,6 +1749,8 @@ const LESSON = {
     "Tell a story in order",
     "Talk about MY morning"
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "id": "s01",
    "who": {
     "char": "TALA",
@@ -1771,6 +1773,7 @@ const LESSON = {
     {
      "word": "wake up",
      "img": "media/image1.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/words-1",
       "t": "Wake up. (pause) We open our eyes."
@@ -1787,6 +1790,7 @@ const LESSON = {
     {
      "word": "get dressed",
      "img": "media/image5.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/words-3",
       "t": "Get dressed. (pause) We put on our clothes."
@@ -1831,6 +1835,7 @@ const LESSON = {
      "word": "Wake up!",
      "sub": "Stretch your arms.",
      "img": "media/image1.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/act-1",
       "t": "Wake up! (pause) Stretch your arms up high!"
@@ -1849,6 +1854,7 @@ const LESSON = {
      "word": "Get dressed!",
      "sub": "Button your shirt.",
      "img": "media/image5.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/act-3",
       "t": "Get dressed! (pause) Button your shirt."
@@ -1896,7 +1902,8 @@ const LESSON = {
      "choices": [
       {
        "word": "wake up",
-       "img": "media/image1.jpg"
+       "img": "media/image1.jpg",
+       "artPending": true
       },
       {
        "word": "brush teeth",
@@ -1905,7 +1912,8 @@ const LESSON = {
       },
       {
        "word": "get dressed",
-       "img": "media/image5.jpg"
+       "img": "media/image5.jpg",
+       "artPending": true
       }
      ],
      "clip": {
@@ -1940,11 +1948,13 @@ const LESSON = {
      "choices": [
       {
        "word": "get dressed",
-       "img": "media/image5.jpg"
+       "img": "media/image5.jpg",
+       "artPending": true
       },
       {
        "word": "wake up",
-       "img": "media/image1.jpg"
+       "img": "media/image1.jpg",
+       "artPending": true
       },
       {
        "word": "take a bath",
@@ -1981,6 +1991,7 @@ const LESSON = {
     "They wake up early.",
     "It is time for school!"
    ],
+   "artPending": true,
    "who": {
     "char": "TALA",
     "pose": "holding_book.png",
@@ -1998,12 +2009,13 @@ const LESSON = {
    "goal": 2,
    "title": "Story: Before Going to School",
    "page": "Page 2",
-   "img": "media/image30.jpg",
    "lines": [
     "They take a bath.",
     "They get dressed.",
     "They eat breakfast."
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "holding_book.png",
@@ -2027,12 +2039,13 @@ const LESSON = {
      "choices": [
       {
        "word": "went to sleep",
-       "img": "media/image1.jpg"
+       "artPending": true
       },
       {
        "word": "got dressed",
        "img": "media/image5.jpg",
-       "ok": true
+       "ok": true,
+       "artPending": true
       }
      ],
      "yes": "Yes! They got dressed.",
@@ -2063,12 +2076,13 @@ const LESSON = {
    "goal": 2,
    "title": "Story: Before Going to School",
    "page": "Page 3",
-   "img": "media/image18.png",
    "lines": [
     "Oh no!",
-    "The pencil is missing!",
-    "The crayons are missing!"
+    "Bunso's pencil is missing!",
+    "Tala's crayons are missing!"
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "holding_book.png",
@@ -2081,17 +2095,60 @@ const LESSON = {
    }
   },
   {
+   "id": "feel",
+   "type": "pick",
+   "goal": 2,
+   "title": "How Do They Feel?",
+   "yourTurn": "Tap the feeling!",
+   "rounds": [
+    {
+     "ask": "They feel...",
+     "choices": [
+      {
+       "word": "worried",
+       "pose": "TALA/sad.png",
+       "ok": true
+      },
+      {
+       "word": "happy",
+       "pose": "TALA/laughing.png"
+      }
+     ],
+     "yes": "Yes! They feel worried.",
+     "clip": {
+      "a": "speech/feel-q1",
+      "t": "How do Tala and Bunso feel now?"
+     },
+     "yesClip": {
+      "a": "speech/feel-q1-yes",
+      "t": "Yes! They feel worried. (pause) Have you ever lost something?"
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "sad.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/feel",
+    "t": "Their things are missing. (pause) How do Tala and Bunso feel?"
+   }
+  },
+  {
    "id": "story4",
    "type": "story",
    "goal": 2,
    "title": "Story: Before Going to School",
    "page": "Page 4",
-   "img": "media/image20.png",
    "lines": [
-    "Nanay helps them look.",
-    "Under the bed!",
-    "Thank you, Nanay!"
+    "Tatay says, \"Hurry up!\"",
+    "Nanay says, \"I will help you look.\"",
+    "They look here. They look there."
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "holding_book.png",
@@ -2100,7 +2157,54 @@ const LESSON = {
    "passive": true,
    "narration": {
     "a": "speech/story4",
-    "t": "Nanay says, I will help you look. (pause) They look here. They look there. (pause) Look! Under the bed! (pause) Thank you, Nanay!"
+    "t": "Tatay calls, hurry up, or you will be late! (pause) Nanay says, I will help you look. (pause) They look here. (pause) They look there."
+   }
+  },
+  {
+   "id": "story5",
+   "type": "story",
+   "goal": 2,
+   "title": "Story: Before Going to School",
+   "page": "Page 5",
+   "lines": [
+    "Look! Under the bed!",
+    "The pencil and the crayons!",
+    "\"Thank you, Nanay!\""
+   ],
+   "artPending": true,
+   "img": "media/image1.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/story5",
+    "t": "And then. (pause) Look! (pause) Under the bed! (pause) There is the pencil. (pause) And there are the crayons! (pause) Thank you, Nanay!"
+   }
+  },
+  {
+   "id": "story6",
+   "type": "story",
+   "goal": 2,
+   "title": "Story: Before Going to School",
+   "page": "Page 6",
+   "lines": [
+    "Nanay says,",
+    "\"Put your things away before you sleep.\""
+   ],
+   "artPending": true,
+   "img": "media/image1.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/story6",
+    "t": "Nanay smiles. (pause) Next time, she says, (pause) put your things away before you sleep. (pause) Tala and Bunso say, yes, Nanay!"
    }
   },
   {
@@ -2117,7 +2221,7 @@ const LESSON = {
    "items": [
     {
      "word": "They got ready.",
-     "img": "media/image30.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/order-1",
       "t": "First, they got ready for school."
@@ -2125,7 +2229,7 @@ const LESSON = {
     },
     {
      "word": "Things were missing.",
-     "img": "media/image18.png",
+     "artPending": true,
      "clip": {
       "a": "speech/order-2",
       "t": "Next, the pencil and crayons were missing."
@@ -2133,7 +2237,7 @@ const LESSON = {
     },
     {
      "word": "They found them!",
-     "img": "media/under-bed.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/order-3",
       "t": "Last, they found them under the bed!"
@@ -2213,14 +2317,17 @@ const LESSON = {
      "ask": "Where were the things?",
      "choices": [
       {
-       "word": "in the bag"
+       "word": "in the bag",
+       "artPending": true
       },
       {
        "word": "under the bed",
-       "ok": true
+       "ok": true,
+       "img": "media/under-bed.jpg"
       },
       {
-       "word": "on the table"
+       "word": "on the table",
+       "artPending": true
       }
      ],
      "yes": "Yes! Under the bed!",
@@ -2257,6 +2364,7 @@ const LESSON = {
     {
      "word": "wake up",
      "img": "media/image1.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/my-morning-1",
       "t": "In the morning, I wake up."
@@ -2313,6 +2421,8 @@ const LESSON = {
      "t": "First, I wake up. Next, I eat breakfast."
     }
    },
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "talking.png",
@@ -2330,6 +2440,8 @@ const LESSON = {
    "verse": "Honor your father and your mother.",
    "ref": "Exodus 20:12",
    "meaning": "Listen to Nanay and Tatay. Say thank you when they help you.",
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "praying.png",
@@ -2755,7 +2867,7 @@ const RENDER = {
   cover(s) {
     area.innerHTML = `
       <div class="big-card bouncy">
-        ${ICON.book}
+        ${s.img ? `<div class="word-focus-pic" style="width:420px;height:236px;">${imgTag(s.img, s.title)}</div>` : ICON.book}
         <h1 style="font-size:58px;font-weight:800;color:#92400E;line-height:1.15;">${esc(s.title)}</h1>
         <p style="font-size:26px;font-weight:700;color:#4B5563;">${esc(LESSON.label)}</p>
         <div style="display:flex;flex-direction:column;gap:14px;text-align:left;background:#FFFBEB;padding:22px 34px;border-radius:22px;border:3px solid #FDE68A;width:100%;max-width:700px;">
@@ -2946,7 +3058,7 @@ const RENDER = {
   verse(s) {
     area.innerHTML = `
       <div class="verse-card bouncy">
-        ${ICON.heart}
+        ${s.img ? `<div class="word-focus-pic" style="width:380px;height:214px;">${imgTag(s.img, s.ref)}</div>` : ICON.heart}
         <div class="verse-text">"${esc(s.verse)}"</div>
         <div class="verse-ref">${esc(s.ref)}</div>
         <p style="font-size:30px;font-weight:700;color:#92400E;max-width:760px;line-height:1.35;">${esc(s.meaning)}</p>

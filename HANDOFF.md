@@ -51,9 +51,30 @@ holding_book, talking, thinking, brushing, eating, sitting, walking, laughing, l
 Activity types: `cover, cards, word, sentence, story, pick, order, act (simon=True for Simon Says), chant, talk,
 langs, verse, celebrate`. Copy any rebuilt lesson as the template.
 
+## Owner feedback round 2 (must apply to every lesson)
+- "The images don't support the lesson" → **every part of every lesson needs a picture that shows exactly what is
+  being said**: cover, every story page, every word card, every check choice, the talk slide, the verse.
+  `build.py` now fails a slide without a picture. If no existing picture truly matches, add an `art` prompt
+  (never reuse an unrelated picture; a pending prompt shows the lesson background as a neutral placeholder).
+- "The stories aren't complete" → tell the **whole** story from the DepEd source, one picture per story beat
+  (beginning, problem, what they do, ending, lesson). Put a quick check every 2–3 pages.
+- All prompts: `IMAGE_PROMPTS_ALL.md` (repo root, one table) and `IMAGE_PROMPTS.md` per lesson.
+
+## Grade 1–3 picture audit (requested, NOT done yet)
+Owner asked to audit **all Grade 1–3 lessons** and list which pictures must be generated. Scale: 3 grades ×
+4 quarters × 8 weeks × 4 days ≈ 384 lessons. Do it per week, in this order: G1 Q1 → G1 Q2–Q4 → G2 → G3.
+For each lesson:
+1. Read the DepEd source (Drive search `LANG{g}Q{q}W{w}` slides / narration scripts) or, if none, the existing
+   `INTERACTIVE/index.html` lesson data, and list its beats (words taught, story pages, checks).
+2. Contact-sheet that lesson's `INTERACTIVE/media` (skip `._*`); mark each beat: real picture that matches /
+   needs a new picture.
+3. Write the lesson file in `tools/lessons/` with `art` prompts for every gap (even if the lesson is not yet
+   rebuilt, the prompts go into IMAGE_PROMPTS_ALL.md so pictures can be generated in bulk).
+Reuse shared art across lessons (e.g. `turtle-card`, body parts, question words) instead of making duplicates.
+
 ## The 6-year-old rules (enforced by build.py)
 
-- 10–18 slides; cover first; Bible verse then celebration last (school is faith-based; keep the day's verse).
+- 10–20 slides (20 only for two-story days); cover first; Bible verse then celebration last (school is faith-based; keep the day's verse).
 - 2–3 goals on the cover, ≤7 words each, written as "I can…" child actions; every goal tagged on ≥1 slide.
 - ≥6 hands-on slides, ≥2 understanding checks (`pick`/`order`), never >3 listen-only slides in a row
   (put a quick `pick` in the middle of a story).

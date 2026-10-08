@@ -54,26 +54,33 @@ Source: LANG1Q1W2DAY2LESSON — Following Instructions & Asking Questions (Prove
 ### 8. Katkat the Kitten — story (Kuya Gas)
 > On Saturday morning, Katkat looks for his ball. (pause) His ball has a bell. (pause) Oh no! (pause) It is missing! (pause) Where is it?
 
-### 9. Katkat the Kitten — story (Kuya Gas)
+### 9. How Does Katkat Feel? — pick (Kuya Gas)
+> His ball is missing. (pause) How does Katkat feel?
+- check: Katkat feels... → **sad**
+
+### 10. Katkat the Kitten — story (Kuya Gas)
+> Katkat looks everywhere. (pause) He looks in the garden. (pause) He looks near the mango tree. (pause) Look! (pause) Who is that?
+
+### 11. Katkat the Kitten — story (Kuya Gas)
 > Katkat looks in the garden, near the mango tree. (pause) A white kitten has his ball! (pause) She gives it back. (pause) Now they are friends!
 
-### 10. Ask About the Story! — pick (Kuya Gas)
+### 12. Ask About the Story! — pick (Kuya Gas)
 > Let us ask questions about the story. (pause) Listen to each question!
 - check: WHO is the story about? → **Katkat**
 - check: WHAT did Katkat lose? → **his ball**
 - check: WHERE did he find it? → **in the garden**
 
-### 11. Now YOU Ask a Question! — sentence (Kuya Gas)
+### 13. Now YOU Ask a Question! — sentence (Kuya Gas)
 > Now you ask! (pause) Tap a question. (pause) Then ask someone at home.
 - tap **Who is your best friend?** → "Who is your best friend?"
 - tap **What is your favorite toy?** → "What is your favorite toy?"
 - tap **Where do you want to go?** → "Where do you want to go?"
 
-### 12. Answer Like Katkat! — talk (Kuya Gas)
+### 14. Answer Like Katkat! — talk (Kuya Gas)
 > Now answer a question. (pause) What is your favorite toy? (pause) Say: My favorite toy is my ball.
 
-### 13. verse — verse (Kuya Gas)
+### 15. verse — verse (Kuya Gas)
 > Our Bible verse is, (pause) Train up a child in the way he should go. (pause) We listen to our parents and teachers. (pause) That is how we grow!
 
-### 14. Super Listener! — celebrate (Kuya Gas)
+### 16. Super Listener! — celebrate (Kuya Gas)
 > Hooray! (pause) You followed directions. (pause) You learned who, what and where. (pause) And you asked questions about Katkat. (pause) See you tomorrow!

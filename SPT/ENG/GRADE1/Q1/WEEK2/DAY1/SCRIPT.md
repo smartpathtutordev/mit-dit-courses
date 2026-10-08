@@ -41,29 +41,35 @@ Source: LANG1Q1W2DAY1LESSON — Street Names and Landmarks (Colossians 3:23)
 > Next, Miko walks on Likas Street. (pause) Likas means nature. (pause) Look! (pause) So many trees and plants!
 
 ### 8. Miko and the Streets — story (Tala)
+> On Likas Street, Aling Nena has a little store. (pause) She gives Miko his favorite rice cake. (pause) Thank you, Aling Nena!
+
+### 9. Miko and the Streets — story (Tala)
 > Last, Miko stands on the Bridge of Hope. (pause) He sees the river and the trees. (pause) He thinks about his dreams.
 
-### 9. Think About the Story — pick (Tala)
+### 10. Think About the Story — pick (Tala)
 > Let us think about the story.
 - check: Who is in the story? → **Miko**
 - check: Where does Miko live? → **Barangay Masaya**
 
-### 10. Where Did Miko Go? — order (Tala)
+### 11. Where Did Miko Go? — order (Tala)
 > Where did Miko walk? (pause) Tap the places in order. (pause) First. (pause) Next. (pause) Last.
 - tap **Bayani Street** → "First, Bayani Street."
 - tap **Likas Street** → "Next, Likas Street."
 - tap **Bridge of Hope** → "Last, the Bridge of Hope."
 
-### 11. Why This Name? — pick (Tala)
+### 12. Names Tell a Story! — story (Tala)
+> This happens in real life too! (pause) Ate Hinhin says, we have Rizal Street. (pause) It is named after Jose Rizal, our national hero. (pause) Bunso says, and Mango Street has many mango trees!
+
+### 13. Why This Name? — pick (Tala)
 > A name can tell us about a place. (pause) Let us guess!
 - check: Many mango trees grow here. Name it... → **Mango Street**
 - check: Likas means nature. Likas Street has... → **many trees**
 
-### 12. Tell Me About Your Place! — talk (Tala)
+### 14. Tell Me About Your Place! — talk (Tala)
 > Now, tell me about your place. (pause) What is the name of your barangay? (pause) Say: I live in Barangay Masaya. (pause) Use your own barangay!
 
-### 13. verse — verse (Tala)
+### 15. verse — verse (Tala)
 > Our Bible verse is, (pause) Whatever you do, work at it with all your heart. (pause) That means, always do your best!
 
-### 14. Great Exploring! — celebrate (Tala)
+### 16. Great Exploring! — celebrate (Tala)
 > Hooray! (pause) You learned four place words. (pause) You followed Miko's walk. (pause) And you know why places have names. (pause) See you tomorrow!

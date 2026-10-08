@@ -1749,6 +1749,8 @@ const LESSON = {
     "Use who, what, where",
     "Ask about a story"
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "id": "s01",
    "who": {
     "char": "KUYA",
@@ -1833,11 +1835,12 @@ const LESSON = {
    "type": "story",
    "goal": 1,
    "title": "How to Play Simon Says",
-   "img": "media/image1.jpg",
    "lines": [
     "Hear \"Simon says\"? Do it!",
     "No \"Simon says\"? Stay still!"
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "KUYA",
     "pose": "talking.png",
@@ -1934,6 +1937,7 @@ const LESSON = {
      "word": "Who?",
      "sub": "a person",
      "img": "media/q-who.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/qwords-1",
       "t": "Who. (pause) Who is for a person. (pause) Who is your friend?"
@@ -1943,6 +1947,7 @@ const LESSON = {
      "word": "What?",
      "sub": "a thing",
      "img": "media/q-what.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/qwords-2",
       "t": "What. (pause) What is for a thing. (pause) What is your toy?"
@@ -1952,6 +1957,7 @@ const LESSON = {
      "word": "Where?",
      "sub": "a place",
      "img": "media/q-where.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/qwords-3",
       "t": "Where. (pause) Where is for a place. (pause) Where is your school?"
@@ -1981,13 +1987,19 @@ const LESSON = {
      "choices": [
       {
        "word": "Who?",
-       "ok": true
+       "ok": true,
+       "img": "media/q-who.jpg",
+       "artPending": true
       },
       {
-       "word": "What?"
+       "word": "What?",
+       "img": "media/q-what.jpg",
+       "artPending": true
       },
       {
-       "word": "Where?"
+       "word": "Where?",
+       "img": "media/q-where.jpg",
+       "artPending": true
       }
      ],
      "yes": "Yes! WHO is for a person.",
@@ -2004,14 +2016,20 @@ const LESSON = {
      "ask": "For a PLACE, we ask...",
      "choices": [
       {
-       "word": "Who?"
+       "word": "Who?",
+       "img": "media/q-who.jpg",
+       "artPending": true
       },
       {
-       "word": "What?"
+       "word": "What?",
+       "img": "media/q-what.jpg",
+       "artPending": true
       },
       {
        "word": "Where?",
-       "ok": true
+       "ok": true,
+       "img": "media/q-where.jpg",
+       "artPending": true
       }
      ],
      "yes": "Yes! WHERE is for a place.",
@@ -2028,14 +2046,20 @@ const LESSON = {
      "ask": "For a THING, we ask...",
      "choices": [
       {
-       "word": "Who?"
+       "word": "Who?",
+       "img": "media/q-who.jpg",
+       "artPending": true
       },
       {
        "word": "What?",
-       "ok": true
+       "ok": true,
+       "img": "media/q-what.jpg",
+       "artPending": true
       },
       {
-       "word": "Where?"
+       "word": "Where?",
+       "img": "media/q-where.jpg",
+       "artPending": true
       }
      ],
      "yes": "Yes! WHAT is for a thing.",
@@ -2105,11 +2129,76 @@ const LESSON = {
    }
   },
   {
+   "id": "k-feel",
+   "type": "pick",
+   "goal": 3,
+   "title": "How Does Katkat Feel?",
+   "yourTurn": "Tap the feeling!",
+   "rounds": [
+    {
+     "ask": "Katkat feels...",
+     "choices": [
+      {
+       "word": "sad",
+       "img": "media/image30.jpg",
+       "ok": true
+      },
+      {
+       "word": "happy",
+       "img": "media/image31.jpg"
+      }
+     ],
+     "yes": "Yes! Katkat feels sad.",
+     "clip": {
+      "a": "speech/k-feel-q1",
+      "t": "Katkat lost his ball. How does he feel?"
+     },
+     "yesClip": {
+      "a": "speech/k-feel-q1-yes",
+      "t": "Yes! Katkat feels sad. (pause) Let us help him look!"
+     }
+    }
+   ],
+   "who": {
+    "char": "KUYA",
+    "pose": "raising_hand.png",
+    "name": "Kuya Gas"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/k-feel",
+    "t": "His ball is missing. (pause) How does Katkat feel?"
+   }
+  },
+  {
+   "id": "k2b",
+   "type": "story",
+   "goal": 3,
+   "title": "Katkat the Kitten",
+   "img": "media/image19.jpg",
+   "lines": [
+    "Katkat looks in the garden.",
+    "He looks near the mango tree.",
+    "Who has his ball?"
+   ],
+   "page": "Page 3",
+   "who": {
+    "char": "KUYA",
+    "pose": "holding_book.png",
+    "name": "Kuya Gas"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/k2b",
+    "t": "Katkat looks everywhere. (pause) He looks in the garden. (pause) He looks near the mango tree. (pause) Look! (pause) Who is that?"
+   }
+  },
+  {
    "id": "k3",
    "type": "story",
    "goal": 3,
    "title": "Katkat the Kitten",
-   "page": "Page 3",
+   "page": "Page 4",
    "img": "media/image31.jpg",
    "lines": [
     "A white kitten has the ball!",
@@ -2143,7 +2232,8 @@ const LESSON = {
        "ok": true
       },
       {
-       "word": "Miko"
+       "word": "Miko",
+       "img": "../../DAY1/INTERACTIVE/media/image9.jpg"
       }
      ],
      "yes": "Yes! Katkat the kitten.",
@@ -2160,7 +2250,8 @@ const LESSON = {
      "ask": "WHAT did Katkat lose?",
      "choices": [
       {
-       "word": "his hat"
+       "word": "his hat",
+       "artPending": true
       },
       {
        "word": "his ball",
@@ -2187,7 +2278,8 @@ const LESSON = {
        "ok": true
       },
       {
-       "word": "in the sea"
+       "word": "in the sea",
+       "artPending": true
       }
      ],
      "yes": "Yes! In the garden.",
@@ -2223,6 +2315,7 @@ const LESSON = {
    "options": [
     {
      "word": "Who is your best friend?",
+     "artPending": true,
      "clip": {
       "a": "speech/ask-friend-1",
       "t": "Who is your best friend?"
@@ -2230,6 +2323,7 @@ const LESSON = {
     },
     {
      "word": "What is your favorite toy?",
+     "artPending": true,
      "clip": {
       "a": "speech/ask-friend-2",
       "t": "What is your favorite toy?"
@@ -2237,6 +2331,7 @@ const LESSON = {
     },
     {
      "word": "Where do you want to go?",
+     "artPending": true,
      "clip": {
       "a": "speech/ask-friend-3",
       "t": "Where do you want to go?"
@@ -2269,6 +2364,8 @@ const LESSON = {
      "t": "My favorite toy is my ball."
     }
    },
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "KUYA",
     "pose": "talking.png",
@@ -2286,6 +2383,8 @@ const LESSON = {
    "verse": "Train up a child in the way he should go.",
    "ref": "Proverbs 22:6",
    "meaning": "We listen and follow good directions. That is how we grow!",
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "KUYA",
     "pose": "praying.png",
@@ -2711,7 +2810,7 @@ const RENDER = {
   cover(s) {
     area.innerHTML = `
       <div class="big-card bouncy">
-        ${ICON.book}
+        ${s.img ? `<div class="word-focus-pic" style="width:420px;height:236px;">${imgTag(s.img, s.title)}</div>` : ICON.book}
         <h1 style="font-size:58px;font-weight:800;color:#92400E;line-height:1.15;">${esc(s.title)}</h1>
         <p style="font-size:26px;font-weight:700;color:#4B5563;">${esc(LESSON.label)}</p>
         <div style="display:flex;flex-direction:column;gap:14px;text-align:left;background:#FFFBEB;padding:22px 34px;border-radius:22px;border:3px solid #FDE68A;width:100%;max-width:700px;">
@@ -2902,7 +3001,7 @@ const RENDER = {
   verse(s) {
     area.innerHTML = `
       <div class="verse-card bouncy">
-        ${ICON.heart}
+        ${s.img ? `<div class="word-focus-pic" style="width:380px;height:214px;">${imgTag(s.img, s.ref)}</div>` : ICON.heart}
         <div class="verse-text">"${esc(s.verse)}"</div>
         <div class="verse-ref">${esc(s.ref)}</div>
         <p style="font-size:30px;font-weight:700;color:#92400E;max-width:760px;line-height:1.35;">${esc(s.meaning)}</p>

@@ -194,6 +194,10 @@ class Builder:
             if ready:
                 o["img"] = f
                 o.pop("pose", None)
+            else:
+                o["artPending"] = True
+                if o is s and not o.get("img"):
+                    o["img"] = self.L["bg"]   # neutral placeholder, never a wrong picture
             label = o.get("word") or o.get("title") or s.get("title", "")
             if not any(a["file"] == f for a in self.art):
                 self.art.append({"file": f, "prompt": art["prompt"], "scene": art.get("scene", False),
@@ -233,8 +237,8 @@ class Builder:
         for g in goals:
             if words(g) > 7:
                 self.warn("cover", "goal too long for a child: %r" % g)
-        if not 10 <= len(sl) <= 18:
-            self.warn("structure", "aim for 10-18 slides (found %d)" % len(sl))
+        if not 10 <= len(sl) <= 20:
+            self.warn("structure", "aim for 10-20 slides (found %d)" % len(sl))
         interactive = [t for t in types if t not in PASSIVE]
         if len(interactive) < 6:
             self.warn("structure", "needs at least 6 hands-on slides (found %d)" % len(interactive))
@@ -285,6 +289,18 @@ class Builder:
             pose = os.path.join(self.grade_dir, "POSES", s["who"]["char"], s["who"]["pose"])
             if not os.path.exists(pose):
                 self.warn(where, "missing pose %s/%s" % (s["who"]["char"], s["who"]["pose"]))
+        # every part of the lesson needs a picture that supports it
+        for i, s in enumerate(sl):
+            where = "slide %d (%s)" % (i + 1, s["id"])
+            if s["type"] in ("cover", "story", "verse", "talk", "chant", "langs", "word") and not (s.get("img") or s.get("artPending")):
+                self.warn(where, "needs a picture (img or art)")
+            for it in s.get("items", []) + s.get("options", []) + s.get("cmds", []):
+                if s["type"] != "langs" and not (it.get("img") or it.get("pose") or it.get("artPending")):
+                    self.warn(where, "card %r needs a picture" % it.get("word"))
+            for rd in s.get("rounds", []):
+                for c in rd["choices"]:
+                    if not (c.get("img") or c.get("pose") or c.get("artPending")):
+                        self.warn(where, "choice %r needs a picture" % c["word"])
         for n in range(1, len(goals) + 1):
             if n not in covered:
                 self.warn("goals", "goal %d is not practised by any slide (tag slides with goal=%d)" % (n, n))
@@ -363,6 +379,7 @@ def main():
     codes = args or sorted(f[:-3] for f in os.listdir(os.path.join(TOOLS, "lessons"))
                            if f.endswith(".py") and not f.startswith("_"))
     bad = 0
+    allart = []
     for code in codes:
         b = Builder(load(code), code)
         R = b.build()
@@ -373,9 +390,28 @@ def main():
         for p in b.problems:
             print("      - " + p)
         bad += bool(b.problems)
+        allart += [(b.rel, a) for a in b.art]
     write_menu()
+    write_all_prompts(allart)
     if strict and bad:
         sys.exit(1)
+
+
+def write_all_prompts(allart):
+    """IMAGE_PROMPTS_ALL.md at the repo root: every picture still to make, in one list."""
+    todo = [(rel, a) for rel, a in allart if not a["ready"]]
+    out = ["# All pictures to generate (%d)" % len(todo), "",
+           "Make each picture, save it as `SPT/ENG/<lesson>/INTERACTIVE/<file>`, then run "
+           "`python3 tools/build.py`. Same file name in one lesson = one picture used on several slides.", "",
+           "**Characters.** " + CHARACTERS_NOTE.replace("Characters: ", ""), "",
+           "**Card style** (square): " + ART_STYLE_CARD, "", "**Scene style** (16:9): " + ART_STYLE_SCENE, "",
+           "| # | Lesson | File | Slide | Shape | Prompt |", "|---|---|---|---|---|---|"]
+    for n, (rel, a) in enumerate(todo, 1):
+        out.append("| %d | %s | `%s` | %d %s | %s | %s |" % (n, rel.replace("GRADE1/", "G1 ").replace("/", " "),
+                   a["file"], a["slide"], a["label"].replace("|", "/"), "16:9" if a["scene"] else "square",
+                   a["prompt"].replace("|", "/")))
+    with open(os.path.join(ROOT, "IMAGE_PROMPTS_ALL.md"), "w", encoding="utf-8") as f:
+        f.write("\n".join(out) + "\n")
 
 
 def write_menu():

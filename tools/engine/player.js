@@ -328,7 +328,7 @@ const RENDER = {
   cover(s) {
     area.innerHTML = `
       <div class="big-card bouncy">
-        ${ICON.book}
+        ${s.img ? `<div class="word-focus-pic" style="width:420px;height:236px;">${imgTag(s.img, s.title)}</div>` : ICON.book}
         <h1 style="font-size:58px;font-weight:800;color:#92400E;line-height:1.15;">${esc(s.title)}</h1>
         <p style="font-size:26px;font-weight:700;color:#4B5563;">${esc(LESSON.label)}</p>
         <div style="display:flex;flex-direction:column;gap:14px;text-align:left;background:#FFFBEB;padding:22px 34px;border-radius:22px;border:3px solid #FDE68A;width:100%;max-width:700px;">
@@ -519,7 +519,7 @@ const RENDER = {
   verse(s) {
     area.innerHTML = `
       <div class="verse-card bouncy">
-        ${ICON.heart}
+        ${s.img ? `<div class="word-focus-pic" style="width:380px;height:214px;">${imgTag(s.img, s.ref)}</div>` : ICON.heart}
         <div class="verse-text">"${esc(s.verse)}"</div>
         <div class="verse-ref">${esc(s.ref)}</div>
         <p style="font-size:30px;font-weight:700;color:#92400E;max-width:760px;line-height:1.35;">${esc(s.meaning)}</p>

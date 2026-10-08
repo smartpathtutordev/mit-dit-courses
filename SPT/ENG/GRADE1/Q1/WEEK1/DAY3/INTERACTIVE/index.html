@@ -1749,6 +1749,8 @@ const LESSON = {
     "Sing and move my body",
     "Listen to two stories"
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "id": "s01",
    "who": {
     "char": "TALA",
@@ -1759,28 +1761,6 @@ const LESSON = {
    "narration": {
     "a": "speech/s01",
     "t": "Good morning, my friend! (pause) Yesterday we got ready for school. (pause) Today we sing songs. (pause) And we listen to stories!"
-   }
-  },
-  {
-   "id": "kubo",
-   "type": "story",
-   "goal": 1,
-   "title": "Bahay Kubo",
-   "img": "media/image44.jpg",
-   "lines": [
-    "This is a bahay kubo.",
-    "It is a small house.",
-    "It has a big garden!"
-   ],
-   "who": {
-    "char": "TALA",
-    "pose": "pointing.png",
-    "name": "Tala"
-   },
-   "passive": true,
-   "narration": {
-    "a": "speech/kubo",
-    "t": "Look at this little house. (pause) It is a bahay kubo. (pause) It is a small house. (pause) Look all around it. (pause) It has a big garden with many vegetables!"
    }
   },
   {
@@ -1875,7 +1855,7 @@ const LESSON = {
    "passive": false,
    "narration": {
     "a": "speech/song",
-    "t": "Now let us sing! (pause) Tap a line to hear it. (pause) Or tap the big button to sing it all. (pause) Listen for bawang and luya!"
+    "t": "Look at this little house. (pause) It is a bahay kubo. (pause) It has a big garden! (pause) Let us sing about it. (pause) Tap a line, or tap the big button to sing it all."
    }
   },
   {
@@ -1974,6 +1954,7 @@ const LESSON = {
      "word": "Touch your feet!",
      "sub": "paa",
      "img": "../../DAY4/INTERACTIVE/media/body-feet.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/move-1",
       "t": "Paa! (pause) Touch your feet!"
@@ -1983,6 +1964,7 @@ const LESSON = {
      "word": "Touch your knees!",
      "sub": "tuhod",
      "img": "../../DAY4/INTERACTIVE/media/body-knees.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/move-2",
       "t": "Tuhod! (pause) Touch your knees!"
@@ -1992,6 +1974,7 @@ const LESSON = {
      "word": "Touch your shoulders!",
      "sub": "balikat",
      "img": "../../DAY4/INTERACTIVE/media/body-shoulders.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/move-3",
       "t": "Balikat! (pause) Touch your shoulders!"
@@ -2001,6 +1984,7 @@ const LESSON = {
      "word": "Touch your head!",
      "sub": "ulo",
      "img": "../../DAY4/INTERACTIVE/media/body-head.jpg",
+     "artPending": true,
      "clip": {
       "a": "speech/move-4",
       "t": "Ulo! (pause) Touch your head!"
@@ -2024,11 +2008,13 @@ const LESSON = {
    "goal": 3,
    "title": "The Turtle and the Monkey",
    "page": "Page 1",
-   "img": "media/image11.jpg",
    "lines": [
     "Turtle and Monkey find a banana plant.",
-    "They cut it in two."
+    "They cut it in two.",
+    "Monkey takes the top. Turtle takes the bottom."
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "holding_book.png",
@@ -2037,7 +2023,7 @@ const LESSON = {
    "passive": true,
    "narration": {
     "a": "speech/t1",
-    "t": "Story time! (pause) This is Turtle. (pause) And this is Monkey. (pause) They find a banana plant. (pause) They cut it in two. (pause) Monkey takes the top. Turtle takes the bottom."
+    "t": "Story time! (pause) This is Turtle. (pause) And this is Monkey. (pause) One day, they find a banana plant. (pause) They cut it in two. (pause) Monkey takes the top. (pause) Turtle takes the bottom, with the roots."
    }
   },
   {
@@ -2046,11 +2032,13 @@ const LESSON = {
    "goal": 3,
    "title": "The Turtle and the Monkey",
    "page": "Page 2",
-   "img": "media/image13.jpg",
    "lines": [
-    "Turtle plants it and waters it.",
-    "It grows bananas!"
+    "Monkey laughs at Turtle.",
+    "Turtle plants her part.",
+    "She waters it every day."
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "holding_book.png",
@@ -2059,7 +2047,96 @@ const LESSON = {
    "passive": true,
    "narration": {
     "a": "speech/t2",
-    "t": "Monkey laughs at Turtle. (pause) But Turtle plants it. (pause) She waters it every day. (pause) It grows tall. (pause) It grows bananas! (pause) Turtle is kind and patient."
+    "t": "Monkey laughs at Turtle. (pause) Ha ha! My part has big leaves! (pause) But Turtle plants her part in the ground. (pause) She waters it every day."
+   }
+  },
+  {
+   "id": "t-mid",
+   "type": "pick",
+   "goal": 3,
+   "title": "Quick! Who Planted It?",
+   "yourTurn": "Tap your answer!",
+   "rounds": [
+    {
+     "ask": "Who planted and watered?",
+     "choices": [
+      {
+       "word": "Turtle",
+       "ok": true,
+       "artPending": true
+      },
+      {
+       "word": "Monkey",
+       "artPending": true
+      }
+     ],
+     "yes": "Yes! Turtle did.",
+     "clip": {
+      "a": "speech/t-mid-q1",
+      "t": "Who planted the banana plant and watered it every day?"
+     },
+     "yesClip": {
+      "a": "speech/t-mid-q1-yes",
+      "t": "Yes! Turtle planted it and watered it. (pause) Let us see what happens!"
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "raising_hand.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/t-mid",
+    "t": "Quick question!"
+   }
+  },
+  {
+   "id": "t3",
+   "type": "story",
+   "goal": 3,
+   "title": "The Turtle and the Monkey",
+   "lines": [
+    "Monkey's part has no roots.",
+    "It dries up.",
+    "It does not grow."
+   ],
+   "page": "Page 3",
+   "artPending": true,
+   "img": "media/image1.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/t3",
+    "t": "Monkey hangs his part on a tree. (pause) But it has no roots. (pause) It dries up. (pause) It does not grow at all."
+   }
+  },
+  {
+   "id": "t4",
+   "type": "story",
+   "goal": 3,
+   "title": "The Turtle and the Monkey",
+   "img": "media/image13.jpg",
+   "lines": [
+    "Turtle's plant grows tall.",
+    "It grows bananas!",
+    "Turtle is kind and patient."
+   ],
+   "page": "Page 4",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/t4",
+    "t": "But Turtle's plant grows tall. (pause) It grows yellow bananas! (pause) Turtle is kind. (pause) Turtle is patient. (pause) That is why she has bananas."
    }
   },
   {
@@ -2074,10 +2151,12 @@ const LESSON = {
      "choices": [
       {
        "word": "Turtle",
-       "ok": true
+       "ok": true,
+       "artPending": true
       },
       {
-       "word": "Monkey"
+       "word": "Monkey",
+       "artPending": true
       }
      ],
      "yes": "Yes! Turtle was patient.",
@@ -2108,11 +2187,12 @@ const LESSON = {
    "goal": 3,
    "title": "The Legend of the Pineapple",
    "page": "Page 1",
-   "img": "media/image17.jpg",
    "lines": [
-    "Pina did not help her mother.",
-    "\"I cannot find it!\" she said."
+    "This is Pina.",
+    "Pina does not like to help."
    ],
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "holding_book.png",
@@ -2121,20 +2201,22 @@ const LESSON = {
    "passive": true,
    "narration": {
     "a": "speech/p1",
-    "t": "Here is another story. (pause) This is Pina. (pause) Her mother was sick. (pause) She asked Pina to help. (pause) But Pina said, I cannot find it! (pause) She did not even look."
+    "t": "Here is another story. (pause) The Legend of the Pineapple. (pause) Long ago, there was a girl named Pina. (pause) Pina did not like to help her mother."
    }
   },
   {
-   "id": "p2",
+   "id": "p2a",
    "type": "story",
    "goal": 3,
    "title": "The Legend of the Pineapple",
-   "page": "Page 2",
-   "img": "media/panel-b1.jpg",
    "lines": [
-    "A new fruit grew in the garden.",
-    "It had many, many eyes!"
+    "Mother is sick.",
+    "\"Please cook for us, Pina.\"",
+    "\"I cannot find the pot!\""
    ],
+   "page": "Page 2",
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "holding_book.png",
@@ -2142,8 +2224,98 @@ const LESSON = {
    },
    "passive": true,
    "narration": {
-    "a": "speech/p2",
-    "t": "The next day, Pina was gone. (pause) A new fruit grew in the garden. (pause) It had many, many eyes! (pause) It is the pineapple. (pause) The pinya!"
+    "a": "speech/p2a",
+    "t": "One day, her mother is sick. (pause) Please cook for us, Pina, she says. (pause) But Pina says, I cannot find the pot! (pause) I cannot find the spoon! (pause) She does not even look."
+   }
+  },
+  {
+   "id": "p-mid",
+   "type": "pick",
+   "goal": 3,
+   "title": "Quick! Did Pina Look?",
+   "yourTurn": "Tap your answer!",
+   "rounds": [
+    {
+     "ask": "Did Pina look for the pot?",
+     "choices": [
+      {
+       "word": "No",
+       "ok": true,
+       "artPending": true
+      },
+      {
+       "word": "Yes",
+       "artPending": true
+      }
+     ],
+     "yes": "Right! She did not look.",
+     "clip": {
+      "a": "speech/p-mid-q1",
+      "t": "Did Pina really look for the pot?"
+     },
+     "yesClip": {
+      "a": "speech/p-mid-q1-yes",
+      "t": "Right! Pina did not look. (pause) The pot was right there!"
+     }
+    }
+   ],
+   "who": {
+    "char": "TALA",
+    "pose": "raising_hand.png",
+    "name": "Tala"
+   },
+   "passive": false,
+   "narration": {
+    "a": "speech/p-mid",
+    "t": "Quick question!"
+   }
+  },
+  {
+   "id": "p3",
+   "type": "story",
+   "goal": 3,
+   "title": "The Legend of the Pineapple",
+   "lines": [
+    "Mother is very tired.",
+    "\"I wish you had many eyes,\"",
+    "\"so you can find things!\""
+   ],
+   "page": "Page 3",
+   "artPending": true,
+   "img": "media/image1.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/p3",
+    "t": "Her mother is very tired. (pause) She says, I wish you had many eyes, (pause) so you can find things!"
+   }
+  },
+  {
+   "id": "p4",
+   "type": "story",
+   "goal": 3,
+   "title": "The Legend of the Pineapple",
+   "page": "Page 4",
+   "lines": [
+    "The next day, Pina is gone.",
+    "A new fruit grows.",
+    "It has many, many eyes!"
+   ],
+   "artPending": true,
+   "img": "media/image1.jpg",
+   "who": {
+    "char": "TALA",
+    "pose": "holding_book.png",
+    "name": "Tala"
+   },
+   "passive": true,
+   "narration": {
+    "a": "speech/p4",
+    "t": "The next day, Pina is gone. (pause) In the garden, a new plant grows. (pause) Its fruit has many, many eyes! (pause) It is the pineapple. (pause) The pinya!"
    }
   },
   {
@@ -2158,10 +2330,12 @@ const LESSON = {
      "choices": [
       {
        "word": "Help!",
-       "ok": true
+       "ok": true,
+       "artPending": true
       },
       {
-       "word": "Do not help."
+       "word": "Do not help.",
+       "artPending": true
       }
      ],
      "yes": "Yes! We help at home.",
@@ -2187,48 +2361,13 @@ const LESSON = {
    }
   },
   {
-   "id": "like",
-   "type": "sentence",
-   "goal": 3,
-   "title": "Which story did you like?",
-   "yourTurn": "Tap one and say it!",
-   "pre": "I like the story about the",
-   "post": ".",
-   "options": [
-    {
-     "word": "turtle",
-     "img": "media/image13.jpg",
-     "clip": {
-      "a": "speech/like-1",
-      "t": "I like the story about the turtle."
-     }
-    },
-    {
-     "word": "pineapple",
-     "img": "media/panel-b1.jpg",
-     "clip": {
-      "a": "speech/like-2",
-      "t": "I like the story about the pineapple."
-     }
-    }
-   ],
-   "who": {
-    "char": "TALA",
-    "pose": "point_self.png",
-    "name": "Tala"
-   },
-   "passive": false,
-   "narration": {
-    "a": "speech/like",
-    "t": "Which story did you like? (pause) Tap one. (pause) Then say it with me."
-   }
-  },
-  {
    "id": "verse",
    "type": "verse",
    "verse": "Honor your father and your mother.",
    "ref": "Exodus 20:12",
    "meaning": "Be kind like Turtle. Help at home, not like Pina.",
+   "artPending": true,
+   "img": "media/image1.jpg",
    "who": {
     "char": "TALA",
     "pose": "praying.png",
@@ -2654,7 +2793,7 @@ const RENDER = {
   cover(s) {
     area.innerHTML = `
       <div class="big-card bouncy">
-        ${ICON.book}
+        ${s.img ? `<div class="word-focus-pic" style="width:420px;height:236px;">${imgTag(s.img, s.title)}</div>` : ICON.book}
         <h1 style="font-size:58px;font-weight:800;color:#92400E;line-height:1.15;">${esc(s.title)}</h1>
         <p style="font-size:26px;font-weight:700;color:#4B5563;">${esc(LESSON.label)}</p>
         <div style="display:flex;flex-direction:column;gap:14px;text-align:left;background:#FFFBEB;padding:22px 34px;border-radius:22px;border:3px solid #FDE68A;width:100%;max-width:700px;">
@@ -2845,7 +2984,7 @@ const RENDER = {
   verse(s) {
     area.innerHTML = `
       <div class="verse-card bouncy">
-        ${ICON.heart}
+        ${s.img ? `<div class="word-focus-pic" style="width:380px;height:214px;">${imgTag(s.img, s.ref)}</div>` : ICON.heart}
         <div class="verse-text">"${esc(s.verse)}"</div>
         <div class="verse-ref">${esc(s.ref)}</div>
         <p style="font-size:30px;font-weight:700;color:#92400E;max-width:760px;line-height:1.35;">${esc(s.meaning)}</p>
