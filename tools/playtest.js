@@ -21,7 +21,7 @@ function lessons() {
   const base = path.join(ROOT, 'tools', 'lessons');
   for (const f of fs.readdirSync(base).filter(f => /^g\d+q\d+w\d+d\d+\.py$/.test(f)).sort()) {
     const m = f.match(/g(\d+)q(\d+)w(\d+)d(\d+)/);
-    out.push(path.join(ROOT, `SPT/ENG/GRADE${m[1]}/Q${m[2]}/WEEK${m[3]}/DAY${m[4]}/INTERACTIVE/index.html`));
+    out.push(path.join(process.env.SPT_ENG_ROOT || path.join(ROOT, 'SPT/ENG'), `GRADE${m[1]}/Q${m[2]}/WEEK${m[3]}/DAY${m[4]}/INTERACTIVE/index.html`));
   }
   return out;
 }
@@ -42,7 +42,7 @@ function lessons() {
       window.speechSynthesis.speak = (u) => setTimeout(() => u.onend && u.onend(), 30);
       window.speechSynthesis.cancel = () => {};
     });
-    const name = file.split('/SPT/ENG/')[1].replace('/INTERACTIVE/index.html', '');
+    const name = file.split('/').slice(-6, -2).join('/');
     await page.click('.start-btn');
     const n = await page.evaluate(() => LESSON.slides.length);
     const notDone = [];

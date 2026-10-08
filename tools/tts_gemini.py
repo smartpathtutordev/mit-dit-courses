@@ -27,7 +27,7 @@ import urllib.request
 import wave
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ENG = os.path.join(ROOT, "SPT", "ENG")
+ENG = os.environ.get("SPT_ENG_ROOT") or os.path.join(ROOT, "SPT", "ENG")
 VOICE = "Leda"
 MODEL = "gemini-2.5-flash-preview-tts"
 

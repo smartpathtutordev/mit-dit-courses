@@ -21,7 +21,8 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(ROOT, "tools")
-ENG = os.path.join(ROOT, "SPT", "ENG")
+# Set SPT_ENG_ROOT to work directly in another ENG folder (e.g. the Mac drive).
+ENG = os.environ.get("SPT_ENG_ROOT") or os.path.join(ROOT, "SPT", "ENG")
 
 CHARS = {
     "TALA": "Tala", "ATE": "Ate Hinhin", "KUYA": "Kuya Gas",
@@ -117,7 +118,9 @@ class Builder:
                 s.pop(k, None)
             s["passive"] = s["type"] in PASSIVE
             if s.get("say"):
-                s["narration"] = self.clip(sid, s.pop("say"))
+                bridge = s.pop("bridge", "")
+                s["narration"] = self.clip(sid, (bridge + " (pause) " if bridge else "") + s.pop("say"))
+                s["bridge"] = bridge
             t = s["type"]
             if t in ("cards", "langs"):
                 for j, it in enumerate(s["items"]):
@@ -289,6 +292,10 @@ class Builder:
             pose = os.path.join(self.grade_dir, "POSES", s["who"]["char"], s["who"]["pose"])
             if not os.path.exists(pose):
                 self.warn(where, "missing pose %s/%s" % (s["who"]["char"], s["who"]["pose"]))
+        # every slide links to the one before it (no jumps between slides)
+        for i, s in enumerate(sl[1:], 1):
+            if not s.get("bridge"):
+                self.warn("slide %d (%s)" % (i + 1, s["id"]), "needs a bridge line that links it to the slide before")
         # every part of the lesson needs a picture that supports it
         for i, s in enumerate(sl):
             where = "slide %d (%s)" % (i + 1, s["id"])
@@ -412,6 +419,10 @@ def write_all_prompts(allart):
                    a["prompt"].replace("|", "/")))
     with open(os.path.join(ROOT, "IMAGE_PROMPTS_ALL.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(out) + "\n")
+    js = [{"save_to": "%s/INTERACTIVE/%s" % (rel, a["file"]), "shape": "16:9 1600x900" if a["scene"] else "square 1024x1024",
+           "prompt": a["prompt"].strip() + " " + (ART_STYLE_SCENE if a["scene"] else ART_STYLE_CARD)} for rel, a in todo]
+    with open(os.path.join(ROOT, "IMAGE_PROMPTS_ALL.json"), "w", encoding="utf-8") as f:
+        json.dump({"eng_root": "SPT/ENG (or $SPT_ENG_ROOT)", "characters": CHARACTERS_NOTE, "images": js}, f, indent=1, ensure_ascii=False)
 
 
 def write_menu():
@@ -420,16 +431,17 @@ def write_menu():
     for code in sorted(f[:-3] for f in os.listdir(os.path.join(TOOLS, "lessons"))
                        if f.endswith(".py") and not f.startswith("_")):
         L = load(code)
-        rel = "SPT/ENG/GRADE%d/Q%d/WEEK%d/DAY%d/INTERACTIVE/index.html" % (L["grade"], L["quarter"], L["week"], L["day"])
-        rows.append((L["week"], L["day"], L["title"], rel, "SPT/ENG/GRADE%d/Q%d/WEEK%d/DAY%d/SCRIPT.md" %
-                     (L["grade"], L["quarter"], L["week"], L["day"])))
-    if os.path.exists(os.path.join(ENG, "GRADE1/Q1/WEEK1/DAY1/INTERACTIVE/index.html")):
-        rows.append((1, 1, "Myself and My Family (original)", "SPT/ENG/GRADE1/Q1/WEEK1/DAY1/INTERACTIVE/index.html", None))
+        day = os.path.join(ENG, "GRADE%d/Q%d/WEEK%d/DAY%d" % (L["grade"], L["quarter"], L["week"], L["day"]))
+        rel = os.path.relpath(os.path.join(day, "INTERACTIVE", "index.html"), ROOT).replace(os.sep, "/")
+        rows.append((L["grade"], L["quarter"], L["week"], L["day"], L["title"], rel, os.path.relpath(os.path.join(day, "SCRIPT.md"), ROOT).replace(os.sep, "/")))
+    gold = os.path.join(ENG, "GRADE1/Q1/WEEK1/DAY1/INTERACTIVE/index.html")
+    if os.path.exists(gold):
+        rows.append((1, 1, 1, 1, "Myself and My Family (original)", os.path.relpath(gold, ROOT).replace(os.sep, "/"), None))
     rows.sort()
     cards = "\n".join(
-        '<div><a class="card" href="%s"><span class="tag">Week %d · Day %d</span><span class="t">%s</span></a>%s</div>'
-        % (rel, w, d, title, ('<a class="script" href="%s">teacher script</a>' % sc) if sc else "")
-        for w, d, title, rel, sc in rows)
+        '<div><a class="card" href="%s"><span class="tag">Grade %d · Q%d · Week %d · Day %d</span><span class="t">%s</span></a>%s</div>'
+        % (rel, g, q, w, d, title, ('<a class="script" href="%s">teacher script</a>' % sc) if sc else "")
+        for g, q, w, d, title, rel, sc in rows)
     html = """<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Grade 1 English Lessons</title>
@@ -445,7 +457,7 @@ text-decoration:none;color:inherit;box-shadow:0 8px 18px rgba(0,0,0,.08)}
 .t{font-size:24px;font-weight:800}
 .script{display:inline-block;font-size:14px;color:#0F766E;margin:8px 0 0 22px}
 </style></head><body>
-<h1>Grade 1 English · Quarter 1</h1>
+<h1>SmartPath English Lessons</h1>
 <p class="sub">Tap a lesson to play. Use Chrome or Safari. Sound on!</p>
 <div class="grid">
 %s

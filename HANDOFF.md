@@ -51,6 +51,16 @@ holding_book, talking, thinking, brushing, eating, sitting, walking, laughing, l
 Activity types: `cover, cards, word, sentence, story, pick, order, act (simon=True for Simon Says), chant, talk,
 langs, verse, celebrate`. Copy any rebuilt lesson as the template.
 
+## Where the work continues
+The owner continues locally with **Google Antigravity** on a Mac; the real lessons are on an **external drive**
+(`/Volumes/SPT Externa/ALL MODULES/ENG`). Follow **ANTIGRAVITY_GUIDE.md** (setup, audit, rewrite, pictures,
+Leda voices, checks, Drive upload). `tools/audit.py` audits every Grade 1–3 lesson into AUDIT_REPORT.md.
+
+## Owner feedback round 3
+- "The script isn't interconnected, no good transitions" → every slide now has a `bridge` line linking it to the
+  slide before (build fails without it); cover recalls yesterday; celebration previews tomorrow; one thread of
+  characters/words through the whole lesson; spiral review of earlier words.
+
 ## Owner feedback round 2 (must apply to every lesson)
 - "The images don't support the lesson" → **every part of every lesson needs a picture that shows exactly what is
   being said**: cover, every story page, every word card, every check choice, the talk slide, the verse.

@@ -16,73 +16,73 @@ Source: LANG1Q1W1DAY3NARRATIONSCRIPT — Nursery Rhymes and Stories (Exodus 20:1
 > Good morning, my friend! (pause) Yesterday we got ready for school. (pause) Today we sing songs. (pause) And we listen to stories!
 
 ### 2. Vegetables in the Garden — cards (Tala)
-> Let us meet some vegetables! (pause) Tap each one. (pause) Say its name with me.
+> First, let us visit a garden full of vegetables. (pause) Let us meet some vegetables! (pause) Tap each one. (pause) Say its name with me.
 - tap **pechay** → "Pechay. (pause) It has big green leaves!"
 - tap **bawang** → "Bawang. (pause) In English, garlic. (pause) It is white!"
 - tap **luya** → "Luya. (pause) In English, ginger. (pause) It is brown and bumpy!"
 
 ### 3. Let Us Sing: Bahay Kubo — chant (Tala)
-> Look at this little house. (pause) It is a bahay kubo. (pause) It has a big garden! (pause) Let us sing about it. (pause) Tap a line, or tap the big button to sing it all.
+> Bawang and luya are in a famous song! (pause) Look at this little house. (pause) It is a bahay kubo. (pause) It has a big garden! (pause) Let us sing about it. (pause) Tap a line, or tap the big button to sing it all.
 - tap **Bahay kubo, kahit munti,** → "Bahay kubo, kahit munti,"
 - tap **ang halaman doon ay sari-sari.** → "ang halaman doon ay sari-sari."
 - tap **Singkamas at talong, sigarilyas at mani,** → "Singkamas at talong, sigarilyas at mani,"
 - tap **sibuyas, kamatis, bawang at luya!** → "sibuyas, kamatis, bawang at luya!"
 
 ### 4. Find the Vegetable! — pick (Tala)
-> Can you find the vegetables? (pause) Listen. (pause) Then tap!
+> What a lovely song! Now, can you find the vegetables? (pause) Can you find the vegetables? (pause) Listen. (pause) Then tap!
 - check: Tap the garlic! → **bawang**
 - check: Tap the ginger! → **luya**
 - check: Tap the pechay! → **pechay**
 
 ### 5. Sing and Move! — act (Tala)
-> Please stand up! (pause) Let us sing and move. (pause) Touch each part of your body with me!
+> Great finding! Now let us sing with our whole body. (pause) Please stand up! (pause) Let us sing and move. (pause) Touch each part of your body with me!
 - tap **Touch your feet!** → "Paa! (pause) Touch your feet!"
 - tap **Touch your knees!** → "Tuhod! (pause) Touch your knees!"
 - tap **Touch your shoulders!** → "Balikat! (pause) Touch your shoulders!"
 - tap **Touch your head!** → "Ulo! (pause) Touch your head!"
 
 ### 6. The Turtle and the Monkey — story (Tala)
-> Story time! (pause) This is Turtle. (pause) And this is Monkey. (pause) One day, they find a banana plant. (pause) They cut it in two. (pause) Monkey takes the top. (pause) Turtle takes the bottom, with the roots.
+> You sang and moved! Now sit down. It is story time. (pause) Story time! (pause) This is Turtle. (pause) And this is Monkey. (pause) One day, they find a banana plant. (pause) They cut it in two. (pause) Monkey takes the top. (pause) Turtle takes the bottom, with the roots.
 
 ### 7. The Turtle and the Monkey — story (Tala)
-> Monkey laughs at Turtle. (pause) Ha ha! My part has big leaves! (pause) But Turtle plants her part in the ground. (pause) She waters it every day.
+> Monkey has the leaves. Turtle has the roots. What happens next? (pause) Monkey laughs at Turtle. (pause) Ha ha! My part has big leaves! (pause) But Turtle plants her part in the ground. (pause) She waters it every day.
 
 ### 8. Quick! Who Planted It? — pick (Tala)
-> Quick question!
+> Turtle works hard every day. (pause) Quick question!
 - check: Who planted and watered? → **Turtle**
 
 ### 9. The Turtle and the Monkey — story (Tala)
-> Monkey hangs his part on a tree. (pause) But it has no roots. (pause) It dries up. (pause) It does not grow at all.
+> Now let us see Monkey's part. (pause) Monkey hangs his part on a tree. (pause) But it has no roots. (pause) It dries up. (pause) It does not grow at all.
 
 ### 10. The Turtle and the Monkey — story (Tala)
-> But Turtle's plant grows tall. (pause) It grows yellow bananas! (pause) Turtle is kind. (pause) Turtle is patient. (pause) That is why she has bananas.
+> And what about Turtle's part? (pause) But Turtle's plant grows tall. (pause) It grows yellow bananas! (pause) Turtle is kind. (pause) Turtle is patient. (pause) That is why she has bananas.
 
 ### 11. Think About the Story — pick (Tala)
-> Let us think about the story.
+> That is the end of the story. Let us think about it. (pause) Let us think about the story.
 - check: Who was patient? → **Turtle**
 
 ### 12. The Legend of the Pineapple — story (Tala)
-> Here is another story. (pause) The Legend of the Pineapple. (pause) Long ago, there was a girl named Pina. (pause) Pina did not like to help her mother.
+> Turtle was kind and patient. Now, here is a girl who was not helpful. (pause) Here is another story. (pause) The Legend of the Pineapple. (pause) Long ago, there was a girl named Pina. (pause) Pina did not like to help her mother.
 
 ### 13. The Legend of the Pineapple — story (Tala)
-> One day, her mother is sick. (pause) Please cook for us, Pina, she says. (pause) But Pina says, I cannot find the pot! (pause) I cannot find the spoon! (pause) She does not even look.
+> Let us see what Pina does at home. (pause) One day, her mother is sick. (pause) Please cook for us, Pina, she says. (pause) But Pina says, I cannot find the pot! (pause) I cannot find the spoon! (pause) She does not even look.
 
 ### 14. Quick! Did Pina Look? — pick (Tala)
-> Quick question!
+> Hmm. The pot was right behind her! (pause) Quick question!
 - check: Did Pina look for the pot? → **No**
 
 ### 15. The Legend of the Pineapple — story (Tala)
-> Her mother is very tired. (pause) She says, I wish you had many eyes, (pause) so you can find things!
+> Mother is sad and tired. (pause) Her mother is very tired. (pause) She says, I wish you had many eyes, (pause) so you can find things!
 
 ### 16. The Legend of the Pineapple — story (Tala)
-> The next day, Pina is gone. (pause) In the garden, a new plant grows. (pause) Its fruit has many, many eyes! (pause) It is the pineapple. (pause) The pinya!
+> What happens to Pina? (pause) The next day, Pina is gone. (pause) In the garden, a new plant grows. (pause) Its fruit has many, many eyes! (pause) It is the pineapple. (pause) The pinya!
 
 ### 17. What Does the Story Teach? — pick (Tala)
-> What does the story teach us?
+> Two stories, two lessons. Let us think! (pause) What does the story teach us?
 - check: What should we do at home? → **Help!**
 
 ### 18. verse — verse (Tala)
-> Our Bible verse is, (pause) Honor your father and your mother. (pause) We honor them when we help at home.
+> Turtle was kind. We help at home. The Bible tells us why. (pause) Our Bible verse is, (pause) Honor your father and your mother. (pause) We honor them when we help at home.
 
 ### 19. Great Singing and Listening! — celebrate (Tala)
-> Hooray! (pause) You sang Bahay Kubo. (pause) You moved your body. (pause) And you listened to two stories. (pause) See you tomorrow!
+> You sang, you moved, and you listened! (pause) Hooray! (pause) You sang Bahay Kubo. (pause) You moved your body. (pause) And you listened to two stories. (pause) See you tomorrow!

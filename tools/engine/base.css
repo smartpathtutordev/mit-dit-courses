@@ -69,7 +69,7 @@
     .scenic-bg {
       position: absolute;
       inset: 0;
-      background-image: url('media/image2.jpg');
+      background-color: #F5E6CC;
       background-size: cover;
       background-position: center bottom;
       z-index: 1;
