@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{TITLE}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+{{CSS}}
+  </style>
+</head>
+<body>
+  <!-- GENERATED FILE: edit tools/lessons/{{SOURCE}} and run tools/build.py -->
+  <div id="stagewrap">
+    <div id="stage">
+      <div class="scenic-bg" id="scenicBg"></div>
+      <div class="scenic-vignette"></div>
+
+      <header class="module-top-bar">
+        <div class="deped-tag">
+          <svg class="ph-flag-svg" viewBox="0 0 600 300">
+            <rect width="600" height="150" fill="#0038A8"/>
+            <rect y="150" width="600" height="150" fill="#CE1126"/>
+            <polygon points="0,0 260,150 0,300" fill="#FFF"/>
+            <circle cx="85" cy="150" r="32" fill="#FCD116"/>
+          </svg>
+          <div>
+            <div class="title">DepEd MATATAG • Grade 1 Language</div>
+            <div class="subtitle">{{LABEL}}</div>
+          </div>
+        </div>
+        <div class="top-stats">
+          <div class="star-pill" id="starPill">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <span id="starCounter">0</span>
+          </div>
+          <button class="btn-dock" id="btnSoundMute" onclick="toggleMute()" title="Sound effects on/off">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          </button>
+          <button class="btn-dock" onclick="toggleFullscreen()" title="Fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="module-main-stage">
+        <div class="stage-canvas-body" id="stageCanvasBody">
+          <div class="char-actor-wrap" id="charActorWrap">
+            <img class="char-img" id="charImg" alt="Teacher" onclick="playActorCheer()" draggable="false">
+            <div class="char-contact-shadow"></div>
+            <div class="char-name-tag" onclick="replayAudio()">
+              <span class="speaking-pulse" id="actorPulse"></span>
+              <span id="charNameLabel">Tala</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            </div>
+          </div>
+          <div class="activity-stage-area" id="activityStageArea"></div>
+        </div>
+      </main>
+
+      <footer class="module-dock">
+        <div class="dock-seekbar-row">
+          <span class="time-lbl" id="currTime">0:00</span>
+          <input type="range" class="seek-slider" id="seekSlider" min="0" max="1000" value="0" oninput="onSeekChange(this.value)">
+          <span class="time-lbl" id="totTime">0:00</span>
+        </div>
+        <div class="dock-controls-row">
+          <div style="display:flex;gap:10px;align-items:center;">
+            <button class="btn-dock" onclick="prevSlide()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+              <span>Back</span>
+            </button>
+            <button class="btn-dock amber" id="btnPlayPause" onclick="togglePlayPause()">
+              <svg id="svgPlayPause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span id="txtPlayPause">Play</span>
+            </button>
+            <button class="btn-dock" onclick="replayAudio()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+              <span>Hear Again</span>
+            </button>
+          </div>
+          <div class="slide-dots-indicator" id="slideDotsIndicator"></div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <button class="btn-dock" id="btnAutoAdvance" onclick="toggleAutoAdvance()">Auto: OFF</button>
+            <span class="slide-counter-badge" id="slideCounterBadge"></span>
+            <button class="btn-dock primary" id="btnNextSlide" onclick="nextSlide()">
+              <span>Next</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+      </footer>
+
+      <div class="start-overlay" id="startOverlay">
+        <img src="{{START_POSE}}" alt="" draggable="false">
+        <div class="start-box">
+          <div class="start-tag">{{LABEL}}</div>
+          <h1>{{TITLE_SHORT}}</h1>
+          <button class="start-btn" onclick="startLesson()">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Start!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioNarrator" preload="auto"></audio>
+
+  <script>
+const LESSON = {{LESSON_JSON}};
+{{PLAYER_JS}}
+  </script>
+</body>
+</html>

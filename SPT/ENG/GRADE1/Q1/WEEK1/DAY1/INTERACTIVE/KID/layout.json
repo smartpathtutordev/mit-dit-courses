@@ -1,0 +1,95 @@
+{
+  "pages": {
+    "hello": {
+      "bg": "media/image1.jpg",
+      "pose": "waving.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "today": {
+      "bg": "media/image1.jpg",
+      "pose": "hugging.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "now-you": {
+      "bg": "media/image2.jpg",
+      "pose": "point_self.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "i": {
+      "bg": "media/image2.jpg",
+      "pose": "point_self.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "name": {
+      "bg": "media/image2.jpg",
+      "pose": "introducing.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "name-try": {
+      "bg": "media/image17.jpg",
+      "pose": "raising_hand.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "age": {
+      "bg": "media/image20.jpg",
+      "pose": "counting.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "age-try": {
+      "bg": "media/image20.jpg",
+      "pose": "raising_hand.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "now-words": {
+      "bg": "media/image25.jpg",
+      "pose": "hugging.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "family-words": {
+      "bg": "media/image25.jpg",
+      "pose": "hugging.png",
+      "folder": "TALA",
+      "stand": "left",
+      "showFace": true
+    },
+    "kind": {
+      "bg": "media/image8.jpg",
+      "pose": "showing.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "check": {
+      "bg": "media/image2.jpg",
+      "pose": "thinking.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    },
+    "verse": {
+      "bg": "media/image1.jpg",
+      "pose": "praying.png",
+      "folder": "TALA",
+      "stand": "stand",
+      "showFace": true
+    }
+  }
+}

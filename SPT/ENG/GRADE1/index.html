@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DepEd MATATAG Interactive Learning Hub | Grades 1, 2, 3</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8EE',
+            ink: '#3B2E28',
+            amber: { 400: '#F2A93B', 500: '#E09224', 600: '#9A6B00' },
+            teal: { 400: '#2FA39B', 500: '#23857E', 600: '#1F6F69' },
+            coral: { 400: '#F0705F', 500: '#D95544', 600: '#B23B2C' },
+            green: { 400: '#6FA45C', 500: '#5A8C49', 600: '#44703A' },
+            purple: { 400: '#8C6BB1', 500: '#735296', 600: '#5E4480' },
+            sky: { 400: '#4C9BD1', 500: '#3482B6', 600: '#2A6E9E' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons & Libraries -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/kid-player.css">
+  <style>
+    .scenic-canvas {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 1.5rem;
+      overflow: hidden;
+    }
+    .scenic-overlay {
+      background: linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.72) 40%, rgba(255,255,255,0.92) 100%);
+      backdrop-filter: blur(1.5px);
+    }
+  </style>
+</head>
+<body class="bg-[#FFF8EE] text-[#3B2E28] font-sans antialiased selection:bg-amber-200">
+
+  <!-- TOP APP BAR -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-amber-400 shadow-sm px-4 md:px-8 py-3">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-amber-400 border-2 border-[#9A6B00] shadow-[0_3px_0_#9A6B00] flex items-center justify-center text-2xl font-bold">
+          📚
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
+            DepEd MATATAG Framework
+          </span>
+          <h1 class="font-heading font-bold text-lg md:text-xl text-[#3B2E28] leading-tight">
+            Interactive Learning Hub
+          </h1>
+        </div>
+      </div>
+
+      <!-- Header Quick Stats & Controls -->
+      <div class="flex items-center gap-2 md:gap-3">
+        <a href="Q1/WEEK1/DAY1/INTERACTIVE/index.html" class="inline-flex items-center gap-1.5 bg-amber-400 border-2 border-amber-600 px-3.5 py-1.5 rounded-2xl font-heading font-extrabold text-stone-900 text-sm shadow-[0_2px_0_#9A6B00] hover:bg-amber-300 animate-pulse">
+          🌟 G1 Q1 W1 Day 1 (Interactive)
+        </a>
+        <a href="KID-PLAYER/index.html" class="inline-flex items-center gap-1.5 bg-amber-100 border-2 border-amber-400 px-3 py-1.5 rounded-2xl font-heading font-bold text-amber-900 text-sm shadow-[0_2px_0_#9A6B00] hover:bg-amber-50">
+          Easy for kids
+        </a>
+        <a href="kid-builder.html" class="inline-flex items-center gap-1.5 bg-green-100 border-2 border-green-600 px-3 py-1.5 rounded-2xl font-heading font-bold text-green-900 text-sm shadow-[0_2px_0_#44703A] hover:bg-green-50">
+          Easy builder
+        </a>
+        <a href="builder.html" class="inline-flex items-center gap-1.5 bg-teal-100 border-2 border-teal-500 px-3 py-1.5 rounded-2xl font-heading font-bold text-teal-900 text-sm shadow-[0_2px_0_#1F6F69] hover:bg-teal-50">
+          🛠️ Module builder
+        </a>
+        <div id="player-stars-count" class="bg-amber-100 border-2 border-amber-400 px-3.5 py-1.5 rounded-2xl font-heading font-bold text-amber-800 text-sm md:text-base flex items-center gap-1.5 shadow-[0_2px_0_#9A6B00]">
+          <span>⭐</span> <span id="star-number">0</span>
+        </div>
+
+        <button onclick="window.soundFx.toggleMute(); this.innerText = window.soundFx.muted ? '🔇' : '🔊';" class="w-10 h-10 rounded-xl bg-white border-2 border-stone-300 shadow-[0_2px_0_#9CA3AF] flex items-center justify-center text-lg hover:bg-stone-50 active:translate-y-0.5 transition" title="Toggle Sound FX">
+          🔊
+        </button>
+
+        <button onclick="window.speechNarrator.toggle(); this.classList.toggle('bg-amber-100');" class="w-10 h-10 rounded-xl bg-white border-2 border-stone-300 shadow-[0_2px_0_#9CA3AF] flex items-center justify-center text-lg hover:bg-stone-50 active:translate-y-0.5 transition" title="Toggle Voice Narration">
+          🗣️
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 1. PORTAL VIEW (CATALOG / LESSON BROWSER) -->
+  <!-- ========================================================================= -->
+  <main id="portal-view" class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+    
+    <!-- Hero Banner with Tala and Family -->
+    <div class="relative bg-gradient-to-r from-amber-400 via-orange-300 to-teal-400 rounded-3xl p-6 md:p-10 border-4 border-[#9A6B00] shadow-[0_8px_0_#9A6B00] mb-10 overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <span class="inline-block bg-white/90 text-stone-800 font-bold px-4 py-1.5 rounded-full text-xs md:text-sm uppercase tracking-wider mb-3 shadow-sm">
+          🌟 DepEd English & Language Modules
+        </span>
+        <h2 class="font-heading font-extrabold text-3xl md:text-5xl text-stone-900 leading-tight">
+          Welcome, Young Learners!
+        </h2>
+        <p class="font-medium text-stone-800 text-base md:text-lg mt-2 mb-6">
+          Join Tala, Kuya Sig, Ate Hinhin, Nanay Maganda, and Tatay Malakas on interactive storytelling, vocabulary games, rhyming quests, and reading adventures!
+        </p>
+
+        <!-- Quick Jump Grade Cards -->
+        <div class="flex flex-wrap gap-3">
+          <button class="grade-tab-btn btn-chunky bg-white text-stone-800 px-5 py-2.5 text-sm md:text-base border-amber-500 shadow-[0_4px_0_#9A6B00]" data-grade="GRADE 1">
+            🌱 Grade 1 (Language)
+          </button>
+          <button class="grade-tab-btn btn-chunky bg-white/80 text-stone-800 px-5 py-2.5 text-sm md:text-base border-teal-500 shadow-[0_4px_0_#1F6F69]" data-grade="GRADE 2">
+            🚀 Grade 2 (English)
+          </button>
+          <button class="grade-tab-btn btn-chunky bg-white/80 text-stone-800 px-5 py-2.5 text-sm md:text-base border-coral-500 shadow-[0_4px_0_#B23B2C]" data-grade="GRADE 3">
+            ⭐ Grade 3 (English)
+          </button>
+        </div>
+      </div>
+
+      <!-- Mascot Character Banner Illustration -->
+      <div class="absolute -right-6 -bottom-6 w-48 md:w-64 opacity-90 pointer-events-none hidden sm:block">
+        <img src="POSES/TALA/waving.png" alt="Tala Waving" class="w-full h-auto drop-shadow-xl animate-bounce-slow">
+      </div>
+    </div>
+
+    <!-- PPTX File Upload / Dropzone Area -->
+    <div id="pptx-dropzone" class="bg-amber-50/70 border-3 border-dashed border-amber-400 rounded-3xl p-5 mb-8 text-center cursor-pointer hover:bg-amber-100/60 transition-all flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4 text-left">
+        <div class="w-12 h-12 rounded-2xl bg-amber-400 border-2 border-amber-600 flex items-center justify-center text-2xl shrink-0">
+          📥
+        </div>
+        <div>
+          <h4 class="font-heading font-bold text-stone-800 text-base md:text-lg">Have another Interactive PowerPoint (.pptx) file?</h4>
+          <p class="text-stone-600 text-xs md:text-sm">Drag and drop any PPTX here or click to open it instantly inside this interactive player!</p>
+        </div>
+      </div>
+      <input type="file" id="pptx-file-input" accept=".pptx" class="hidden">
+      <button class="btn-chunky btn-amber text-xs px-4 py-2 shrink-0 pointer-events-none">
+        Choose PPTX File
+      </button>
+    </div>
+
+    <!-- Filters & Search Toolbar -->
+    <div class="bg-white border-3 border-stone-300 shadow-[0_6px_0_#9CA3AF] rounded-3xl p-5 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-stone-500 mb-1.5">Quarter</label>
+          <select id="quarter-select" class="w-full bg-stone-50 border-2 border-stone-300 rounded-xl px-3.5 py-2.5 text-stone-800 font-bold text-sm focus:outline-none focus:ring-3 focus:ring-amber-300">
+            <option value="QUARTER 1">QUARTER 1</option>
+            <option value="QUARTER 2">QUARTER 2</option>
+            <option value="QUARTER 3">QUARTER 3</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-stone-500 mb-1.5">Week</label>
+          <select id="week-select" class="w-full bg-stone-50 border-2 border-stone-300 rounded-xl px-3.5 py-2.5 text-stone-800 font-bold text-sm focus:outline-none focus:ring-3 focus:ring-amber-300">
+            <option value="ALL">All Weeks</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-stone-500 mb-1.5">Day</label>
+          <select id="day-select" class="w-full bg-stone-50 border-2 border-stone-300 rounded-xl px-3.5 py-2.5 text-stone-800 font-bold text-sm focus:outline-none focus:ring-3 focus:ring-amber-300">
+            <option value="ALL">All Days</option>
+            <option value="DAY 1">DAY 1</option>
+            <option value="DAY 2">DAY 2</option>
+            <option value="DAY 3">DAY 3</option>
+            <option value="DAY 4">DAY 4</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-stone-500 mb-1.5">Search Lessons</label>
+          <div class="relative">
+            <input type="text" id="lesson-search-input" placeholder="e.g. Rhyming, Introduce, Dam..." class="w-full bg-stone-50 border-2 border-stone-300 rounded-xl pl-9 pr-3.5 py-2.5 text-stone-800 font-bold text-sm focus:outline-none focus:ring-3 focus:ring-amber-300">
+            <span class="absolute left-3 top-2.5 text-stone-400 text-sm">🔍</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Header with Lesson Count -->
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="font-heading font-extrabold text-2xl text-stone-800">Lesson Library</h3>
+        <p id="total-lessons-count" class="text-xs md:text-sm font-semibold text-stone-500 mt-0.5">Loading lessons...</p>
+      </div>
+    </div>
+
+    <!-- Lessons Grid -->
+    <div id="lessons-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 2. LESSON PLAYER VIEW (INTERACTIVE PRESENTATION & ACTIVITIES) -->
+  <!-- ========================================================================= -->
+  <section id="lesson-view" class="hidden max-w-7xl mx-auto px-4 md:px-8 py-6">
+    
+    <!-- Top Player Header Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 bg-white border-3 border-stone-300 shadow-[0_5px_0_#9CA3AF] rounded-3xl p-4 md:p-5">
+      <div class="flex items-center gap-3">
+        <button id="btn-back-to-portal" class="btn-chunky bg-stone-100 text-stone-700 border-stone-400 px-4 py-2 text-sm hover:bg-stone-200">
+          ◀ Back to Library
+        </button>
+        <div>
+          <span id="player-lesson-meta" class="text-xs font-bold text-amber-700 uppercase tracking-wider block">
+            GRADE 1 • QUARTER 1 • WEEK 1 • DAY 1
+          </span>
+          <h2 id="player-lesson-title" class="font-heading font-bold text-lg md:text-xl text-stone-800 line-clamp-1">
+            Lesson Title
+          </h2>
+        </div>
+      </div>
+
+      <!-- Slide Counter & Progress Bar -->
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <div class="w-full sm:w-48 bg-stone-100 rounded-full h-4 border-2 border-stone-300 overflow-hidden">
+          <div id="player-progress-bar" class="bg-gradient-to-r from-amber-400 to-green-400 h-full rounded-full transition-all duration-300" style="width: 10%;"></div>
+        </div>
+        <span id="player-slide-progress" class="text-xs font-bold text-stone-600 whitespace-nowrap">Slide 1 of 36</span>
+      </div>
+    </div>
+
+    <!-- Main Scenic Interactive Stage -->
+    <div id="scenic-stage" class="scenic-canvas relative border-4 border-stone-800 shadow-[0_10px_0_#3B2E28] rounded-3xl min-h-[580px] flex flex-col justify-between overflow-hidden mb-6 bg-stone-100">
+      
+      <!-- Scenic Illustration Layer + Overlay -->
+      <div id="scenic-bg-layer" class="absolute inset-0 bg-cover bg-center transition-all duration-500"></div>
+      <div class="scenic-overlay absolute inset-0"></div>
+
+      <!-- Foreground Content Container -->
+      <div class="relative z-10 p-6 md:p-10 flex flex-col justify-between h-full min-h-[580px]">
+        
+        <!-- Top Slide Header Banner -->
+        <div class="bg-white/95 border-3 border-amber-500 shadow-[0_5px_0_#9A6B00] rounded-2xl p-4 max-w-4xl mx-auto text-center mb-6 backdrop-blur-md">
+          <h2 id="slide-title" class="font-heading font-extrabold text-2xl md:text-3xl text-stone-900 leading-tight">
+            Words About Me!
+          </h2>
+          <p id="slide-subtitle" class="font-semibold text-stone-600 text-base md:text-lg mt-1 hidden"></p>
+        </div>
+
+        <!-- Middle Stage: Character Avatar Stage + Interactive Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto w-full">
+          
+          <!-- Left / Character Avatar & Speech Bubble (4 cols) -->
+          <div class="lg:col-span-4 flex flex-col items-center text-center">
+            <div id="char-speech-bubble" class="speech-bubble mb-3 max-w-xs animate-pop bg-white">
+              <p id="char-speech-text" class="font-heading font-bold text-stone-800 text-sm md:text-base leading-snug">
+                "Let's learn together!"
+              </p>
+            </div>
+            <div class="relative">
+              <div class="w-36 h-36 md:w-48 md:h-48 rounded-full bg-white/90 border-4 border-amber-400 shadow-[0_5px_0_#9A6B00] overflow-hidden flex items-center justify-center p-2 backdrop-blur-sm">
+                <img id="char-avatar-img" src="POSES/TALA/waving.png" alt="Tala" class="w-full h-full object-contain drop-shadow-md animate-bounce-slow">
+              </div>
+              <span id="char-name" class="mt-1.5 inline-block bg-white text-stone-800 font-heading font-bold text-xs md:text-sm px-3 py-0.5 rounded-full border-2 border-stone-800 shadow-[0_2px_0_#3B2E28]">
+                Tala
+              </span>
+            </div>
+          </div>
+
+          <!-- Right / Interactive Activity / Slide Content (8 cols) -->
+          <div class="lg:col-span-8 flex flex-col items-center justify-center w-full">
+            
+            <!-- Foreground Artwork Stickers Strip -->
+            <div id="foreground-art-strip" class="flex flex-wrap gap-4 items-center justify-center mb-4 hidden"></div>
+
+            <!-- Slide Presentation Body -->
+            <div id="slide-body-content" class="w-full"></div>
+
+            <!-- Interactive Custom Activities Container -->
+            <div id="slide-activity-container" class="w-full hidden"></div>
+          </div>
+        </div>
+
+        <!-- Bottom Controller Bar -->
+        <footer class="mt-6 pt-4 border-t-2 border-stone-300/80 bg-white/90 backdrop-blur-md rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+          <div class="flex items-center gap-2">
+            <button id="btn-speak-slide" class="btn-chunky bg-teal-100 text-teal-900 border-teal-500 shadow-[0_3px_0_#1F6F69] px-3.5 py-2 text-xs md:text-sm" title="Read Aloud with Natural Voice">
+              🔊 Read Aloud
+            </button>
+            <button id="btn-autoplay" class="btn-chunky btn-sky px-3.5 py-2 text-xs md:text-sm">
+              ▶️ Auto Play
+            </button>
+            <button id="btn-reset-slide" class="btn-chunky bg-stone-100 text-stone-700 border-stone-400 shadow-[0_3px_0_#9CA3AF] px-3 py-2 text-xs md:text-sm" title="Restart Slide">
+              🔄 Reset
+            </button>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button id="btn-prev-slide" class="btn-chunky bg-white text-stone-800 border-stone-800 shadow-[0_4px_0_#3B2E28] px-4 py-2.5 text-sm md:text-base">
+              ◀ Previous
+            </button>
+            
+            <button id="btn-step-build" class="btn-chunky btn-amber px-5 py-2.5 text-sm md:text-base hidden">
+              ✨ Next Step
+            </button>
+
+            <button id="btn-next-slide" class="btn-chunky btn-teal px-6 py-2.5 text-sm md:text-base">
+              Next Slide ▶
+            </button>
+
+            <button id="btn-fullscreen" class="btn-chunky bg-stone-100 text-stone-700 border-stone-400 shadow-[0_3px_0_#9CA3AF] px-3 py-2.5 text-sm md:text-base" title="Toggle Fullscreen">
+              ⛶
+            </button>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </section>
+
+  <div id="kid-done" class="kid-done">
+    <div class="kid-done-card">
+      <p style="font-size:52px;">🎉</p>
+      <h2 class="font-heading" style="font-size:32px;margin:8px 0;">You did it!</h2>
+      <p style="font-weight:700;font-size:20px;">Stars earned: <span id="done-stars">0</span></p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap;">
+        <button type="button" id="btn-back-from-done" class="btn-chunky btn-teal btn-lg">More lessons</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/audio.js"></script>
+  <script src="js/speech.js"></script>
+  <script src="js/activities.js"></script>
+  <script src="js/pptx-parser.js"></script>
+  <script src="js/lessons-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,2551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Grade 1 Language • Day 1: Myself and My Family</title>
+  
+  <!-- Google Fonts: Fredoka & Nunito for child-friendly readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --stage-w: 1600px;
+      --stage-h: 900px;
+      --ink: #1E1B18;
+      --amber: #F59E0B;
+      --amber-dark: #B45309;
+      --amber-light: #FEF3C7;
+      --teal: #0D9488;
+      --teal-dark: #0F766E;
+      --teal-light: #CCFBF1;
+      --coral: #F43F5E;
+      --coral-dark: #BE123C;
+      --sky: #0284C7;
+      --sky-light: #E0F2FE;
+      --green: #16A34A;
+      --green-dark: #15803D;
+      --purple: #9333EA;
+      --cream: #FFFDF9;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --border-radius-card: 32px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 20%, #FFF4E4 0%, #F5E6CC 100%);
+      font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+      color: var(--ink);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 16:9 Stage Wrap */
+    #stagewrap {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9));
+      aspect-ratio: 16 / 9;
+      max-height: 100vh;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28), 0 0 0 4px rgba(245, 158, 11, 0.45);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    #stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--stage-w);
+      height: var(--stage-h);
+      transform-origin: top left;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* SINGLE CONSISTENT SCENIC BACKGROUND (Tala's Warm Living Room) */
+    .scenic-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('media/image2.jpg');
+      background-size: cover;
+      background-position: center bottom;
+      z-index: 1;
+    }
+
+    .scenic-vignette {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 15, 10, 0.40) 0%, rgba(20, 15, 10, 0.05) 20%, rgba(20, 15, 10, 0.08) 75%, rgba(20, 15, 10, 0.65) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* TOP HEADER INSIDE THE MODULE */
+    .module-top-bar {
+      position: relative;
+      z-index: 10;
+      padding: 16px 32px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .deped-tag {
+      background: rgba(255, 255, 255, 0.96);
+      border: 3px solid #D97706;
+      border-radius: 999px;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+    }
+    .deped-tag .ph-flag-svg {
+      width: 32px;
+      height: 22px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .deped-tag .title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #92400E;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .deped-tag .subtitle {
+      font-size: 17px;
+      font-weight: 700;
+      color: #78350F;
+    }
+
+    .top-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .star-pill {
+      background: #FEF3C7;
+      border: 3px solid #F59E0B;
+      color: #92400E;
+      padding: 8px 22px;
+      border-radius: 999px;
+      font-size: 24px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .star-pill.bump {
+      transform: scale(1.3) rotate(5deg);
+    }
+
+    .mode-btn {
+      background: rgba(255, 255, 255, 0.94);
+      border: 3px solid #0D9488;
+      color: #0F766E;
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mode-btn:hover {
+      background: #CCFBF1;
+      transform: translateY(-2px);
+    }
+    .mode-btn.active {
+      background: #0D9488;
+      color: #FFF;
+    }
+
+    /* MAIN STAGE CONTENT - CENTER HERO LESSON AREA */
+    .module-main-stage {
+      position: relative;
+      z-index: 5;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 36px;
+      min-height: 0;
+    }
+
+    .stage-canvas-body {
+      width: 100%;
+      max-width: 1536px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    /* REALISTIC GROUNDED CHARACTER ACTOR (LEFT OR RIGHT) */
+    .char-actor-wrap {
+      position: absolute;
+      bottom: 12px;
+      left: 30px;
+      width: 300px;
+      height: 520px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      pointer-events: auto;
+      transition: left 0.4s ease, right 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+    }
+    .char-actor-wrap.right-side {
+      left: auto;
+      right: 30px;
+    }
+    .char-actor-wrap.minimized {
+      bottom: 12px;
+      left: 20px;
+      width: 140px;
+      height: 200px;
+      z-index: 15;
+      opacity: 0.95;
+    }
+    .char-actor-wrap.hidden-actor {
+      display: none;
+    }
+
+    .char-img {
+      max-height: 450px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.35));
+      animation: gentleBreath 3.6s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      z-index: 2;
+    }
+    .char-img:active {
+      transform: scale(0.96);
+    }
+
+    /* REALISTIC CONTACT SHADOW (ANCHORS FEET TO THE FLOOR) */
+    .char-contact-shadow {
+      width: 190px;
+      height: 22px;
+      background: radial-gradient(ellipse at center, rgba(35, 20, 10, 0.52) 0%, rgba(35, 20, 10, 0.2) 55%, transparent 75%);
+      border-radius: 50%;
+      margin-top: -14px;
+      margin-bottom: 8px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes gentleBreath {
+      0% { transform: scale(1); }
+      100% { transform: scaleY(1.018) scaleX(0.993); }
+    }
+
+    .char-name-tag {
+      background: rgba(255, 255, 255, 0.96);
+      border: 3px solid #1E293B;
+      color: #1E293B;
+      font-size: 19px;
+      font-weight: 800;
+      padding: 6px 20px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .speaking-pulse {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: #10B981;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseGreen 1.4s infinite;
+    }
+    @keyframes pulseGreen {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* TWO-PHASE "LISTEN FIRST, THEN TAP" SYSTEM */
+    .interactive-zone {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: opacity 0.3s ease;
+    }
+    .interactive-zone.locked {
+      opacity: 0.95;
+    }
+    .interactive-zone.unlocked {
+      opacity: 1;
+    }
+
+    .phase-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 24px;
+      border-radius: 999px;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      transition: all 0.3s ease;
+    }
+
+    .phase-status-badge.listening {
+      background: #FEF3C7;
+      border: 2px solid #F59E0B;
+      color: #92400E;
+    }
+
+    .phase-status-badge.interactive {
+      background: #D1FAE5;
+      border: 3px solid #10B981;
+      color: #065F46;
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+    }
+
+    .skip-phase-btn {
+      background: #FFF;
+      border: 2px solid #F59E0B;
+      color: #B45309;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      margin-left: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .skip-phase-btn:hover {
+      background: #FDE68A;
+      transform: scale(1.05);
+    }
+
+    /* TEACHER SPEAKING SEQUENTIAL HIGHLIGHT */
+    .card-teacher-speaking {
+      border-color: #F59E0B !important;
+      background: #FFFBEB !important;
+      transform: translateY(-8px) scale(1.06) !important;
+      box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.45), 0 18px 36px rgba(245, 158, 11, 0.35) !important;
+    }
+
+    /* STEP CARD ACTIVE HIGHLIGHT */
+    .step-card.active {
+      border-color: #10B981 !important;
+      background: #ECFDF5 !important;
+      transform: translateY(-6px) scale(1.04) !important;
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.35), 0 16px 32px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    /* DESCRIBE CARD ACTIVE HIGHLIGHT */
+    .describe-card.active {
+      border-color: #10B981 !important;
+      background: #ECFDF5 !important;
+      transform: translateY(-6px) scale(1.04) !important;
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.35), 0 16px 32px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    /* READY PULSE FOR UNLOCKED INTERACTIVE CARDS */
+    .interactive-zone.unlocked .word-card,
+    .interactive-zone.unlocked .btn-choice,
+    .interactive-zone.unlocked .step-card,
+    .interactive-zone.unlocked .family-member-card,
+    .interactive-zone.unlocked .describe-card,
+    .interactive-zone.unlocked .giant-word {
+      animation: readyPulse 2.4s infinite ease-in-out;
+    }
+
+    @keyframes readyPulse {
+      0%, 100% { box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12); }
+      50% { box-shadow: 0 12px 28px rgba(16, 185, 129, 0.35); }
+    }
+
+    /* INTERACTIVE ACTIVITY ZONE (MAIN STAGE HERO) */
+    .activity-stage-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      margin-left: 330px; /* Ample breathing room so card never overlaps Tala */
+      transition: margin 0.35s ease;
+    }
+    .stage-canvas-body.char-on-right .activity-stage-area {
+      margin-left: 0;
+      margin-right: 330px;
+    }
+    .stage-canvas-body.story-mode .activity-stage-area {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    /* CARD POP ANIMATION FOR KEY WORDS ENTRANCE */
+    @keyframes cardPopIn {
+      0% { opacity: 0; transform: scale(0.88) translateY(20px); }
+      70% { transform: scale(1.02) translateY(-4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* HERO LESSON CARD STYLES */
+    .big-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius-card);
+      border: 5px solid #F59E0B;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+      padding: 32px 46px;
+      width: 100%;
+      max-width: 1140px;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 22px;
+      position: relative;
+      animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .big-card.teal-theme {
+      border-color: #0D9488;
+    }
+    .big-card.purple-theme {
+      border-color: #8B5CF6;
+    }
+    .big-card.pink-theme {
+      border-color: #EC4899;
+    }
+
+    /* GIANT WORD DISPLAY FOR 6-8 Y/O NON-READERS */
+    .giant-word-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .giant-word {
+      font-size: 96px;
+      font-weight: 800;
+      color: #92400E;
+      background: linear-gradient(180deg, #FDE68A 0%, #F59E0B 100%);
+      border: 6px solid #D97706;
+      border-radius: 36px;
+      padding: 16px 68px;
+      box-shadow: 0 14px 30px rgba(245, 158, 11, 0.4);
+      letter-spacing: 2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .giant-word:hover {
+      transform: scale(1.08) rotate(-1.5deg);
+    }
+    .giant-word:active {
+      transform: scale(0.96);
+    }
+
+    .word-meaning-banner {
+      font-size: 38px;
+      font-weight: 800;
+      color: #1F2937;
+      background: #F3F4F6;
+      padding: 14px 36px;
+      border-radius: 24px;
+      border: 3px solid #E5E7EB;
+      animation: cardPopIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .model-sentence-box {
+      font-size: 42px;
+      font-weight: 800;
+      color: #0F766E;
+      background: #CCFBF1;
+      border: 4px dashed #0D9488;
+      border-radius: 24px;
+      padding: 16px 40px;
+      box-shadow: 0 8px 20px rgba(13, 148, 136, 0.2);
+      animation: cardPopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .tap-hint-pill {
+      font-size: 22px;
+      font-weight: 800;
+      color: #92400E;
+      background: #FEF3C7;
+      border: 2px solid #F59E0B;
+      padding: 8px 24px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* CLEAN AUDIO TAP BADGE (REPLACES RAW EMOJIS) */
+    .audio-tap-badge {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0D9488;
+      background: #CCFBF1;
+      padding: 5px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .audio-tap-badge.amber {
+      color: #92400E;
+      background: #FEF3C7;
+    }
+    .audio-tap-badge.pink {
+      color: #9D174D;
+      background: #FCE7F3;
+    }
+
+    /* INTERACTIVE BLANK SENTENCE BUILDER */
+    .interactive-sentence-builder {
+      font-size: 46px;
+      font-weight: 800;
+      color: #1F2937;
+      background: #FFF;
+      border: 5px solid #0D9488;
+      border-radius: 28px;
+      padding: 22px 44px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .blank-slot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+      height: 72px;
+      padding: 0 24px;
+      border: 4px dashed #F59E0B;
+      background: #FEF3C7;
+      border-radius: 20px;
+      color: #B45309;
+      font-size: 42px;
+      font-weight: 800;
+      animation: slotPulse 1.8s infinite alternate;
+    }
+    @keyframes slotPulse {
+      0% { border-color: #F59E0B; background: #FEF3C7; }
+      100% { border-color: #D97706; background: #FDE68A; box-shadow: 0 0 18px rgba(245, 158, 11, 0.5); }
+    }
+    .blank-slot.filled {
+      animation: none;
+      background: #D1FAE5;
+      border: 4px solid #10B981;
+      color: #065F46;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+    }
+
+    /* CHOICE BUTTONS ROW */
+    .choices-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .btn-choice {
+      background: #FFF;
+      border: 4px solid #3B82F6;
+      border-radius: 24px;
+      padding: 16px 36px;
+      font-size: 36px;
+      font-weight: 800;
+      color: #1D4ED8;
+      box-shadow: 0 10px 22px rgba(59, 130, 246, 0.28);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-choice:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: #EFF6FF;
+      box-shadow: 0 14px 28px rgba(59, 130, 246, 0.38);
+    }
+    .btn-choice:active {
+      transform: translateY(2px);
+    }
+    .btn-choice.selected {
+      background: #10B981;
+      border-color: #059669;
+      color: #FFF;
+      box-shadow: 0 10px 26px rgba(16, 185, 129, 0.45);
+    }
+
+    /* 3 STEPS GRID */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1060px;
+    }
+    .step-card {
+      background: #FFF;
+      border: 5px solid #0D9488;
+      border-radius: 26px;
+      padding: 24px 20px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .step-card:hover {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 18px 36px rgba(13, 148, 136, 0.35);
+    }
+    .step-card:active {
+      transform: scale(0.97);
+    }
+    .step-card .num-badge {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #0D9488;
+      color: #FFF;
+      font-size: 36px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      border: 4px solid #FFF;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    }
+    .step-card .step-title {
+      font-size: 30px;
+      font-weight: 800;
+      color: #1F2937;
+    }
+    .step-card .step-example {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0F766E;
+      background: #CCFBF1;
+      padding: 10px 18px;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    /* ILLUSTRATED CARDS FOR 3 WORDS (NO EMOJIS) */
+    .word-cards-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      width: 100%;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .word-card {
+      background: #FFF;
+      border: 5px solid #0D9488;
+      border-radius: 26px;
+      padding: 22px 18px;
+      width: 260px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .word-card:hover {
+      transform: translateY(-8px) scale(1.05);
+      border-color: #0F766E;
+      box-shadow: 0 18px 36px rgba(13, 148, 136, 0.35);
+    }
+    .word-card:active {
+      transform: scale(0.96);
+    }
+    .word-card.active {
+      border-color: #10B981;
+      background: #ECFDF5;
+      box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.35), 0 16px 32px rgba(16, 185, 129, 0.25);
+      transform: translateY(-6px) scale(1.04);
+    }
+    .portrait-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: #CCFBF1;
+      border: 4px solid #0D9488;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(13, 148, 136, 0.25);
+    }
+    .portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .word-card .word-title {
+      font-size: 46px;
+      font-weight: 800;
+      color: #0D9488;
+    }
+    .word-card .word-desc {
+      font-size: 20px;
+      font-weight: 700;
+      color: #4B5563;
+    }
+
+    /* FAMILY GALLERY CARDS (REAL ILLUSTRATIONS, NO EMOJIS) */
+    .family-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .family-member-card {
+      background: #FFF;
+      border: 4px solid #F59E0B;
+      border-radius: 24px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .family-member-card:hover {
+      transform: translateY(-8px) scale(1.06);
+      border-color: #D97706;
+      box-shadow: 0 16px 32px rgba(245, 158, 11, 0.38);
+    }
+    .family-member-card:active {
+      transform: scale(0.96);
+    }
+    .family-member-card.active {
+      border-color: #10B981;
+      background: #ECFDF5;
+      box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.35);
+    }
+    .family-portrait-frame {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #FEF3C7;
+      border: 3px solid #F59E0B;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    .family-portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .family-member-card .member-en {
+      font-size: 24px;
+      font-weight: 800;
+      color: #92400E;
+    }
+    .family-member-card .member-fil {
+      font-size: 19px;
+      font-weight: 700;
+      color: #0D9488;
+      background: #CCFBF1;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    /* DESCRIBE WORDS GRID (REAL ILLUSTRATIONS, NO EMOJIS) */
+    .describe-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      width: 100%;
+      max-width: 1050px;
+    }
+    .describe-card {
+      background: #FFF;
+      border: 5px solid #EC4899;
+      border-radius: 26px;
+      padding: 22px 16px;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .describe-card:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 18px 36px rgba(236, 72, 153, 0.38);
+    }
+    .describe-card:active {
+      transform: scale(0.96);
+    }
+    .trait-portrait-frame {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: #FCE7F3;
+      border: 4px solid #EC4899;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(236, 72, 153, 0.25);
+    }
+    .trait-portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .describe-card .d-word {
+      font-size: 34px;
+      font-weight: 800;
+      color: #BE185D;
+    }
+    .describe-card .d-meaning {
+      font-size: 20px;
+      font-weight: 700;
+      color: #4B5563;
+    }
+
+    /* STORY FOCUS: HAND-DRAWN FAMILY PORTRAIT IS HERO CENTERPIECE */
+    .story-center-container {
+      width: 100%;
+      max-width: 1080px;
+      height: 520px;
+      border-radius: 32px;
+      border: 6px solid #FFF;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      position: relative;
+      background: #FDF4E3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .story-art-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #FDF4E3;
+    }
+    .story-caption-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.94) 85%);
+      padding: 38px 44px 24px;
+      color: #FFF;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+    }
+    .story-tag {
+      color: #FDE68A;
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+    .story-text {
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    /* QUIZ GAME VIEW */
+    .quiz-container {
+      background: var(--card-bg);
+      border-radius: var(--border-radius-card);
+      border: 5px solid #8B5CF6;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+      padding: 30px 42px;
+      width: 100%;
+      max-width: 1050px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .quiz-question-text {
+      font-size: 42px;
+      font-weight: 800;
+      color: #4C1D95;
+      text-align: center;
+    }
+    .quiz-choices-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      width: 100%;
+    }
+    .quiz-choice-btn {
+      background: #FFF;
+      border: 4px solid #A78BFA;
+      border-radius: 24px;
+      padding: 18px 42px;
+      font-size: 36px;
+      font-weight: 800;
+      color: #5B21B6;
+      box-shadow: 0 10px 22px rgba(139, 92, 246, 0.25);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .quiz-choice-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: #F5F3FF;
+    }
+    .quiz-choice-btn:active {
+      transform: scale(0.96);
+    }
+    .quiz-choice-btn.correct {
+      background: #10B981;
+      border-color: #059669;
+      color: #FFF;
+      box-shadow: 0 0 28px rgba(16, 185, 129, 0.65);
+    }
+    .quiz-choice-btn.wrong {
+      background: #F43F5E;
+      border-color: #BE123C;
+      color: #FFF;
+      opacity: 0.6;
+    }
+    .quiz-feedback-box {
+      font-size: 28px;
+      font-weight: 800;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .quiz-feedback-box.ok {
+      color: #059669;
+    }
+    .quiz-feedback-box.no {
+      color: #DC2626;
+    }
+
+    /* BIBLE VERSE / VALUES VIEW (NO EMOJIS) */
+    .verse-card {
+      background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+      border: 5px solid #F59E0B;
+      border-radius: var(--border-radius-card);
+      box-shadow: 0 18px 45px rgba(245, 158, 11, 0.35);
+      padding: 38px 48px;
+      max-width: 1020px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      animation: cardPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .verse-heart-svg {
+      width: 48px;
+      height: 48px;
+      fill: #D97706;
+    }
+    .verse-text {
+      font-size: 44px;
+      font-weight: 800;
+      color: #78350F;
+      line-height: 1.35;
+    }
+    .verse-ref {
+      font-size: 28px;
+      font-weight: 800;
+      color: #B45309;
+      background: #FDE68A;
+      padding: 6px 24px;
+      border-radius: 999px;
+    }
+
+    /* CELEBRATION FINISH SCREEN */
+    .celebrate-card {
+      background: rgba(255, 255, 255, 0.98);
+      border: 6px solid #10B981;
+      border-radius: var(--border-radius-card);
+      box-shadow: 0 22px 55px rgba(16, 185, 129, 0.38);
+      padding: 44px 64px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .celebrate-card h2 {
+      font-size: 54px;
+      font-weight: 800;
+      color: #065F46;
+    }
+    .celebrate-card p {
+      font-size: 32px;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    /* DOCK & TRANSPORT CONTROLS INSIDE STAGE */
+    .module-dock {
+      position: relative;
+      z-index: 15;
+      padding: 12px 32px 16px;
+      background: rgba(255, 255, 255, 0.94);
+      border-top: 3px solid rgba(245, 158, 11, 0.4);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dock-seekbar-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+    .time-lbl {
+      font-size: 16px;
+      font-weight: 800;
+      color: #4B5563;
+      width: 45px;
+      text-align: center;
+    }
+    .seek-slider {
+      flex: 1;
+      height: 10px;
+      -webkit-appearance: none;
+      background: #E5E7EB;
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+    .seek-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #F59E0B;
+      border: 3px solid #FFF;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+
+    .dock-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .btn-dock {
+      background: #FFF;
+      border: 3px solid #D1D5DB;
+      color: #374151;
+      padding: 10px 22px;
+      border-radius: 18px;
+      font-size: 19px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 0 #9CA3AF;
+      transition: all 0.15s ease;
+    }
+    .btn-dock:hover {
+      background: #F9FAFB;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #9CA3AF;
+    }
+    .btn-dock:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #9CA3AF;
+    }
+    .btn-dock.primary {
+      background: #0D9488;
+      border-color: #0F766E;
+      color: #FFF;
+      box-shadow: 0 4px 0 #0F766E;
+    }
+    .btn-dock.primary:hover {
+      background: #14B8A6;
+      box-shadow: 0 6px 0 #0F766E;
+    }
+    .btn-dock.amber {
+      background: #F59E0B;
+      border-color: #D97706;
+      color: #FFF;
+      box-shadow: 0 4px 0 #D97706;
+    }
+    .btn-dock.amber:hover {
+      background: #FBBF24;
+      box-shadow: 0 6px 0 #D97706;
+    }
+
+    .slide-dots-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .slide-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #D1D5DB;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .slide-dot.active {
+      width: 32px;
+      border-radius: 10px;
+      background: #0D9488;
+    }
+
+    .slide-counter-badge {
+      font-size: 18px;
+      font-weight: 800;
+      color: #4B5563;
+      background: #F3F4F6;
+      padding: 6px 16px;
+      border-radius: 999px;
+    }
+
+    /* BIG TOUCH HELPER FOR 6 Y/O */
+    .bouncy {
+      animation: gentleBounce 2s infinite alternate;
+    }
+    @keyframes gentleBounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 16:9 STAGE WRAPPER -->
+  <div id="stagewrap">
+    <div id="stage">
+
+      <!-- SCENIC BACKGROUND (SINGLE CONSISTENT LIVING ROOM) & OVERLAY -->
+      <div class="scenic-bg" id="scenicBg"></div>
+      <div class="scenic-vignette"></div>
+
+      <!-- 1. TOP APP BAR INSIDE MODULE -->
+      <header class="module-top-bar">
+        <div class="deped-tag">
+          <!-- Clean SVG Philippine Flag -->
+          <svg class="ph-flag-svg" viewBox="0 0 600 300">
+            <rect width="600" height="150" fill="#0038A8"/>
+            <rect y="150" width="600" height="150" fill="#CE1126"/>
+            <polygon points="0,0 260,150 0,300" fill="#FFF"/>
+            <circle cx="85" cy="150" r="32" fill="#FCD116"/>
+          </svg>
+          <div>
+            <div class="title">DepEd MATATAG • Grade 1 Language</div>
+            <div class="subtitle" id="topTopicSubtitle">Quarter 1 • Week 1 • Day 1: Introducing Myself & My Family</div>
+          </div>
+        </div>
+
+        <div class="top-stats">
+          <div class="star-pill" id="starPill">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <span id="starCounter">0</span>
+          </div>
+
+          <button class="btn-dock" id="btnSoundMute" onclick="toggleMute()" title="Toggle Sound FX">
+            <svg id="svgSoundMute" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          </button>
+          <button class="btn-dock" id="btnFs" onclick="toggleFullscreen()" title="Fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- 2. MAIN STAGE HERO AREA (CHARACTER + HERO LESSON CARD) -->
+      <main class="module-main-stage">
+        <div class="stage-canvas-body" id="stageCanvasBody">
+
+          <!-- REALISTIC GROUNDED CHARACTER (LEFT OR RIGHT) -->
+          <div class="char-actor-wrap" id="charActorWrap">
+            <img class="char-img" id="charImg" src="../../../../POSES/TALA/waving.png" alt="Tala" onclick="playActorCheer()">
+            <!-- Ellipse Contact Shadow anchoring Tala firmly onto the wooden floor -->
+            <div class="char-contact-shadow"></div>
+            <div class="char-name-tag" onclick="replayAudio()">
+              <span class="speaking-pulse" id="actorPulse"></span>
+              <span id="charNameLabel">Tala</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            </div>
+          </div>
+
+          <!-- HERO ACTIVITY CENTER (THE MAIN LESSON BOX) -->
+          <div class="activity-stage-area" id="activityStageArea">
+            <!-- Rendered dynamically by current slide -->
+          </div>
+
+        </div>
+      </main>
+
+      <!-- 3. BOTTOM DOCK CONTROLS INSIDE MODULE -->
+      <footer class="module-dock">
+        <div class="dock-seekbar-row">
+          <span class="time-lbl" id="currTime">0:00</span>
+          <input type="range" class="seek-slider" id="seekSlider" min="0" max="1000" value="0" oninput="onSeekChange(this.value)">
+          <span class="time-lbl" id="totTime">0:00</span>
+        </div>
+
+        <div class="dock-controls-row">
+          <div style="display:flex;gap:10px;align-items:center;">
+            <button class="btn-dock" id="btnPrevSlide" onclick="prevSlide()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+              <span>Previous</span>
+            </button>
+            <button class="btn-dock amber" id="btnPlayPause" onclick="togglePlayPause()">
+              <svg id="svgPlayPause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              <span id="txtPlayPause">Pause</span>
+            </button>
+            <button class="btn-dock" id="btnReplaySlide" onclick="replayAudio()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+              <span>Replay</span>
+            </button>
+          </div>
+
+          <!-- Slide Dots Indicator -->
+          <div class="slide-dots-indicator" id="slideDotsIndicator">
+            <!-- Generated dynamically -->
+          </div>
+
+          <div style="display:flex;gap:12px;align-items:center;">
+            <button class="btn-dock" id="btnAutoAdvance" onclick="toggleAutoAdvance()">Auto: OFF</button>
+            <span class="slide-counter-badge" id="slideCounterBadge">Slide 1 of 18</span>
+            <button class="btn-dock primary" id="btnNextSlide" onclick="nextSlide()">
+              <span>Next Slide</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- HIDDEN AUDIO PLAYER FOR TEACHER NARRATION -->
+  <audio id="audioNarrator" preload="auto"></audio>
+
+  <script>
+    /* =========================================================================
+       AUDIO FX (SYNTHESIZED WEB AUDIO API - ZERO NETWORK DEPENDENCY)
+       ========================================================================= */
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+      }
+      init() {
+        if (!this.ctx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) this.ctx = new AC();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      pop() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+        g.gain.setValueAtTime(0.3, now);
+        g.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+        osc.connect(g).connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      }
+      star() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, i) => {
+          const osc = this.ctx.createOscillator();
+          const g = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + i * 0.07);
+          g.gain.setValueAtTime(0.25, now + i * 0.07);
+          g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.07 + 0.25);
+          osc.connect(g).connect(this.ctx.destination);
+          osc.start(now + i * 0.07);
+          osc.stop(now + i * 0.07 + 0.26);
+        });
+      }
+      wrong() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.exponentialRampToValueAtTime(150, now + 0.25);
+        g.gain.setValueAtTime(0.2, now);
+        g.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        osc.connect(g).connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      }
+      cheer() {
+        this.star();
+      }
+    }
+    const sound = new SoundEngine();
+
+    /* =========================================================================
+       CENTRALIZED AUDIO CONTROLLER (ZERO OVERLAP, CRYSTAL-CLEAR BOUNDARIES)
+       ========================================================================= */
+    const audio = document.getElementById('audioNarrator');
+    let currentInteractingAudio = null;
+    let isListeningPhase = false;
+
+    /* Two-Phase Controller: Manages "Listen First, Then Tap" state */
+    function setInteractionPhase(isListening) {
+      isListeningPhase = isListening;
+      const zone = document.getElementById('interactiveZone');
+      const badge = document.getElementById('phaseBadge');
+      if (!zone || !badge) return;
+
+      if (isListening) {
+        zone.classList.add('locked');
+        zone.classList.remove('unlocked');
+        badge.className = 'phase-status-badge listening';
+        const s = LESSON_DATA.slides[currentSlideIdx];
+        const name = s?.charName || "Teacher";
+        badge.innerHTML = `
+          <span class="speaking-pulse"></span>
+          <span>Listen to ${name}...</span>
+          <button class="skip-phase-btn" onclick="unlockInteractionEarly(event)">Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></button>
+        `;
+      } else {
+        zone.classList.remove('locked');
+        zone.classList.add('unlocked');
+        badge.className = 'phase-status-badge interactive bouncy';
+        badge.innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.09-.36-.14-.55-.14H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.02-.24-.02-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.43 1.06.43h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.06.01-.13.01-.2 0-.63-.39-1.18-.94-1.39z"/>
+          </svg>
+          <span>Your Turn! Tap each card to listen!</span>
+        `;
+      }
+    }
+
+    /* Early unlock when student taps "Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg>" */
+    function unlockInteractionEarly(e) {
+      if (e) e.stopPropagation();
+      if (audio && !audio.paused) {
+        audio.pause();
+        const btn = document.getElementById('btnPlayPause');
+        setPlayPauseUI(true);
+        const pulse = document.getElementById('actorPulse');
+        if (pulse) pulse.style.display = 'none';
+      }
+      setInteractionPhase(false);
+      sound.pop();
+    }
+
+    /* Play punchy user interactive audio: IMMEDIATELY pauses background narration */
+    function playInteractiveClip(filename) {
+      if (!filename) return;
+      sound.pop();
+
+      // Cancel any pending auto-advance so user has full control to explore
+      if (typeof autoAdvanceTimer !== 'undefined' && autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+
+      // 1. Immediately pause the long slide narration to prevent voice clash
+      if (audio && !audio.paused) {
+        audio.pause();
+        setPlayPauseUI(true);
+        const pulse = document.getElementById('actorPulse');
+        if (pulse) pulse.style.display = 'none';
+      }
+
+      // 2. Unlock interaction mode if it was locked
+      setInteractionPhase(false);
+
+      // 3. Stop any active interactive clip
+      if (currentInteractingAudio) {
+        try {
+          currentInteractingAudio.pause();
+          currentInteractingAudio.currentTime = 0;
+        } catch(e) {}
+        currentInteractingAudio = null;
+      }
+
+      // 4. Play the targeted punchy clip
+      const a = new Audio(`speech/${filename}`);
+      currentInteractingAudio = a;
+      a.play().catch(e => {
+        console.log('Audio clip playback:', filename, e);
+      });
+    }
+
+    /* Word Card click handler with visual active highlight */
+    function playWordCard(cardEl, clip) {
+      if (typeof autoAdvanceTimer !== 'undefined' && autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+      document.querySelectorAll('.word-card').forEach(c => c.classList.remove('active'));
+      if (cardEl) cardEl.classList.add('active');
+      playInteractiveClip(clip);
+      addStar();
+    }
+
+    /* Step Card click handler with visual active highlight */
+    function playStepCard(cardEl, clip) {
+      if (typeof autoAdvanceTimer !== 'undefined' && autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+      document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
+      if (cardEl) cardEl.classList.add('active');
+      playInteractiveClip(clip);
+      addStar();
+    }
+
+    /* Describe Card click handler with visual active highlight and specific sentence */
+    function playDescribeCard(cardEl, clip, sentence) {
+      if (typeof autoAdvanceTimer !== 'undefined' && autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+      document.querySelectorAll('.describe-card').forEach(c => c.classList.remove('active'));
+      if (cardEl) cardEl.classList.add('active');
+      const box = document.getElementById('describeSentenceBox');
+      if (box && sentence) {
+        box.innerHTML = `"<span style="color:#BE185D;">${sentence}</span>"`;
+      }
+      playInteractiveClip(clip);
+      addStar();
+    }
+
+    /* =========================================================================
+       LESSON CURRICULUM DATA - 100% DEPED ALIGNED & GROUNDED
+       ========================================================================= */
+    const LESSON_DATA = {
+      grade: "Grade 1 Language",
+      quarter: "Quarter 1",
+      week: "Week 1",
+      day: "Day 1",
+      depedCode: "LANG1-Q1W1-D1",
+      topic: "Introducing Myself and My Family",
+      slides: [
+        /* 0: WELCOME & MOTIVATION */
+        {
+          id: "welcome",
+          type: "cover",
+          audio: "speech/welcome-clean.mp3",
+          character: "TALA",
+          pose: "waving.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            title: "MYSELF AND MY FAMILY",
+            subtitle: "Grade 1 Language • Quarter 1, Week 1, Day 1",
+            goals: [
+              "1. Words about ME: I, NAME, AGE",
+              "2. Tell who you are in 3 easy steps",
+              "3. Words about our lovely family"
+            ],
+            btnText: "Let's Begin!"
+          }
+        },
+
+        /* 1: 3 MAGIC WORDS ABOUT YOU */
+        {
+          id: "three-words",
+          type: "three_words_intro",
+          audio: "speech/three-words-clean.mp3",
+          character: "TALA",
+          pose: "pointing.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            title: "3 Words About YOU",
+            cards: [
+              { word: "I", sub: "I means ME", img: "../../../../POSES/TALA/point_self.png", clip: "say-i.mp3" },
+              { word: "NAME", sub: "What people call you", img: "../../../../POSES/TALA/introducing.png", clip: "say-name.mp3" },
+              { word: "AGE", sub: "How old you are", img: "../../../../POSES/TALA/counting.png", clip: "say-age.mp3" }
+            ]
+          }
+        },
+
+        /* 2: WORD 1 - "I" */
+        {
+          id: "word-i",
+          type: "word_teach",
+          audio: "speech/word-i-clean.mp3",
+          character: "TALA",
+          pose: "point_self.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            word: "I",
+            mean: "I means ME.",
+            model: "I am Tala.",
+            clip: "say-i.mp3",
+            tip: "Tap the big word I to hear it!"
+          }
+        },
+
+        /* 3: WORD 2 - "NAME" */
+        {
+          id: "word-name",
+          type: "word_teach",
+          audio: "speech/word-name-clean.mp3",
+          character: "TALA",
+          pose: "introducing.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            word: "NAME",
+            mean: "A name is what people call you.",
+            model: "My name is Tala.",
+            clip: "say-name.mp3",
+            tip: "Tap the big word NAME to hear it!"
+          }
+        },
+
+        /* 4: INTERACTIVE PRACTICE - MY NAME */
+        {
+          id: "name-try",
+          type: "sentence_builder",
+          audio: "speech/name-try-clean.mp3",
+          character: "TALA",
+          pose: "introducing.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            prompt: "Tap a name to finish the sentence!",
+            templatePrefix: "My name is",
+            templateSuffix: ".",
+            slotPlaceholder: "________",
+            options: [
+              { label: "Tala", clip: "name-tala-clean.mp3" },
+              { label: "Ana", clip: "name-ana-clean.mp3" },
+              { label: "Ben", clip: "name-ben-clean.mp3" },
+              { label: "Leo", clip: "name-leo-clean.mp3" }
+            ]
+          }
+        },
+
+        /* 5: WORD 3 - "AGE" */
+        {
+          id: "word-age",
+          type: "word_teach",
+          audio: "speech/word-age-clean.mp3",
+          character: "TALA",
+          pose: "counting.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            word: "AGE",
+            mean: "Age is how old you are.",
+            model: "I am six years old.",
+            clip: "say-age.mp3",
+            tip: "Tap the big word AGE to hear it!"
+          }
+        },
+
+        /* 6: INTERACTIVE PRACTICE - MY AGE */
+        {
+          id: "age-try",
+          type: "sentence_builder",
+          audio: "speech/age-try-clean.mp3",
+          character: "TALA",
+          pose: "counting.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            prompt: "Tap your age to finish the sentence!",
+            templatePrefix: "I am",
+            templateSuffix: "years old.",
+            slotPlaceholder: "___",
+            options: [
+              { label: "5", clip: "age-5-clean.mp3" },
+              { label: "6", clip: "age-6-clean.mp3" },
+              { label: "7", clip: "age-7-clean.mp3" },
+              { label: "8", clip: "age-8-clean.mp3" }
+            ]
+          }
+        },
+
+        /* 7: 3 STEPS OVERVIEW */
+        {
+          id: "steps-overview",
+          type: "steps_overview",
+          audio: "speech/steps-overview-clean.mp3",
+          character: "TALA",
+          pose: "introducing.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            title: "3 Easy Steps to Introduce Yourself",
+            steps: [
+              { num: "1", title: "NAME", text: "Say your Name", clip: "say-name.mp3" },
+              { num: "2", title: "AGE", text: "Say your Age", clip: "say-age.mp3" },
+              { num: "3", title: "HOME", text: "Say where you Live", clip: "place-mytown-clean.mp3" }
+            ]
+          }
+        },
+
+        /* 8: 3 STEPS WITH ATE HINHIN */
+        {
+          id: "steps-listen",
+          type: "steps_interactive",
+          audio: "speech/steps-listen-clean.mp3",
+          character: "ATE",
+          pose: "introducing.png",
+          charName: "Ate Hinhin",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            title: "Tap each step to hear Ate Hinhin speak!",
+            steps: [
+              { n: "1", title: "NAME", line: "My name is Hinhin.", clip: "step-1-clean.mp3" },
+              { n: "2", title: "AGE", line: "I am ten years old.", clip: "step-2-clean.mp3" },
+              { n: "3", title: "HOME", line: "I live in Iloilo City.", clip: "step-3-clean.mp3" }
+            ]
+          }
+        },
+
+        /* 9: STEP 3 - WHERE YOU LIVE */
+        {
+          id: "home-try",
+          type: "sentence_builder",
+          audio: "speech/home-try-clean.mp3",
+          character: "TALA",
+          pose: "pointing.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            prompt: "Tap a place to say where you live!",
+            templatePrefix: "I live in",
+            templateSuffix: ".",
+            slotPlaceholder: "________",
+            options: [
+              { label: "Iloilo City", clip: "place-iloilo-clean.mp3" },
+              { label: "Manila", clip: "place-manila-clean.mp3" },
+              { label: "Cebu", clip: "place-cebu-clean.mp3" },
+              { label: "my town", clip: "place-mytown-clean.mp3" }
+            ]
+          }
+        },
+
+        /* 10: YOU TRY ALL 3 STEPS */
+        {
+          id: "combo-try",
+          type: "practice_combo",
+          audio: "speech/combo-try-clean.mp3",
+          character: "TALA",
+          pose: "raising_hand.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            title: "Say All Three Steps Together!",
+            lines: [
+              "1. My name is [ Tala / Ana / Ben ].",
+              "2. I am [ 6 ] years old.",
+              "3. I live in [ Iloilo City / my town ]."
+            ]
+          }
+        },
+
+        /* 11: STORY FOCUS: MEET THE FAMILY (STORY IS MAIN FOCUS) */
+        {
+          id: "family-intro",
+          type: "story_focus",
+          audio: "speech/family-intro-clean.mp3",
+          character: "TALA",
+          pose: "hugging.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: true, /* Hand-drawn DepEd Family Portrait is the hero plate */
+          activity: {
+            storyTitle: "Our Family at Home",
+            caption: "A family is made of the people who love and care for you."
+          }
+        },
+
+        /* 12: WORDS ABOUT FAMILY (INTERACTIVE GALLERY) */
+        {
+          id: "family-gallery",
+          type: "family_gallery",
+          audio: "speech/family-gallery-clean.mp3",
+          character: "TALA",
+          pose: "hugging.png",
+          charName: "Tala",
+          charSide: "right",
+          isStory: false,
+          activity: {
+            title: "Meet the Family Members (Tap any card!)",
+            members: [
+              { en: "Father", fil: "Tatay / Papa", img: "../../../../POSES/TATAY/waving.png", clip: "family-father-clean.mp3" },
+              { en: "Mother", fil: "Nanay / Mama", img: "../../../../POSES/NANAY/waving.png", clip: "family-mother-clean.mp3" },
+              { en: "Older Sister", fil: "Ate", img: "../../../../POSES/ATE/introducing.png", clip: "family-sister-clean.mp3" },
+              { en: "Older Brother", fil: "Kuya", img: "../../../../POSES/KUYA/waving.png", clip: "family-brother-clean.mp3" },
+              { en: "Sibling", fil: "Bunso / Kapatid", img: "../../../../POSES/BUNSO/waving.png", clip: "family-sibling-clean.mp3" }
+            ]
+          }
+        },
+
+        /* 13: DESCRIBING WORDS - KIND */
+        {
+          id: "word-kind",
+          type: "word_teach",
+          audio: "speech/word-kind-clean.mp3",
+          character: "TALA",
+          pose: "showing.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            word: "KIND",
+            mean: "Kind means nice, gentle, and caring.",
+            model: "My mother is kind.",
+            clip: "trait-kind-clean.mp3",
+            tip: "Tap the big word KIND to hear it!"
+          }
+        },
+
+        /* 14: DESCRIBE YOUR FAMILY */
+        {
+          id: "describe-family",
+          type: "describe_interactive",
+          audio: "speech/describe-clean.mp3",
+          character: "TALA",
+          pose: "pointing.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            title: "Describing Our Family",
+            words: [
+              { word: "BEAUTIFUL", person: "Mother / Nanay", desc: "My mother is beautiful.", img: "../../../../POSES/NANAY/showing.png", clip: "trait-beautiful-clean.mp3" },
+              { word: "STRONG", person: "Father / Tatay", desc: "My father is strong.", img: "../../../../POSES/TATAY/waving.png", clip: "trait-strong-clean.mp3" },
+              { word: "KIND", person: "Mother / Nanay", desc: "My mother is kind.", img: "../../../../POSES/NANAY/hugging.png", clip: "trait-kind-clean.mp3" },
+              { word: "HELPFUL", person: "Brother / Kuya", desc: "My brother is helpful.", img: "../../../../POSES/KUYA/giving.png", clip: "trait-helpful-clean.mp3" }
+            ]
+          }
+        },
+
+        /* 15: BIBLE VERSE & VALUES (MAKA-DIYOS) */
+        {
+          id: "verse",
+          type: "verse_card",
+          audio: "speech/verse-clean.mp3",
+          character: "TALA",
+          pose: "praying.png",
+          charName: "Tala",
+          charSide: "right",
+          isStory: false,
+          activity: {
+            verse: "“Honor your father and your mother.”",
+            ref: "Exodus 20:12",
+            meaning: "Love your parents, listen to them, and speak kindly every day."
+          }
+        },
+
+        /* 16: CELEBRATION */
+        {
+          id: "celebration",
+          type: "celebration",
+          audio: "speech/celebrate-clean.mp3",
+          character: "TALA",
+          pose: "clapping.png",
+          charName: "Tala",
+          charSide: "left",
+          isStory: false,
+          activity: {
+            title: "Superstar Learner!",
+            message: "You can introduce yourself and talk about your family!"
+          }
+        }
+      ]
+    };
+
+    /* =========================================================================
+       MODULE PLAYER STATE & CONTROLLER
+       ========================================================================= */
+    let currentSlideIdx = 0;
+    let starsEarned = 0;
+    let isAutoAdvance = false; // Default OFF: gives 6-8 year olds full control to tap and explore without being rushed
+    let autoAdvanceTimer = null;
+
+    const stagewrap = document.getElementById('stagewrap');
+    const stage = document.getElementById('stage');
+    const starCounter = document.getElementById('starCounter');
+    const starPill = document.getElementById('starPill');
+    const charActorWrap = document.getElementById('charActorWrap');
+    const charImg = document.getElementById('charImg');
+    const charNameLabel = document.getElementById('charNameLabel');
+    const actorPulse = document.getElementById('actorPulse');
+    const activityStageArea = document.getElementById('activityStageArea');
+    const stageCanvasBody = document.getElementById('stageCanvasBody');
+    const seekSlider = document.getElementById('seekSlider');
+    const currTime = document.getElementById('currTime');
+    const totTime = document.getElementById('totTime');
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const slideCounterBadge = document.getElementById('slideCounterBadge');
+    const slideDotsIndicator = document.getElementById('slideDotsIndicator');
+    const btnAutoAdvance = document.getElementById('btnAutoAdvance');
+
+    /* Responsive 16:9 stage scaling */
+    function fitStage() {
+      if (!stagewrap || !stage) return;
+      const scale = stagewrap.clientWidth / 1600;
+      stage.style.transform = `scale(${scale})`;
+    }
+    window.addEventListener('resize', fitStage);
+    fitStage();
+
+    /* Slide Dots Indicator */
+    function initDots() {
+      slideDotsIndicator.innerHTML = '';
+      LESSON_DATA.slides.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'slide-dot' + (i === currentSlideIdx ? ' active' : '');
+        d.onclick = () => goToSlide(i);
+        slideDotsIndicator.appendChild(d);
+      });
+    }
+
+    /* Award star with sound and visual pop */
+    function addStar() {
+      starsEarned++;
+      starCounter.textContent = starsEarned;
+      starPill.classList.add('bump');
+      setTimeout(() => starPill.classList.remove('bump'), 400);
+      sound.star();
+      if (window.confetti) {
+        confetti({
+          particleCount: 35,
+          spread: 60,
+          origin: { y: 0.8 }
+        });
+      }
+    }
+
+    /* Character cheer on tap */
+    function playActorCheer() {
+      charImg.style.transform = 'scale(1.1) rotate(3deg)';
+      setTimeout(() => charImg.style.transform = '', 300);
+      playInteractiveClip('tala-cheer-clean.mp3');
+      addStar();
+    }
+
+    /* Seekbar and audio sync with real-time card highlighting during teacher narration */
+    function updateAudioSync() {
+      if (!audio.duration || audio.paused) return;
+      const progress = audio.currentTime / audio.duration;
+      seekSlider.value = Math.floor(progress * 1000);
+      currTime.textContent = formatTime(audio.currentTime);
+      totTime.textContent = formatTime(audio.duration);
+
+      // Sequential highlights in sync with teacher speech
+      const t = audio.currentTime;
+      if (currentSlideIdx === 1) {
+        // Slide 1: Three Words (I, NAME, AGE)
+        const cards = document.querySelectorAll('.word-cards-row .word-card');
+        if (cards.length >= 3) {
+          cards.forEach(c => c.classList.remove('card-teacher-speaking'));
+          if (t >= 2.8 && t < 4.4) cards[0].classList.add('card-teacher-speaking');
+          else if (t >= 4.4 && t < 5.8) cards[1].classList.add('card-teacher-speaking');
+          else if (t >= 5.8 && t < 8.2) cards[2].classList.add('card-teacher-speaking');
+        }
+      } else if (currentSlideIdx === 7) {
+        // Slide 7: 3 Steps Overview
+        const steps = document.querySelectorAll('.steps-grid .step-card');
+        if (steps.length >= 3) {
+          steps.forEach(c => c.classList.remove('card-teacher-speaking'));
+          if (t >= 2.6 && t < 4.5) steps[0].classList.add('card-teacher-speaking');
+          else if (t >= 4.5 && t < 6.2) steps[1].classList.add('card-teacher-speaking');
+          else if (t >= 6.2 && t < 8.2) steps[2].classList.add('card-teacher-speaking');
+        }
+      } else if (currentSlideIdx === 8) {
+        // Slide 8: 3 Steps with Ate Hinhin
+        const steps = document.querySelectorAll('.steps-grid .step-card');
+        if (steps.length >= 3) {
+          steps.forEach(c => c.classList.remove('card-teacher-speaking'));
+          if (t >= 2.4 && t < 4.5) steps[0].classList.add('card-teacher-speaking');
+          else if (t >= 4.5 && t < 6.3) steps[1].classList.add('card-teacher-speaking');
+          else if (t >= 6.3 && t < 8.5) steps[2].classList.add('card-teacher-speaking');
+        }
+      }
+    }
+
+    function formatTime(s) {
+      if (!s || isNaN(s)) return "0:00";
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+
+    audio.addEventListener('timeupdate', updateAudioSync);
+
+    audio.addEventListener('play', () => {
+      // If an interactive clip was playing, stop it when narration resumes
+      if (currentInteractingAudio) {
+        try { currentInteractingAudio.pause(); currentInteractingAudio = null; } catch(e) {}
+      }
+      actorPulse.style.display = 'inline-block';
+      setPlayPauseUI(false);
+
+      // Enter listening phase if this slide has interactive elements
+      const s = LESSON_DATA.slides[currentSlideIdx];
+      const interactiveTypes = ['three_words_intro', 'word_teach', 'sentence_builder', 'steps_overview', 'steps_interactive', 'family_gallery', 'describe_interactive'];
+      if (s && interactiveTypes.includes(s.type)) {
+        setInteractionPhase(true);
+      }
+    });
+
+    audio.addEventListener('pause', () => {
+      actorPulse.style.display = 'none';
+      setPlayPauseUI(true);
+    });
+
+    audio.addEventListener('ended', () => {
+      actorPulse.style.display = 'none';
+      setPlayPauseUI(true);
+      
+      // Teacher finished: Unlock interaction phase for student turn!
+      setInteractionPhase(false);
+      document.querySelectorAll('.card-teacher-speaking').forEach(c => c.classList.remove('card-teacher-speaking'));
+
+      if (autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+
+      // Only auto-advance if user explicitly enabled Auto: ON
+      if (isAutoAdvance && currentSlideIdx < LESSON_DATA.slides.length - 1) {
+        autoAdvanceTimer = setTimeout(() => {
+          // Never advance if user is listening to an interactive clip
+          if (currentInteractingAudio && !currentInteractingAudio.paused) {
+            return;
+          }
+          if (!audio.paused || currentSlideIdx >= LESSON_DATA.slides.length - 1) {
+            return;
+          }
+          nextSlide();
+        }, 5000);
+      }
+    });
+
+    /* =========================================================================
+       SLIDE RENDERER
+       ========================================================================= */
+    function renderSlide(idx) {
+      if (autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+      const s = LESSON_DATA.slides[idx];
+      currentSlideIdx = idx;
+
+      // Stop any active interactive clip on slide transition
+      if (currentInteractingAudio) {
+        try { currentInteractingAudio.pause(); currentInteractingAudio = null; } catch(e) {}
+      }
+
+      /* Update dots and counter */
+      initDots();
+      slideCounterBadge.textContent = `Slide ${idx + 1} of ${LESSON_DATA.slides.length}`;
+
+      /* Character placement & grounded posture */
+      if (s.isStory) {
+        /* Story Mode: Hand-drawn Family Portrait is the central hero */
+        stageCanvasBody.classList.add('story-mode');
+        stageCanvasBody.classList.remove('char-on-right');
+        charActorWrap.classList.add('minimized');
+        charActorWrap.classList.remove('right-side');
+      } else {
+        stageCanvasBody.classList.remove('story-mode');
+        charActorWrap.classList.remove('minimized', 'hidden-actor');
+        if (s.charSide === 'right') {
+          stageCanvasBody.classList.add('char-on-right');
+          charActorWrap.classList.add('right-side');
+        } else {
+          stageCanvasBody.classList.remove('char-on-right');
+          charActorWrap.classList.remove('right-side');
+        }
+      }
+
+      const folder = s.character || "TALA";
+      charImg.src = `../../../../POSES/${folder}/${s.pose || 'waving.png'}`;
+      charNameLabel.textContent = s.charName || "Tala";
+
+      /* Render Interactive Activity */
+      renderActivity(s);
+
+      /* Narration Audio Playback */
+      if (s.audio) {
+        audio.src = s.audio;
+        audio.currentTime = 0;
+        audio.play().catch(() => {
+          console.log("Audio waiting for user gesture");
+        });
+      } else {
+        audio.removeAttribute('src');
+        seekSlider.value = 0;
+        currTime.textContent = "0:00";
+        totTime.textContent = "0:00";
+      }
+    }
+
+    function renderActivity(s) {
+      activityStageArea.innerHTML = '';
+
+      switch (s.type) {
+        case 'cover':
+          activityStageArea.innerHTML = `
+            <div class="big-card bouncy">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="#D97706"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+              <h1 style="font-size:52px;font-weight:800;color:#92400E;line-height:1.2;">${s.activity.title}</h1>
+              <p style="font-size:26px;font-weight:700;color:#4B5563;">${s.activity.subtitle}</p>
+              <div style="display:flex;flex-direction:column;gap:12px;text-align:left;background:#FFFBEB;padding:20px 32px;border-radius:20px;border:3px solid #FDE68A;width:100%;max-width:640px;">
+                ${s.activity.goals.map(g => `
+                  <div style="font-size:23px;font-weight:800;color:#78350F;display:flex;align-items:center;gap:10px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <span>${g}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="btn-dock amber" style="font-size:30px;padding:16px 52px;border-radius:26px;margin-top:8px;" onclick="sound.pop();nextSlide();">
+                ${s.activity.btnText}
+              </button>
+            </div>
+          `;
+          break;
+
+        case 'three_words_intro':
+          activityStageArea.innerHTML = `
+            <div class="big-card">
+              <div class="interactive-zone locked" id="interactiveZone">
+                <div class="phase-status-badge listening" id="phaseBadge">
+                  <span class="speaking-pulse"></span>
+                  <span>Listen to Tala...</span>
+                  <button class="skip-phase-btn" onclick="unlockInteractionEarly(event)">Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+                <h2 style="font-size:42px;font-weight:800;color:#92400E;margin-bottom:6px;">${s.activity.title}</h2>
+                <div class="word-cards-row">
+                  ${s.activity.cards.map((c, i) => `
+                    <div class="word-card" style="animation-delay:${i * 0.15}s;" onclick="playWordCard(this, '${c.clip}')">
+                      <div class="portrait-circle">
+                        <img src="${c.img}" alt="${c.word}" class="portrait-img">
+                      </div>
+                      <div class="word-title">${c.word}</div>
+                      <div class="word-desc">${c.sub}</div>
+                      <div class="audio-tap-badge">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                        Tap to Hear
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'word_teach':
+          activityStageArea.innerHTML = `
+            <div class="big-card">
+              <div class="interactive-zone locked" id="interactiveZone">
+                <div class="phase-status-badge listening" id="phaseBadge">
+                  <span class="speaking-pulse"></span>
+                  <span>Listen to ${s.charName || 'Tala'}...</span>
+                  <button class="skip-phase-btn" onclick="unlockInteractionEarly(event)">Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+                <div class="giant-word-container">
+                  <div class="giant-word" onclick="playInteractiveClip('${s.activity.clip}');addStar();" title="Tap to hear!">
+                    <span>${s.activity.word}</span>
+                    <svg width="44" height="44" viewBox="0 0 24 24" fill="#92400E"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                  </div>
+                </div>
+                <div class="word-meaning-banner">${s.activity.mean}</div>
+                <div class="model-sentence-box">
+                  <span style="color:#0D9488;">Example: </span> "${s.activity.model}"
+                </div>
+                <div class="tap-hint-pill">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                  <span>${s.activity.tip}</span>
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'sentence_builder':
+          activityStageArea.innerHTML = `
+            <div class="big-card teal-theme">
+              <div class="interactive-zone locked" id="interactiveZone">
+                <div class="phase-status-badge listening" id="phaseBadge">
+                  <span class="speaking-pulse"></span>
+                  <span>Listen to ${s.charName || 'Tala'}...</span>
+                  <button class="skip-phase-btn" onclick="unlockInteractionEarly(event)">Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+                <h2 style="font-size:38px;font-weight:800;color:#0F766E;">${s.activity.prompt}</h2>
+                
+                <div class="interactive-sentence-builder">
+                  <span>${s.activity.templatePrefix}</span>
+                  <span class="blank-slot" id="targetSlot">${s.activity.slotPlaceholder}</span>
+                  <span>${s.activity.templateSuffix}</span>
+                </div>
+
+                <div class="choices-grid">
+                  ${s.activity.options.map(opt => `
+                    <button class="btn-choice" onclick="selectSentenceOption(this, '${opt.label}', '${opt.clip}')">
+                      <span>${opt.label}</span>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'steps_overview':
+          activityStageArea.innerHTML = `
+            <div class="big-card teal-theme">
+              <div class="interactive-zone locked" id="interactiveZone">
+                <div class="phase-status-badge listening" id="phaseBadge">
+                  <span class="speaking-pulse"></span>
+                  <span>Listen to Tala...</span>
+                  <button class="skip-phase-btn" onclick="unlockInteractionEarly(event)">Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+                <h2 style="font-size:40px;font-weight:800;color:#0F766E;">${s.activity.title}</h2>
+                <div class="steps-grid">
+                  ${s.activity.steps.map((st, i) => `
+                    <div class="step-card" style="animation-delay:${i * 0.15}s;" onclick="playStepCard(this, '${st.clip}')">
+                      <div class="num-badge">${st.num}</div>
+                      <div class="step-title">${st.title}</div>
+                      <div class="step-example">${st.text}</div>
+                      <div class="audio-tap-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                        Tap to Hear
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'steps_interactive':
+          activityStageArea.innerHTML = `
+            <div class="big-card teal-theme">
+              <div class="interactive-zone locked" id="interactiveZone">
+                <div class="phase-status-badge listening" id="phaseBadge">
+                  <span class="speaking-pulse"></span>
+                  <span>Listen to Ate Hinhin...</span>
+                  <button class="skip-phase-btn" onclick="unlockInteractionEarly(event)">Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+                <h2 style="font-size:38px;font-weight:800;color:#0F766E;">${s.activity.title}</h2>
+                <div class="steps-grid">
+                  ${s.activity.steps.map((st, i) => `
+                    <div class="step-card" style="animation-delay:${i * 0.15}s;" onclick="playStepCard(this, '${st.clip}')">
+                      <div class="num-badge">${st.n}</div>
+                      <div class="step-title">${st.title}</div>
+                      <div class="step-example">"${st.line}"</div>
+                      <div class="audio-tap-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                        Tap to Hear
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'practice_combo':
+          activityStageArea.innerHTML = `
+            <div class="big-card">
+              <h2 style="font-size:38px;font-weight:800;color:#92400E;">${s.activity.title}</h2>
+              <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:780px;">
+                ${s.activity.lines.map((l, i) => `
+                  <div style="background:#FFF;border:4px solid #F59E0B;border-radius:20px;padding:16px 28px;font-size:32px;font-weight:800;color:#1F2937;text-align:left;box-shadow:0 6px 14px rgba(0,0,0,0.08);animation:cardPopIn ${0.3 + i * 0.15}s both;">
+                    ${l}
+                  </div>
+                `).join('')}
+              </div>
+              <button class="btn-dock amber" style="font-size:28px;padding:14px 44px;border-radius:24px;margin-top:10px;" onclick="addStar();sound.cheer();">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFF"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                I Said All Three!
+              </button>
+            </div>
+          `;
+          break;
+
+        case 'story_focus':
+          activityStageArea.innerHTML = `
+            <div class="story-center-container">
+              <img src="media/image18.png" alt="Our Family" class="story-art-img">
+              <div class="story-caption-overlay">
+                <div class="story-tag">${s.activity.storyTitle}</div>
+                <div class="story-text">${s.activity.caption}</div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'family_gallery':
+          activityStageArea.innerHTML = `
+            <div class="big-card">
+              <div class="interactive-zone locked" id="interactiveZone">
+                <div class="phase-status-badge listening" id="phaseBadge">
+                  <span class="speaking-pulse"></span>
+                  <span>Listen to Tala...</span>
+                  <button class="skip-phase-btn" onclick="unlockInteractionEarly(event)">Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+                <h2 style="font-size:36px;font-weight:800;color:#92400E;">${s.activity.title}</h2>
+                <div class="family-cards-grid">
+                  ${s.activity.members.map((m, i) => `
+                    <div class="family-member-card" style="animation-delay:${i * 0.1}s;" onclick="playFamilyMemberAudio(this, '${m.clip}')">
+                      <div class="family-portrait-frame">
+                        <img src="${m.img}" alt="${m.en}" class="family-portrait-img">
+                      </div>
+                      <div class="member-en">${m.en}</div>
+                      <div class="member-fil">${m.fil}</div>
+                      <div class="audio-tap-badge amber">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                        Tap
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'describe_interactive':
+          activityStageArea.innerHTML = `
+            <div class="big-card pink-theme">
+              <div class="interactive-zone locked" id="interactiveZone">
+                <div class="phase-status-badge listening" id="phaseBadge">
+                  <span class="speaking-pulse"></span>
+                  <span>Listen to Tala...</span>
+                  <button class="skip-phase-btn" onclick="unlockInteractionEarly(event)">Tap Now <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></button>
+                </div>
+                <h2 style="font-size:36px;font-weight:800;color:#BE185D;">${s.activity.title}</h2>
+                <div class="describe-grid">
+                  ${s.activity.words.map((w, i) => `
+                    <div class="describe-card" style="animation-delay:${i * 0.1}s;" onclick="playDescribeCard(this, '${w.clip}', '${w.desc}')">
+                      <div class="trait-portrait-frame">
+                        <img src="${w.img}" alt="${w.word}" class="trait-portrait-img">
+                      </div>
+                      <div class="d-word">${w.word}</div>
+                      <div class="d-meaning">${w.desc}</div>
+                      <div class="audio-tap-badge pink">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                        Tap
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+                <div class="model-sentence-box" id="describeSentenceBox" style="margin-top:12px;font-size:34px;">
+                  "My mother is <span style="color:#BE185D;">beautiful</span>. My father is <span style="color:#BE185D;">strong</span>."
+                </div>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'verse_card':
+          activityStageArea.innerHTML = `
+            <div class="verse-card bouncy">
+              <svg class="verse-heart-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <div class="verse-text">${s.activity.verse}</div>
+              <div class="verse-ref">${s.activity.ref}</div>
+              <p style="font-size:26px;font-weight:700;color:#92400E;max-width:720px;line-height:1.4;">${s.activity.meaning}</p>
+              <button class="btn-dock amber" style="font-size:22px;padding:10px 28px;border-radius:20px;margin-top:6px;" onclick="replayAudio()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                Hear Verse Again
+              </button>
+            </div>
+          `;
+          break;
+
+        case 'celebration':
+          activityStageArea.innerHTML = `
+            <div class="celebrate-card">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="#F59E0B"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.76 2.72 3.19 3.39V19H8v2h8v-2h-2.58v-2.67c1.43-.67 2.56-1.89 3.19-3.39C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+              <h2>${s.activity.title}</h2>
+              <p>${s.activity.message}</p>
+              <div style="font-size:40px;font-weight:800;color:#92400E;background:#FEF3C7;padding:14px 38px;border-radius:26px;border:4px solid #F59E0B;display:flex;align-items:center;gap:12px;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <span>Total Stars: ${starsEarned}</span>
+              </div>
+              <div style="display:flex;gap:18px;margin-top:12px;">
+                <button class="btn-dock amber" style="font-size:26px;padding:16px 38px;border-radius:22px;" onclick="goToSlide(0);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg> Play Again
+                </button>
+                <button class="btn-dock primary" style="font-size:26px;padding:16px 38px;border-radius:22px;" onclick="window.location.href='../../../../index.html';">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                  Back to Library
+                </button>
+              </div>
+            </div>
+          `;
+          sound.cheer();
+          if (window.confetti) {
+            confetti({ particleCount: 110, spread: 90, origin: { y: 0.6 } });
+          }
+          break;
+      }
+    }
+
+    /* Sentence builder interactive tap */
+    function selectSentenceOption(btn, val, clip) {
+      const slot = document.getElementById('targetSlot');
+      if (slot) {
+        slot.textContent = val;
+        slot.classList.add('filled');
+      }
+      document.querySelectorAll('.btn-choice').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      addStar();
+      if (clip) {
+        playInteractiveClip(clip);
+      }
+    }
+
+    /* Family gallery interactive tap */
+    function playFamilyMemberAudio(cardEl, clip) {
+      document.querySelectorAll('.family-member-card').forEach(c => c.classList.remove('active'));
+      cardEl.classList.add('active');
+      playInteractiveClip(clip);
+      addStar();
+    }
+
+
+    /* =========================================================================
+       NAVIGATION & PLAYER CONTROLS
+       ========================================================================= */
+    function goToSlide(idx) {
+      if (autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+      sound.pop();
+      renderSlide(idx);
+    }
+
+    function prevSlide() {
+      if (autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+      if (currentSlideIdx > 0) {
+        goToSlide(currentSlideIdx - 1);
+      }
+    }
+
+    function nextSlide() {
+      if (autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+      if (currentSlideIdx < LESSON_DATA.slides.length - 1) {
+        goToSlide(currentSlideIdx + 1);
+      }
+    }
+
+    function replayAudio() {
+      sound.pop();
+      if (audio.src) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      }
+    }
+
+    function setPlayPauseUI(isPaused) {
+      const svg = document.getElementById('svgPlayPause');
+      const txt = document.getElementById('txtPlayPause');
+      if (svg) {
+        svg.innerHTML = isPaused 
+          ? '<path d="M8 5v14l11-7z"/>' 
+          : '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      }
+      if (txt) {
+        txt.textContent = isPaused ? "Play" : "Pause";
+      }
+    }
+
+    function togglePlayPause() {
+      sound.pop();
+      if (!audio.src) return;
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
+      }
+    }
+
+    function onSeekChange(val) {
+      if (!audio.duration) return;
+      audio.currentTime = (val / 1000) * audio.duration;
+    }
+
+    function toggleAutoAdvance() {
+      sound.pop();
+      isAutoAdvance = !isAutoAdvance;
+      btnAutoAdvance.textContent = isAutoAdvance ? "Auto: ON" : "Auto: OFF";
+      btnAutoAdvance.classList.toggle('primary', isAutoAdvance);
+      if (!isAutoAdvance && autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+    }
+
+    function toggleMute() {
+      sound.muted = !sound.muted;
+      const svg = document.getElementById('svgSoundMute');
+      if (sound.muted) {
+        svg.innerHTML = '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
+      } else {
+        svg.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
+      }
+    }
+
+    function toggleFullscreen() {
+      sound.pop();
+      if (!document.fullscreenElement) {
+        stagewrap.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+
+
+    /* Keyboard navigation */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.key.toLowerCase() === 'r') {
+        e.preventDefault();
+        replayAudio();
+      }
+    });
+
+    /* Start at slide 0 */
+    renderSlide(0);
+  </script>
+</body>
+</html>

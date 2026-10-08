@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1B6F6A">
+  <title>Easy lesson</title>
+  <link rel="stylesheet" href="styles/kid-lesson.css">
+</head>
+<body>
+  <div class="kid">
+    <header class="top">
+      <a class="home" id="home" href="index.html" aria-label="Home">⌂</a>
+      <div class="cue" id="cue" data-look="sage">Listen to Teacher Sage</div>
+      <div class="star">⭐ <span id="stars">0</span></div>
+    </header>
+    <div class="stage">
+      <div class="scene" id="scene"></div>
+      <img class="sage stand" id="face" alt="Teacher Sage" src="../POSES/TALA/waving.png">
+    </div>
+    <div class="saybox"><p id="talk">Listen to Teacher Sage.</p></div>
+    <div class="work" id="work"></div>
+    <div class="dots" id="dots"></div>
+    <nav class="nav">
+      <button class="round" id="prev" type="button" aria-label="Back">←</button>
+      <button class="round" id="speak" type="button" aria-label="Hear">🔊</button>
+      <button class="go" id="next" type="button">Next</button>
+    </nav>
+  </div>
+  <div class="done" id="done">
+    <div class="donebox">
+      <h2>You did it!</h2>
+      <p>You listened. You tried.</p>
+      <button class="go amber" id="again" type="button">Play again</button>
+    </div>
+  </div>
+  <script>
+    window.KID_MODE = true;
+    window.ROOT_PATH = "../";
+    window.LESSON_BASE = "";
+  </script>
+  <script src="../js/lesson-app.js"></script>
+  <script src="js/kid-lesson.js"></script>
+</body>
+</html>

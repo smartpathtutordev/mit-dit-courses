@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit this module</title>
+  <style>
+    :root { --ink:#2D211C; --teal:#1b6f6a; --amber:#F2A93B; --cream:#FBF5E9; }
+    * { box-sizing:border-box; }
+    body { font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--cream);
+           color:var(--ink); margin:0; padding:2.5rem 1rem; line-height:1.55; }
+    .wrap { max-width:41em; margin:0 auto; background:#fff; border-radius:18px;
+            padding:2rem 2.2rem 2.4rem; box-shadow:0 8px 30px rgba(45,33,28,.10); }
+    h1 { margin:0 0 .2rem; font-size:1.6rem; }
+    .path { color:#6b5c53; font-size:.9rem; margin:0 0 1.3rem; }
+    .path code { background:#f4ead8; padding:2px 7px; border-radius:6px; font-size:.85rem; }
+    .row { display:flex; align-items:center; gap:.6rem; padding:.5rem 0; font-weight:600; }
+    .dot { width:11px; height:11px; border-radius:50%; background:#c9c2ba; flex:none;
+           box-shadow:0 0 0 3px rgba(0,0,0,.04); }
+    .dot.ok { background:#37a169; } .dot.no { background:#d64f4f; } .dot.warn { background:#e0952f; }
+    .row small { font-weight:400; color:#7a6b61; }
+    .panel { background:#f9f4ea; border:1px solid #ecdfc9; border-radius:14px;
+             padding:1.1rem 1.2rem; margin:1.1rem 0; }
+    .panel h2 { margin:0 0 .5rem; font-size:1.02rem; }
+    .panel p { margin:.4rem 0; }
+    kbd { background:#fff; border:1px solid #ddd2c2; border-bottom-width:2px; border-radius:6px;
+          padding:1px 6px; font-size:.85em; }
+    pre { background:#2D211C; color:#f6efe3; padding:.85rem 1rem; border-radius:10px;
+          overflow-x:auto; font-size:.82rem; margin:.6rem 0 .2rem; white-space:pre; }
+    .btns { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.2rem; }
+    .btn { display:inline-block; border:0; cursor:pointer; font:inherit; font-weight:700;
+           padding:.6rem 1.1rem; border-radius:10px; text-decoration:none;
+           background:var(--amber); color:var(--ink); box-shadow:0 3px 0 #9A6B00; }
+    .btn.ghost { background:#fff; color:var(--teal); box-shadow:0 0 0 1.5px #cfe3e1 inset; }
+    .btn.sm { padding:.25rem .7rem; font-size:.8rem; box-shadow:0 0 0 1.5px #cfe3e1 inset;
+              background:#fff; color:var(--teal); }
+    .btn:active { transform:translateY(2px); }
+    .hint { font-size:.85rem; color:#7a6b61; margin-top:1rem; }
+    .ok-note { color:#37a169; font-weight:700; font-size:.85rem; margin-left:.5rem; }
+    [hidden] { display:none !important; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Module builder</h1>
+    <p class="path">Editing <code id="lesson-path"></code></p>
+
+    <div class="row"><span class="dot" id="d-server"></span>
+      <span>Builder server <small>(port 8767)</small></span></div>
+    <div class="row"><span class="dot" id="d-folder"></span>
+      <span>Serving your ENGLISH folder</span></div>
+
+    <div class="panel">
+      <h2 id="ptitle">Checking…</h2>
+      <div id="pbody"><p>One moment.</p></div>
+    </div>
+
+    <div class="btns">
+      <a class="btn" id="go" href="#">Open builder</a>
+      <a class="btn ghost" href="index.html">Play lesson</a>
+      <button class="btn ghost" id="again" type="button">Check again</button>
+    </div>
+    <p class="hint">This page keeps checking on its own and opens the builder as soon as the
+       server is ready &mdash; you can leave it open while it starts.</p>
+  </div>
+
+  <!-- filled in by the generator; used for the copy button and the help text -->
+  <pre id="cmd" hidden>cd &quot;/Volumes/SPT Externa/COMPLETE MODULE/ENGLISH&quot;
+python3 tala_tts_server.py</pre>
+
+  <script>window.__CFG__ = {"path": "GRADE 1/QUARTER 1/WEEK 1/DAY 1", "root": "/Volumes/SPT Externa/COMPLETE MODULE/ENGLISH", "cmdHTML": "cd &quot;/Volumes/SPT Externa/COMPLETE MODULE/ENGLISH&quot;\npython3 tala_tts_server.py"};</script>
+  <script>
+    var CFG = window.__CFG__;
+    var PORT = 8767, LEGACY = 8766;
+    var BASE = "http://127.0.0.1:" + PORT;
+    var url = BASE + "/builder.html?path=" + encodeURIComponent(CFG.path);
+
+    document.getElementById("lesson-path").textContent = CFG.path;
+    document.getElementById("go").href = url;
+
+    function mark(id, state) { document.getElementById(id).className = "dot " + state; }
+
+    function getJSON(u) {
+      var c = new AbortController();
+      var t = setTimeout(function () { c.abort(); }, 1500);
+      return fetch(u, { signal: c.signal, cache: "no-store" })
+        .then(function (r) { clearTimeout(t); return r.ok ? r.json() : null; })
+        .catch(function () { clearTimeout(t); return null; });
+    }
+
+    function helpHTML(extra) {
+      return "<p><strong>Easiest way:</strong> open your <em>ENGLISH</em> folder in Finder and " +
+             "double-click <kbd>start-builder.command</kbd>.</p>" +
+             "<p style='margin-top:.8rem'><strong>Or in Terminal:</strong>" +
+             "<button class='btn sm' id='copy' style='margin-left:.5rem'>Copy</button>" +
+             "<span class='ok-note' id='copied'></span></p>" +
+             "<pre id='shown'>" + CFG.cmdHTML + "</pre>" + (extra || "");
+    }
+
+    function wireCopy() {
+      var cp = document.getElementById("copy");
+      if (!cp) return;
+      cp.onclick = function () {
+        navigator.clipboard.writeText(document.getElementById("cmd").textContent.trim())
+          .then(function () {
+            var n = document.getElementById("copied");
+            n.textContent = "Copied";
+            setTimeout(function () { n.textContent = ""; }, 1800);
+          });
+      };
+    }
+
+    var tries = 0;
+    function check(auto) {
+      return getJSON(BASE + "/health").then(function (h) {
+        var title = document.getElementById("ptitle");
+        var body = document.getElementById("pbody");
+
+        if (h && h.serves_files) {
+          mark("d-server", "ok"); mark("d-folder", "ok");
+          title.textContent = "Server is ready. Opening the builder…";
+          body.innerHTML = "<p>If it does not open, use <strong>Open builder</strong> below.</p>";
+          setTimeout(function () { location.replace(url); }, 500);
+          return true;
+        }
+
+        if (h && !h.serves_files) {
+          mark("d-server", "ok"); mark("d-folder", "warn");
+          title.textContent = "The server is running from the wrong folder";
+          body.innerHTML =
+            "<p>It is serving <code>" + (h.root || "an unknown folder") + "</code>, " +
+            "which has no <kbd>builder.html</kbd> in it. Stop that server " +
+            "(<kbd>Control</kbd>&#8202;+&#8202;<kbd>C</kbd> in its Terminal window), then start it " +
+            "from your ENGLISH folder instead.</p>" + helpHTML();
+          wireCopy();
+          return false;
+        }
+
+        mark("d-server", "no"); mark("d-folder", "no");
+        title.textContent = "The builder server is not running yet";
+        body.innerHTML = helpHTML(
+          auto ? "<p style='font-size:.85rem;color:#7a6b61'>Still checking… (" + tries + ")</p>" : ""
+        );
+        wireCopy();
+
+        // Older setups used a separate file server on 8766 — offer it if that is what is up.
+        getJSON("http://127.0.0.1:" + LEGACY + "/health").then(function (old) {
+          if (old && old.serves_files) {
+            BASE = "http://127.0.0.1:" + LEGACY;
+            url = BASE + "/builder.html?path=" + encodeURIComponent(CFG.path);
+            document.getElementById("go").href = url;
+          }
+        });
+        return false;
+      });
+    }
+
+    function loop() {
+      tries++;
+      check(true).then(function (ok) { if (!ok) setTimeout(loop, 2500); });
+    }
+    document.getElementById("again").onclick = function () { tries = 0; check(false); };
+    loop();
+  </script>
+</body>
+</html>

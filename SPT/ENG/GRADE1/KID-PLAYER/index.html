@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Easy lessons for kids</title>
+  <link rel="stylesheet" href="styles/kid-lesson.css">
+  <style>
+    body { overflow: auto; background: #fff4e4; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 48px; }
+    h1 { font-size: 32px; margin: 8px 0 6px; }
+    .note { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    a.card {
+      display: block; background: #fff; border-radius: 16px; padding: 14px 16px;
+      margin-bottom: 8px; text-decoration: none; color: #2d211c; font-weight: 800;
+    }
+    select { font: inherit; font-weight: 800; padding: 8px; border-radius: 10px; margin: 0 6px 12px 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p><a class="home" href="../index.html" style="width:auto;padding:8px 14px;text-decoration:none">⌂ Original hub</a>
+       <a class="home" href="../kid-builder.html" style="width:auto;padding:8px 14px;text-decoration:none;margin-left:8px">Easy builder</a></p>
+    <h1>Easy lessons</h1>
+    <p class="note">Short lessons for 6-year-olds. About 10 pages. Listen to Teacher Sage. Then tap. Original lessons are unchanged.</p>
+    <select id="grade"></select>
+    <select id="quarter"></select>
+    <div id="list"></div>
+  </div>
+  <script src="../js/lessons-data.js"></script>
+  <script>
+    const data = window.MATATAG_LESSONS || {};
+    const $ = (id) => document.getElementById(id);
+    function fill() {
+      const g = $("grade").value;
+      const q = $("quarter").value;
+      const weeks = (data[g] && data[g][q]) || {};
+      const list = $("list");
+      list.innerHTML = "";
+      Object.keys(weeks).sort().forEach((w) => {
+        Object.keys(weeks[w]).sort().forEach((d) => {
+          const les = weeks[w][d];
+          const a = document.createElement("a");
+          a.className = "card";
+          a.href = "../" + [g, q, w, d].map(encodeURIComponent).join("/") + "/KID/index.html";
+          a.textContent = w + " · " + d + " — " + (les.title || d);
+          list.appendChild(a);
+        });
+      });
+    }
+    $("grade").innerHTML = Object.keys(data).map((g) => "<option>" + g + "</option>").join("");
+    function qs() {
+      const g = $("grade").value;
+      $("quarter").innerHTML = Object.keys(data[g] || {}).map((q) => "<option>" + q + "</option>").join("");
+      fill();
+    }
+    $("grade").onchange = qs;
+    $("quarter").onchange = fill;
+    qs();
+  </script>
+</body>
+</html>
