@@ -7,7 +7,7 @@ Writes:
 
 Usage: build_manifest.py <config.js> <out_dir> [referer]
 """
-import json, os, re, socket, sys, time, urllib.parse, urllib.request
+import json, os, re, socket, sys, threading, time, urllib.error, urllib.parse, urllib.request
 
 # Cloud Shell's DNS is slow: resolve each host once (IPv4) and reuse the answer.
 _gai = socket.getaddrinfo
@@ -27,7 +27,7 @@ API_KEY = re.search(r'apiKey:\s*"([^"]*)"', cfg_text).group(1)
 API_BASE = re.search(r'apiBase:\s*"([^"]*)"', cfg_text).group(1)
 LANGS = re.findall(r'\{\s*code:\s*"([^"]+)",\s*label:\s*"([^"]+)",\s*folderId:\s*"([^"]+)"', cfg_text)
 FOLDER = "application/vnd.google-apps.folder"
-pool = ThreadPoolExecutor(32)
+pool = ThreadPoolExecutor(16)
 
 
 def natkey(s):
@@ -38,6 +38,32 @@ def day_key(segs):
     return "__".join(re.sub(r"[^A-Za-z0-9]+", "_", s) for s in segs)
 
 
+_local = threading.local()
+STATS = {"calls": 0, "retries": 0, "last_error": ""}
+
+
+def _session():
+    sess = getattr(_local, "s", None)
+    if sess is None:
+        import requests  # keep-alive connections: no DNS/TLS setup per call
+        sess = _local.s = requests.Session()
+        sess.headers["Referer"] = REFERER
+    return sess
+
+
+def _get_json(params):
+    try:
+        r = _session().get(API_BASE, params=params, timeout=30)
+        return r.status_code, (r.json() if r.content else {})
+    except ImportError:
+        req = urllib.request.Request(API_BASE + "?" + urllib.parse.urlencode(params), headers={"Referer": REFERER})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return r.status, json.load(r)
+        except urllib.error.HTTPError as e:
+            return e.code, {"error": {"message": e.read().decode()[:200]}}
+
+
 def ls(folder_id):
     files, token = {}, ""
     while True:
@@ -46,16 +72,19 @@ def ls(folder_id):
              "pageSize": "1000", "supportsAllDrives": "true", "includeItemsFromAllDrives": "true", "key": API_KEY}
         if token:
             q["pageToken"] = token
-        req = urllib.request.Request(API_BASE + "?" + urllib.parse.urlencode(q), headers={"Referer": REFERER})
-        for attempt in range(6):
+        for attempt in range(8):
+            STATS["calls"] += 1
             try:
-                with urllib.request.urlopen(req, timeout=25) as r:
-                    j = json.load(r)
+                status, j = _get_json(q)
+            except Exception as e:
+                status, j = 0, {"error": {"message": str(e)}}
+            if status == 200:
                 break
-            except Exception as e:  # rate limits / transient errors
-                if attempt == 5:
-                    raise
-                time.sleep(1.5 * (attempt + 1))
+            STATS["retries"] += 1
+            STATS["last_error"] = f"{status} {str(j.get('error', {}).get('message', ''))[:120]}"
+            if attempt == 7:
+                raise RuntimeError(STATS["last_error"])
+            time.sleep(min(20, 1.0 * 2 ** attempt))
         for f in j.get("files", []):
             n = f["name"]
             if n.startswith("._") or n == ".DS_Store":
@@ -90,7 +119,15 @@ def crawl_day(day_id):
     return out_files, out_dirs
 
 
+def _ticker():
+    t0 = time.time()
+    while True:
+        time.sleep(15)
+        print(f"  ...{time.time() - t0:.0f}s, {STATS['calls']} Drive calls, {STATS['retries']} retries {STATS['last_error']}", flush=True)
+
+
 def main():
+    threading.Thread(target=_ticker, daemon=True).start()
     os.makedirs(OUT, exist_ok=True)
     tree = {"built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "languages": {}}
     total_days = total_files = 0
@@ -124,7 +161,7 @@ def main():
             return len(files)
 
         # day crawls run several at a time; each one fans out internally
-        with ThreadPoolExecutor(8) as dp:
+        with ThreadPoolExecutor(6) as dp:
             counts = list(dp.map(do_day, days_todo))
         total_days += len(days_todo)
         total_files += sum(counts)
