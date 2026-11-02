@@ -30,5 +30,5 @@ echo "== building file index from Drive"
 rm -rf public/m public/tree.json
 python3 build_manifest.py public/config.js public "https://$SITE.web.app/"
 echo "== deploy"
-firebase deploy --only hosting --project "$P" --non-interactive 2>&1 | tail -n 4
+curl -fsSL "$RAW/redeploy.sh?$(date +%s)" -o redeploy.sh && bash redeploy.sh
 echo "DONE https://$SITE.web.app"
