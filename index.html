@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SmartPath MATH Module Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+  :root{
+    --ink:#1d2433; --muted:#667085; --line:#e4e7ec; --bg:#f6f7fb; --panel:#ffffff;
+    --brand:#2459d8; --brand-soft:#e8efff; --accent:#f59e0b; --ok:#12a150;
+    --side:300px; --top:60px; --radius:12px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{font-family:"Nunito",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);overflow:hidden}
+  button{font:inherit;color:inherit;cursor:pointer}
+  header{height:var(--top);display:flex;align-items:center;gap:14px;padding:0 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--brand),#5b8cff);display:grid;place-items:center;color:#fff;font-weight:900;font-size:15px;flex:none}
+  .title{font-weight:900;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .title small{display:block;font-weight:700;font-size:12px;color:var(--muted)}
+  .spacer{flex:1}
+  .langs{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px}
+  .langs button{border:0;background:transparent;padding:6px 14px;border-radius:999px;font-weight:800;font-size:13px;color:var(--muted)}
+  .langs button.on{background:var(--brand);color:#fff}
+  .langs button:disabled{opacity:.55;cursor:not-allowed}
+  .langs button .soon{font-size:10px;font-weight:800;margin-left:4px;opacity:.8}
+  .menu-btn{display:none;border:1px solid var(--line);background:var(--panel);border-radius:10px;width:38px;height:38px;flex:none}
+
+  .wrap{display:flex;height:calc(100% - var(--top))}
+  aside{width:var(--side);flex:none;background:var(--panel);border-right:1px solid var(--line);overflow:auto;padding:10px 8px 40px}
+  .side-head{font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;padding:8px 10px}
+  .node{user-select:none}
+  .row{display:flex;align-items:center;gap:6px;width:100%;border:0;background:transparent;text-align:left;padding:7px 10px;border-radius:9px;font-weight:800;font-size:14px}
+  .row:hover{background:var(--bg)}
+  .row .chev{width:16px;flex:none;color:var(--muted);transition:transform .15s;font-size:11px}
+  .node.open > .row .chev{transform:rotate(90deg)}
+  .kids{margin-left:14px;border-left:1px dashed var(--line);padding-left:4px;display:none}
+  .node.open > .kids{display:block}
+  .lvl-1 > .row{font-size:15px}
+  .lvl-3 > .row{font-weight:700;font-size:13.5px}
+  .day{display:flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border-radius:9px;font-size:13.5px;font-weight:700}
+  .day.active{background:var(--brand-soft)}
+  .day .dname{flex:1;white-space:nowrap}
+  .chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:800;color:var(--muted)}
+  .chip:hover{border-color:var(--brand);color:var(--brand)}
+  .chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .loading-row{padding:6px 12px;color:var(--muted);font-size:12.5px;font-weight:700}
+  .err-row{padding:6px 12px;color:#b42318;font-size:12.5px;font-weight:700}
+
+  main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .crumbs{font-weight:800;font-size:14px;color:var(--muted);flex:1;min-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .crumbs b{color:var(--ink)}
+  .seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{border:0;background:var(--panel);padding:7px 14px;font-weight:800;font-size:13px;color:var(--muted)}
+  .seg button + button{border-left:1px solid var(--line)}
+  .seg button.on{background:var(--brand);color:#fff}
+  .tbtn{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:7px 11px;font-weight:800;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+  .tbtn:hover{border-color:var(--brand);color:var(--brand)}
+  .tbtn:disabled{opacity:.45;cursor:not-allowed}
+  .stage{flex:1;position:relative;background:#e9ecf3}
+  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+  .overlay{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px 30px;max-width:620px;box-shadow:0 8px 30px rgba(16,24,40,.06)}
+  .card h2{margin:0 0 8px;font-size:22px;font-weight:900}
+  .card p{margin:6px 0;color:var(--muted);font-weight:600;line-height:1.5}
+  .card ol{text-align:left;color:var(--ink);font-weight:600;line-height:1.6;padding-left:22px}
+  .card code{background:var(--bg);padding:1px 6px;border-radius:6px;font-size:13px}
+  .spinner{width:34px;height:34px;border:4px solid var(--brand-soft);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hidden{display:none !important}
+
+  @media (max-width: 860px){
+    .menu-btn{display:block}
+    aside{position:fixed;top:var(--top);bottom:0;left:0;z-index:20;transform:translateX(-100%);transition:transform .2s;box-shadow:8px 0 30px rgba(16,24,40,.12)}
+    body.side-open aside{transform:none}
+    .title small{display:none}
+    .bar .label{display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <button class="menu-btn" id="menuBtn" aria-label="Show lessons">☰</button>
+  <div class="logo">SP</div>
+  <div class="title"><span id="appTitle">Module Review</span><small>Interactive modules and assessments, loaded live from Google Drive</small></div>
+  <div class="spacer"></div>
+  <div class="langs" id="langs"></div>
+</header>
+
+<div class="wrap">
+  <aside id="side">
+    <div class="side-head" id="sideHead">Lessons</div>
+    <div id="tree"></div>
+  </aside>
+
+  <main>
+    <div class="bar" id="bar">
+      <div class="crumbs" id="crumbs">Pick a day from the list</div>
+      <div class="seg" id="partSeg"></div>
+      <button class="tbtn" id="prevBtn" title="Previous day" disabled>◀ <span class="label">Prev day</span></button>
+      <button class="tbtn" id="nextBtn" title="Next day" disabled><span class="label">Next day</span> ▶</button>
+      <button class="tbtn" id="reloadBtn" title="Reload from Drive" disabled>⟳ <span class="label">Reload</span></button>
+      <a class="tbtn" id="openBtn" target="_blank" rel="noopener" title="Open full screen in a new tab" aria-disabled="true">⤢ <span class="label">Full screen</span></a>
+    </div>
+    <div class="stage">
+      <iframe id="frame" title="Module" allow="autoplay; fullscreen" allowfullscreen class="hidden"></iframe>
+      <div class="overlay" id="overlay">
+        <div class="card">
+          <h2>Welcome</h2>
+          <p>Choose a grade, quarter, week and day on the left. Each day has a <b>Module</b> and an <b>Assessment</b>.</p>
+          <p>Everything plays straight from the shared Google Drive folder, so updates in Drive show up here.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(() => {
+  const CFG = window.PORTAL_CONFIG;
+  const FOLDER = "application/vnd.google-apps.folder";
+  const LEVELS = ["grade", "quarter", "week", "day"];
+  const $ = id => document.getElementById(id);
+  const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
+
+  document.title = CFG.title;
+  $("appTitle").textContent = CFG.title;
+
+  const state = { lang: null, path: null, part: CFG.parts[0].name, swReady: null };
+  const listCache = new Map();
+
+  /* ---------- Drive listing (page side, for the lesson tree) ---------- */
+  async function listFolder(id) {
+    if (listCache.has(id)) return listCache.get(id);
+    const p = (async () => {
+      const out = new Map();
+      let pageToken = "";
+      do {
+        const u = new URL(CFG.apiBase);
+        u.searchParams.set("q", `'${id}' in parents and trashed=false`);
+        u.searchParams.set("fields", "nextPageToken,files(id,name,mimeType,modifiedTime)");
+        u.searchParams.set("pageSize", "1000");
+        u.searchParams.set("supportsAllDrives", "true");
+        u.searchParams.set("includeItemsFromAllDrives", "true");
+        u.searchParams.set("key", CFG.apiKey);
+        if (pageToken) u.searchParams.set("pageToken", pageToken);
+        const r = await fetch(u);
+        if (!r.ok) {
+          let msg = r.status + "";
+          try { msg = (await r.json()).error.message; } catch (e) {}
+          throw new Error(msg);
+        }
+        const j = await r.json();
+        for (const f of j.files || []) {
+          if (f.name.startsWith("._") || f.name === ".DS_Store") continue;
+          const prev = out.get(f.name);
+          if (!prev || prev.modifiedTime < f.modifiedTime) out.set(f.name, f);
+        }
+        pageToken = j.nextPageToken || "";
+      } while (pageToken);
+      return out;
+    })();
+    listCache.set(id, p);
+    p.catch(() => listCache.delete(id));
+    return p;
+  }
+  async function subfolders(id) {
+    const m = await listFolder(id);
+    return [...m.values()].filter(f => f.mimeType === FOLDER).sort((a, b) => collator.compare(a.name, b.name));
+  }
+  async function folderAt(names) {
+    let id = state.lang.folderId;
+    for (const n of names) {
+      const kids = await subfolders(id);
+      const hit = kids.find(k => k.name === n) || kids.find(k => k.name.toLowerCase() === n.toLowerCase());
+      if (!hit) return null;
+      id = hit.id;
+    }
+    return id;
+  }
+
+  /* ---------- Language switch ---------- */
+  function renderLangs() {
+    const box = $("langs");
+    box.innerHTML = "";
+    for (const l of CFG.languages) {
+      const b = document.createElement("button");
+      b.textContent = l.label;
+      if (!l.enabled) { b.disabled = true; const s = document.createElement("span"); s.className = "soon"; s.textContent = "soon"; b.appendChild(s); }
+      if (state.lang && state.lang.code === l.code) b.classList.add("on");
+      b.onclick = () => { if (l.enabled && l !== state.lang) { setLang(l); clearViewer(); writeHash(); } };
+      box.appendChild(b);
+    }
+  }
+  function setLang(l) {
+    state.lang = l;
+    state.path = null;
+    renderLangs();
+    $("sideHead").textContent = `${CFG.subject} · ${l.label}`;
+    buildTree();
+  }
+
+  /* ---------- Lesson tree ---------- */
+  function buildTree() {
+    const tree = $("tree");
+    tree.innerHTML = "";
+    loadLevel(tree, state.lang.folderId, [], 0);
+  }
+
+  async function loadLevel(container, folderId, names, depth) {
+    const loading = document.createElement("div");
+    loading.className = "loading-row";
+    loading.textContent = "Loading…";
+    container.appendChild(loading);
+    let kids;
+    try { kids = await subfolders(folderId); }
+    catch (err) {
+      loading.className = "err-row";
+      loading.textContent = "Could not read Drive: " + err.message;
+      return;
+    }
+    loading.remove();
+    if (!kids.length) {
+      const e = document.createElement("div");
+      e.className = "loading-row";
+      e.textContent = "Nothing here yet";
+      container.appendChild(e);
+      return;
+    }
+    for (const k of kids) {
+      const path = names.concat(k.name);
+      if (depth === LEVELS.length - 1) container.appendChild(dayRow(path));
+      else container.appendChild(groupNode(k, path, depth));
+    }
+  }
+
+  function groupNode(folder, path, depth) {
+    const node = document.createElement("div");
+    node.className = `node lvl-${depth + 1}`;
+    node.dataset.path = path.join("/");
+    const row = document.createElement("button");
+    row.className = "row";
+    row.innerHTML = `<span class="chev">▶</span><span></span>`;
+    row.lastChild.textContent = folder.name;
+    const kids = document.createElement("div");
+    kids.className = "kids";
+    let loaded = null;
+    node.expand = () => {
+      node.classList.add("open");
+      if (!loaded) loaded = loadLevel(kids, folder.id, path, depth + 1);
+      return loaded;
+    };
+    row.onclick = () => node.classList.contains("open") ? node.classList.remove("open") : node.expand();
+    node.append(row, kids);
+    return node;
+  }
+
+  function dayRow(path) {
+    const el = document.createElement("div");
+    el.className = "day";
+    el.dataset.path = path.join("/");
+    const n = document.createElement("span");
+    n.className = "dname";
+    n.textContent = path[path.length - 1];
+    el.appendChild(n);
+    for (const p of CFG.parts) {
+      const c = document.createElement("button");
+      c.className = "chip";
+      c.dataset.part = p.name;
+      c.textContent = p.label;
+      c.onclick = () => { open(path, p.name); document.body.classList.remove("side-open"); };
+      el.appendChild(c);
+    }
+    n.onclick = () => { open(path, CFG.parts[0].name); document.body.classList.remove("side-open"); };
+    n.style.cursor = "pointer";
+    return el;
+  }
+
+  async function revealInTree(path) {
+    let container = $("tree");
+    for (let i = 0; i < path.length - 1; i++) {
+      const key = path.slice(0, i + 1).join("/");
+      let node;
+      for (let t = 0; t < 100 && !(node = [...container.children].find(c => c.dataset && c.dataset.path === key)); t++) {
+        await new Promise(r => setTimeout(r, 60));
+      }
+      if (!node) return;
+      await node.expand();
+      container = node.querySelector(":scope > .kids");
+    }
+    markActive();
+  }
+
+  function markActive() {
+    const key = state.path ? state.path.join("/") : "";
+    document.querySelectorAll(".day").forEach(d => {
+      const on = d.dataset.path === key;
+      d.classList.toggle("active", on);
+      d.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", on && c.dataset.part === state.part));
+    });
+  }
+
+  /* ---------- Viewer ---------- */
+  function vUrl(path, part) {
+    const segs = [state.lang.folderId, ...path, part, "index.html"].map(encodeURIComponent);
+    return new URL("v/" + segs.join("/"), location.href.split("#")[0].replace(/[^/]*$/, "")).href;
+  }
+
+  function renderParts() {
+    const seg = $("partSeg");
+    seg.innerHTML = "";
+    for (const p of CFG.parts) {
+      const b = document.createElement("button");
+      b.textContent = p.label;
+      b.classList.toggle("on", p.name === state.part);
+      b.disabled = !state.path;
+      b.onclick = () => state.path && open(state.path, p.name);
+      seg.appendChild(b);
+    }
+  }
+
+  function renderBar() {
+    const c = $("crumbs");
+    if (!state.path) { c.textContent = "Pick a day from the list"; }
+    else {
+      c.innerHTML = "";
+      const parts = [state.lang.label, ...state.path];
+      parts.forEach((p, i) => {
+        if (i) c.append(" › ");
+        const s = document.createElement(i === parts.length - 1 ? "b" : "span");
+        s.textContent = p;
+        c.appendChild(s);
+      });
+    }
+    renderParts();
+    const has = !!state.path;
+    $("prevBtn").disabled = $("nextBtn").disabled = $("reloadBtn").disabled = !has;
+    const ob = $("openBtn");
+    if (has) { ob.href = vUrl(state.path, state.part); ob.removeAttribute("aria-disabled"); }
+    else { ob.removeAttribute("href"); ob.setAttribute("aria-disabled", "true"); }
+    markActive();
+  }
+
+  function showOverlay(html) {
+    $("overlay").innerHTML = `<div class="card">${html}</div>`;
+    $("overlay").classList.remove("hidden");
+  }
+
+  function clearViewer() {
+    state.path = null;
+    $("frame").classList.add("hidden");
+    $("frame").removeAttribute("src");
+    showOverlay(`<h2>Welcome</h2><p>Choose a grade, quarter, week and day on the left. Each day has a <b>Module</b> and an <b>Assessment</b>.</p>`);
+    renderBar();
+  }
+
+  async function open(path, part, opts = {}) {
+    state.path = path;
+    state.part = part;
+    renderBar();
+    if (!opts.fromHash) writeHash();
+    showOverlay(`<div class="spinner"></div><p>Loading ${part.toLowerCase()} from Drive…</p>`);
+    await state.swReady;
+    const f = $("frame");
+    f.classList.remove("hidden");
+    f.onload = () => { $("overlay").classList.add("hidden"); syncFromFrame(); };
+    f.src = vUrl(path, part) + (opts.bust ? `?r=${Date.now()}` : "");
+  }
+
+  // When a module links to its assessment (../ASSESSMENT/index.html), keep the bar in step.
+  function syncFromFrame() {
+    let p;
+    try { p = $("frame").contentWindow.location.pathname; } catch (e) { return; }
+    const base = new URL("v/", location.href.split("#")[0].replace(/[^/]*$/, "")).pathname;
+    if (!p.startsWith(base)) return;
+    const segs = p.slice(base.length).split("/").map(decodeURIComponent);
+    if (segs.shift() !== state.lang.folderId) return;
+    if (segs[segs.length - 1].toLowerCase().endsWith(".html")) segs.pop();
+    if (segs.length !== LEVELS.length + 1) return;
+    const part = segs.pop();
+    if (!CFG.parts.some(x => x.name === part)) return;
+    const changed = part !== state.part || segs.join("/") !== state.path.join("/");
+    if (changed) { state.path = segs; state.part = part; renderBar(); writeHash(); }
+  }
+
+  /* ---------- Prev / next day across weeks, quarters and grades ---------- */
+  async function step(path, dir) {
+    const p = path.slice();
+    for (let level = p.length - 1; level >= 0; level--) {
+      const parentId = await folderAt(p.slice(0, level));
+      const sibs = (await subfolders(parentId)).map(s => s.name);
+      const i = sibs.indexOf(p[level]);
+      const j = i + dir;
+      if (j < 0 || j >= sibs.length) continue;
+      const out = p.slice(0, level).concat(sibs[j]);
+      // descend to first (or last) child at each lower level
+      for (let l = level + 1; l < LEVELS.length; l++) {
+        const kids = (await subfolders(await folderAt(out))).map(s => s.name);
+        if (!kids.length) return null;
+        out.push(dir > 0 ? kids[0] : kids[kids.length - 1]);
+      }
+      return out;
+    }
+    return null;
+  }
+  async function go(dir) {
+    if (!state.path) return;
+    const btn = dir > 0 ? $("nextBtn") : $("prevBtn");
+    btn.disabled = true;
+    try {
+      const np = await step(state.path, dir);
+      if (np) { await open(np, state.part); revealInTree(np); }
+    } finally { btn.disabled = false; }
+  }
+  $("prevBtn").onclick = () => go(-1);
+  $("nextBtn").onclick = () => go(1);
+  $("reloadBtn").onclick = async () => {
+    listCache.clear();
+    if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage("flush");
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (reg && reg.active) reg.active.postMessage("flush");
+    if (state.path) open(state.path, state.part, { bust: true });
+  };
+  $("menuBtn").onclick = () => document.body.classList.toggle("side-open");
+
+  /* ---------- Hash routing: #/ENGLISH/GRADE 1/QUARTER 1/WEEK 1/DAY 1/MODULE ---------- */
+  function writeHash() {
+    const segs = [state.lang.code];
+    if (state.path) segs.push(...state.path, state.part);
+    const h = "#/" + segs.map(encodeURIComponent).join("/");
+    if (location.hash !== h) history.replaceState(null, "", h);
+  }
+  function readHash() {
+    const raw = location.hash.replace(/^#\/?/, "");
+    if (!raw) return null;
+    const segs = raw.split("/").map(decodeURIComponent);
+    const lang = CFG.languages.find(l => l.code === segs[0] && l.enabled);
+    if (!lang) return null;
+    const rest = segs.slice(1);
+    if (rest.length === LEVELS.length + 1) return { lang, path: rest.slice(0, LEVELS.length), part: rest[LEVELS.length] };
+    return { lang, path: null };
+  }
+
+  /* ---------- Start ---------- */
+  function start() {
+    if (!CFG.apiKey) {
+      showOverlay(`<h2>Almost ready</h2><p>This portal needs a Google Drive API key in <code>config.js</code> before it can read the modules.</p>`);
+      return;
+    }
+    if (!("serviceWorker" in navigator)) {
+      showOverlay(`<h2>Browser not supported</h2><p>Please open this page in a current version of Chrome, Edge, Safari or Firefox (not a private window).</p>`);
+      return;
+    }
+    state.swReady = navigator.serviceWorker.register("sw.js").then(() => navigator.serviceWorker.ready);
+    state.swReady.catch(err => showOverlay(`<h2>Could not start the player</h2><p>${String(err.message || err)}</p>`));
+
+    const h = readHash();
+    const first = (h && h.lang) || CFG.languages.find(l => l.enabled);
+    setLang(first);
+    if (h && h.path) { open(h.path, h.part, { fromHash: true }); revealInTree(h.path); }
+    else { renderBar(); writeHash(); }
+  }
+  start();
+})();
+</script>
+</body>
+</html>
