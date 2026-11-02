@@ -8,7 +8,7 @@ self.PORTAL_CONFIG = {
   subject: "MATH",
   languages: [
     { code: "ENGLISH", label: "English", folderId: "1XeOfF4C-6KkWmkWxdKoJ_0O7KCp6eMbx", enabled: true },
-    { code: "TAGALOG", label: "Tagalog", folderId: "1bgfIEq1uHeA3XNpgpKyF4kpOG4Rx7CXW", enabled: false }
+    { code: "TAGALOG", label: "Tagalog", folderId: "1bgfIEq1uHeA3XNpgpKyF4kpOG4Rx7CXW", enabled: true }
   ],
   // Folder names inside each DAY folder
   parts: [

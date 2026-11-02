@@ -184,6 +184,27 @@
     return id;
   }
 
+  // Navigation comes from tree.json (built from Drive) so the list opens instantly;
+  // live Drive listing is the fallback.
+  function treeNode(path) {
+    const L = state.tree && state.tree.languages && state.tree.languages[state.lang.code];
+    if (!L) return null;
+    let level = L.grades;
+    const keys = ["quarters", "weeks", "days"];
+    for (let i = 0; i < path.length; i++) {
+      const hit = (level || []).find(x => x.name === path[i]);
+      if (!hit) return [];
+      level = hit[keys[i]];
+    }
+    return (level || []).map(x => typeof x === "string" ? x : x.name);
+  }
+  async function childNames(path) {
+    const t = treeNode(path);
+    if (t) return t;
+    const id = await folderAt(path);
+    return id ? (await subfolders(id)).map(f => f.name) : [];
+  }
+
   /* ---------- Language switch ---------- */
   function renderLangs() {
     const box = $("langs");
@@ -193,7 +214,12 @@
       b.textContent = l.label;
       if (!l.enabled) { b.disabled = true; const s = document.createElement("span"); s.className = "soon"; s.textContent = "soon"; b.appendChild(s); }
       if (state.lang && state.lang.code === l.code) b.classList.add("on");
-      b.onclick = () => { if (l.enabled && l !== state.lang) { setLang(l); clearViewer(); writeHash(); } };
+      b.onclick = () => {
+        if (!l.enabled || l === state.lang) return;
+        const keep = state.path, part = state.part;   // stay on the same day in the other language
+        setLang(l);
+        if (keep) { open(keep, part); revealInTree(keep); } else { clearViewer(); writeHash(); }
+      };
       box.appendChild(b);
     }
   }
@@ -209,16 +235,16 @@
   function buildTree() {
     const tree = $("tree");
     tree.innerHTML = "";
-    loadLevel(tree, state.lang.folderId, [], 0);
+    loadLevel(tree, [], 0);
   }
 
-  async function loadLevel(container, folderId, names, depth) {
+  async function loadLevel(container, names, depth) {
     const loading = document.createElement("div");
     loading.className = "loading-row";
     loading.textContent = "Loading…";
     container.appendChild(loading);
     let kids;
-    try { kids = await subfolders(folderId); }
+    try { kids = await childNames(names); }
     catch (err) {
       loading.className = "err-row";
       loading.textContent = "Could not read Drive: " + err.message;
@@ -233,26 +259,26 @@
       return;
     }
     for (const k of kids) {
-      const path = names.concat(k.name);
+      const path = names.concat(k);
       if (depth === LEVELS.length - 1) container.appendChild(dayRow(path));
       else container.appendChild(groupNode(k, path, depth));
     }
   }
 
-  function groupNode(folder, path, depth) {
+  function groupNode(name, path, depth) {
     const node = document.createElement("div");
     node.className = `node lvl-${depth + 1}`;
     node.dataset.path = path.join("/");
     const row = document.createElement("button");
     row.className = "row";
     row.innerHTML = `<span class="chev">▶</span><span></span>`;
-    row.lastChild.textContent = folder.name;
+    row.lastChild.textContent = name;
     const kids = document.createElement("div");
     kids.className = "kids";
     let loaded = null;
     node.expand = () => {
       node.classList.add("open");
-      if (!loaded) loaded = loadLevel(kids, folder.id, path, depth + 1);
+      if (!loaded) loaded = loadLevel(kids, path, depth + 1);
       return loaded;
     };
     row.onclick = () => node.classList.contains("open") ? node.classList.remove("open") : node.expand();
@@ -392,15 +418,14 @@
   async function step(path, dir) {
     const p = path.slice();
     for (let level = p.length - 1; level >= 0; level--) {
-      const parentId = await folderAt(p.slice(0, level));
-      const sibs = (await subfolders(parentId)).map(s => s.name);
+      const sibs = await childNames(p.slice(0, level));
       const i = sibs.indexOf(p[level]);
       const j = i + dir;
       if (j < 0 || j >= sibs.length) continue;
       const out = p.slice(0, level).concat(sibs[j]);
       // descend to first (or last) child at each lower level
       for (let l = level + 1; l < LEVELS.length; l++) {
-        const kids = (await subfolders(await folderAt(out))).map(s => s.name);
+        const kids = await childNames(out);
         if (!kids.length) return null;
         out.push(dir > 0 ? kids[0] : kids[kids.length - 1]);
       }
@@ -459,6 +484,13 @@
     state.swReady = navigator.serviceWorker.register("sw.js").then(() => navigator.serviceWorker.ready);
     state.swReady.catch(err => showOverlay(`<h2>Could not start the player</h2><p>${String(err.message || err)}</p>`));
 
+    state.tree = null;
+    fetch("tree.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).catch(() => null).then(t => {
+      state.tree = t;
+      begin();
+    });
+  }
+  function begin() {
     const h = readHash();
     const first = (h && h.lang) || CFG.languages.find(l => l.enabled);
     setLang(first);
