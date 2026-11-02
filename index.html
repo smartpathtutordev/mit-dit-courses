@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
 <script src="config.js"></script>
+<script src="vault.js"></script>
 <style>
   :root{
     --ink:#1d2433; --muted:#667085; --line:#e4e7ec; --bg:#f6f7fb; --panel:#ffffff;
@@ -73,6 +74,18 @@
   .spinner{width:34px;height:34px;border:4px solid var(--brand-soft);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
   @keyframes spin{to{transform:rotate(360deg)}}
   .hidden{display:none !important}
+  .lock{position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,#eef3ff,#f8f9fc 60%);display:grid;place-items:center;padding:20px}
+  .lock form{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 28px;width:min(400px,100%);box-shadow:0 12px 40px rgba(16,24,40,.08);text-align:center}
+  .lock .logo{margin:0 auto 14px;width:46px;height:46px;font-size:18px;border-radius:12px}
+  .lock h1{font-size:20px;font-weight:900;margin:0 0 4px}
+  .lock p{margin:0 0 18px;color:var(--muted);font-weight:600;font-size:14px}
+  .lock input[type=password]{width:100%;font:inherit;font-weight:700;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;outline:none}
+  .lock input[type=password]:focus{border-color:var(--brand)}
+  .lock label{display:flex;align-items:center;gap:8px;justify-content:center;margin:12px 0 16px;font-size:13px;font-weight:700;color:var(--muted)}
+  .lock button{width:100%;border:0;background:var(--brand);color:#fff;font-weight:900;font-size:15px;padding:12px;border-radius:12px}
+  .lock button:disabled{opacity:.6}
+  .lock .err{color:#b42318;font-weight:800;font-size:13px;min-height:18px;margin-top:10px}
+  .lockbtn{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:7px 11px;font-weight:800;font-size:13px}
 
   @media (max-width: 860px){
     .menu-btn{display:block}
@@ -90,7 +103,20 @@
   <div class="title"><span id="appTitle">Module Review</span><small>Interactive modules and assessments, loaded live from Google Drive</small></div>
   <div class="spacer"></div>
   <div class="langs" id="langs"></div>
+  <button class="lockbtn hidden" id="lockBtn" title="Lock this portal on this device">🔒 Lock</button>
 </header>
+
+<div class="lock hidden" id="lock">
+  <form id="lockForm" autocomplete="off">
+    <div class="logo">SP</div>
+    <h1>Module Review</h1>
+    <p>Enter the team password to continue.</p>
+    <input type="password" id="pw" placeholder="Password" autocomplete="current-password" required>
+    <label><input type="checkbox" id="remember" checked> Remember on this device</label>
+    <button type="submit" id="pwBtn">Open</button>
+    <div class="err" id="pwErr"></div>
+  </form>
+</div>
 
 <div class="wrap">
   <aside id="side">
@@ -472,23 +498,78 @@
   }
 
   /* ---------- Start ---------- */
-  function start() {
-    if (!CFG.apiKey) {
-      showOverlay(`<h2>Almost ready</h2><p>This portal needs a Google Drive API key in <code>config.js</code> before it can read the modules.</p>`);
-      return;
-    }
+  const VAULT = window.PORTAL_VAULT || null;
+  const KEY_STORE = "spt-portal-key";
+
+  async function tellSW(msg) {
+    const reg = await state.swReady;
+    const sw = reg.active || navigator.serviceWorker.controller;
+    return new Promise(res => {
+      const ch = new MessageChannel();
+      ch.port1.onmessage = e => res(e.data);
+      sw.postMessage(msg, [ch.port2]);
+      setTimeout(() => res("timeout"), 8000);
+    });
+  }
+  async function tryKey(raw) {
+    try { if ((await SPTVault.decrypt(raw, VAULT.check)) !== "smartpath-ok") return false; }
+    catch (e) { return false; }
+    state.vaultKey = raw;
+    CFG.apiKey = await SPTVault.decrypt(raw, VAULT.apiKey);
+    return (await tellSW({ type: "unlock", key: SPTVault.b64e(raw) })) === "ok";
+  }
+  function savedKey() {
+    try { return localStorage.getItem(KEY_STORE) || sessionStorage.getItem(KEY_STORE); } catch (e) { return null; }
+  }
+  async function unlock() {
+    const saved = savedKey();
+    if (saved && await tryKey(SPTVault.b64d(saved))) return;
+    $("lock").classList.remove("hidden");
+    setTimeout(() => $("pw").focus(), 50);
+    await new Promise(done => {
+      $("lockForm").onsubmit = async ev => {
+        ev.preventDefault();
+        $("pwBtn").disabled = true; $("pwErr").textContent = "Checking…";
+        const raw = await SPTVault.derive($("pw").value, VAULT.salt, VAULT.iter);
+        if (await tryKey(raw)) {
+          const b = SPTVault.b64e(raw);
+          try { ($("remember").checked ? localStorage : sessionStorage).setItem(KEY_STORE, b); } catch (e) {}
+          $("lock").classList.add("hidden");
+          done();
+        } else {
+          $("pwErr").textContent = "Wrong password. Please try again.";
+          $("pw").select();
+        }
+        $("pwBtn").disabled = false;
+      };
+    });
+  }
+  $("lockBtn").onclick = async () => {
+    try { localStorage.removeItem(KEY_STORE); sessionStorage.removeItem(KEY_STORE); } catch (e) {}
+    await tellSW({ type: "lock" });
+    location.reload();
+  };
+
+  async function start() {
     if (!("serviceWorker" in navigator)) {
       showOverlay(`<h2>Browser not supported</h2><p>Please open this page in a current version of Chrome, Edge, Safari or Firefox (not a private window).</p>`);
       return;
     }
     state.swReady = navigator.serviceWorker.register("sw.js").then(() => navigator.serviceWorker.ready);
     state.swReady.catch(err => showOverlay(`<h2>Could not start the player</h2><p>${String(err.message || err)}</p>`));
-
+    if (VAULT) { await state.swReady; await unlock(); $("lockBtn").classList.remove("hidden"); }
+    else if (!CFG.apiKey) {
+      showOverlay(`<h2>Almost ready</h2><p>This portal needs a Google Drive API key in <code>config.js</code> before it can read the modules.</p>`);
+      return;
+    }
     state.tree = null;
-    fetch("tree.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).catch(() => null).then(t => {
-      state.tree = t;
-      begin();
-    });
+    let t = null;
+    try {
+      const r = await fetch("tree.json", { cache: "no-cache" });
+      if (r.ok) t = await SPTVault.openJson(state.vaultKey, await r.json());
+    } catch (e) {}
+    state.tree = t;
+    begin();
   }
   function begin() {
     const h = readHash();

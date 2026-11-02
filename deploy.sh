@@ -9,8 +9,9 @@ export GOOGLE_CLOUD_QUOTA_PROJECT=$P
 gcloud config set project "$P" >/dev/null 2>&1
 gcloud config set billing/quota_project "$P" >/dev/null 2>&1 || true
 mkdir -p ~/mathportal/public && cd ~/mathportal
-for f in index.html sw.js config.js; do curl -fsSL "$RAW/$f?$(date +%s)" -o "public/$f"; done
+for f in index.html sw.js config.js vault.js; do curl -fsSL "$RAW/$f?$(date +%s)" -o "public/$f"; done
 curl -fsSL "$RAW/build_manifest.py?$(date +%s)" -o build_manifest.py
+curl -fsSL "$RAW/encrypt.js?$(date +%s)" -o encrypt.js
 cat > firebase.json <<EOF
 { "hosting": { "site": "$SITE", "public": "public",
   "headers": [ { "source": "**/*.@(js|html|json)", "headers": [ { "key": "Cache-Control", "value": "no-cache" } ] } ] } }
@@ -26,9 +27,15 @@ fi
 KEY=$(cat ~/mathportal/.key)
 [ -n "$KEY" ] || { echo "NO KEY"; exit 1; }
 sed -i "s#apiKey: \"\"#apiKey: \"$KEY\"#" public/config.js
-echo "== building file index from Drive"
-rm -rf public/m public/tree.json
-python3 build_manifest.py public/config.js public "https://$SITE.web.app/"
+if [ "${SKIP_BUILD:-0}" != "1" ]; then
+  echo "== building file index from Drive"
+  rm -rf public/m public/tree.json
+  python3 build_manifest.py public/config.js public "https://$SITE.web.app/"
+fi
+echo "== locking with the portal password"
+[ -s ~/mathportal/.password ] || { echo "Put the portal password in ~/mathportal/.password first"; exit 1; }
+[ -s ~/mathportal/.salt ] || openssl rand -base64 16 > ~/mathportal/.salt
+node encrypt.js public "$(cat ~/mathportal/.password)" "$(cat ~/mathportal/.salt)"
 echo "== deploy"
 curl -fsSL "$RAW/redeploy.sh?$(date +%s)" -o redeploy.sh && bash redeploy.sh
 echo "DONE https://$SITE.web.app"

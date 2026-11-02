@@ -8,7 +8,7 @@
    - when a module opens, every file it references is downloaded in the background
      into a local cache, so later slides, narration and videos play instantly;
    - the day's folders are re-checked in the background so edits made in Drive show up. */
-importScripts("config.js");
+importScripts("config.js", "vault.js");
 const CFG = self.PORTAL_CONFIG;
 const SCOPE = self.registration.scope;
 const VPREFIX = new URL("v/", SCOPE).pathname;
@@ -27,9 +27,54 @@ self.addEventListener("activate", e => e.waitUntil((async () => {
   for (const k of await caches.keys()) if (k.startsWith("spt-media-") && k !== MEDIA_CACHE) await caches.delete(k);
   await self.clients.claim();
 })()));
+/* ---------------- Password vault ---------------- */
+const VAULT = self.PORTAL_VAULT || null;
+const META_CACHE = "spt-meta-v1";
+const META_KEY = "https://meta.local/vault";
+let vaultKey = null;
+async function ensureUnlocked() {
+  if (!VAULT || vaultKey) return true;
+  try {
+    const r = await (await caches.open(META_CACHE)).match(META_KEY);
+    if (!r) return false;
+    const v = await r.json();
+    const key = SPTVault.b64d(v.key);
+    if ((await SPTVault.decrypt(key, VAULT.check)) !== "smartpath-ok") return false;
+    vaultKey = key;
+    CFG.apiKey = await SPTVault.decrypt(key, VAULT.apiKey);
+    return true;
+  } catch (e) { return false; }
+}
+async function lockAll() {
+  vaultKey = null; days.clear(); prefetched.clear();
+  await caches.delete(META_CACHE);
+  await caches.delete(MEDIA_CACHE);
+}
+
 self.addEventListener("message", e => {
-  if (e.data === "flush" || (e.data && e.data.type === "flush")) { days.clear(); prefetched.clear(); }
+  const d = e.data || {};
+  const reply = msg => { if (e.ports && e.ports[0]) e.ports[0].postMessage(msg); };
+  if (d === "flush" || d.type === "flush") { days.clear(); prefetched.clear(); reply("ok"); return; }
+  if (d.type === "unlock") {
+    e.waitUntil((async () => {
+      try {
+        const key = SPTVault.b64d(d.key);
+        if (!VAULT || (await SPTVault.decrypt(key, VAULT.check)) !== "smartpath-ok") throw new Error("bad key");
+        vaultKey = key;
+        CFG.apiKey = await SPTVault.decrypt(key, VAULT.apiKey);
+        await (await caches.open(META_CACHE)).put(META_KEY, new Response(JSON.stringify({ key: d.key })));
+        reply("ok");
+      } catch (err) { reply("bad"); }
+    })());
+    return;
+  }
+  if (d.type === "lock") { e.waitUntil(lockAll().then(() => reply("ok"))); }
 });
+function locked() {
+  return new Response(`<!DOCTYPE html><meta charset="utf-8"><body style="font-family:system-ui;padding:40px;color:#334">
+<h2 style="margin:0 0 8px">Locked</h2><p>Open the review portal and enter the password first.</p></body>`,
+    { status: 401, headers: { "content-type": "text/html; charset=utf-8" } });
+}
 
 /* ---------------- Drive helpers ---------------- */
 function apiUrl(path, params) {
@@ -119,7 +164,7 @@ async function getDay(root, segs, { fresh = false } = {}) {
   if (!day) {
     try {
       const r = await fetch(new URL(`m/${lang.code}/${dayKey(segs)}.json`, SCOPE), { cache: "no-cache" });
-      if (r.ok) day = await r.json();
+      if (r.ok) day = await SPTVault.openJson(vaultKey, await r.json());
     } catch (e) {}
     if (!day) {
       const id = await liveDayId(root, segs);
@@ -261,6 +306,7 @@ ${extra ? `<pre style="white-space:pre-wrap;color:#a33">${String(extra).replace(
 
 async function serve(event, url) {
   const request = event.request;
+  if (!(await ensureUnlocked())) return locked();
   const segs = url.pathname.slice(VPREFIX.length).split("/").map(decodeURIComponent);
   const root = segs.shift();
   if (!LANG_BY_ROOT.has(root)) return notFound(segs.join("/"), "Unknown language folder");
