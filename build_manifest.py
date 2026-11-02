@@ -7,7 +7,11 @@ Writes:
 
 Usage: build_manifest.py <config.js> <out_dir> [referer]
 """
-import json, os, re, sys, time, urllib.parse, urllib.request
+import json, os, re, socket, sys, time, urllib.parse, urllib.request
+
+# Cloud Shell has no working IPv6 route; force IPv4 so requests don't hang.
+_gai = socket.getaddrinfo
+socket.getaddrinfo = lambda host, port, family=0, *a, **k: _gai(host, port, socket.AF_INET, *a, **k)
 from concurrent.futures import ThreadPoolExecutor
 
 cfg_text = open(sys.argv[1], encoding="utf-8").read()
@@ -39,7 +43,7 @@ def ls(folder_id):
         req = urllib.request.Request(API_BASE + "?" + urllib.parse.urlencode(q), headers={"Referer": REFERER})
         for attempt in range(6):
             try:
-                with urllib.request.urlopen(req, timeout=60) as r:
+                with urllib.request.urlopen(req, timeout=25) as r:
                     j = json.load(r)
                 break
             except Exception as e:  # rate limits / transient errors
@@ -103,6 +107,7 @@ def main():
                 gnode["quarters"].append(qnode)
             grades.append(gnode)
         tree["languages"][code] = {"folderId": root, "grades": grades}
+        print(f"{code}: navigation read ({len(days_todo)} days, {time.time() - t0:.0f}s); indexing files...", flush=True)
         os.makedirs(os.path.join(OUT, "m", code), exist_ok=True)
 
         def do_day(item):
