@@ -14,7 +14,6 @@ cat > firebase.json <<EOF
   "headers": [ { "source": "**/*.@(js|html)", "headers": [ { "key": "Cache-Control", "value": "no-cache" } ] } ] } }
 EOF
 echo "== api key"
-rm -f ~/mathportal/.key
 if [ ! -s ~/mathportal/.key ]; then
   gcloud services api-keys create --display-name="Math module review portal" \
     --api-target=service=drive.googleapis.com \
