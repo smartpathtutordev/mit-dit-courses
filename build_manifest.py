@@ -9,9 +9,15 @@ Usage: build_manifest.py <config.js> <out_dir> [referer]
 """
 import json, os, re, socket, sys, time, urllib.parse, urllib.request
 
-# Cloud Shell has no working IPv6 route; force IPv4 so requests don't hang.
+# Cloud Shell's DNS is slow: resolve each host once (IPv4) and reuse the answer.
 _gai = socket.getaddrinfo
-socket.getaddrinfo = lambda host, port, family=0, *a, **k: _gai(host, port, socket.AF_INET, *a, **k)
+_dns = {}
+def _cached_gai(host, port, family=0, *a, **k):
+    key = (host, port)
+    if key not in _dns:
+        _dns[key] = _gai(host, port, socket.AF_INET, *a, **k)
+    return _dns[key]
+socket.getaddrinfo = _cached_gai
 from concurrent.futures import ThreadPoolExecutor
 
 cfg_text = open(sys.argv[1], encoding="utf-8").read()
