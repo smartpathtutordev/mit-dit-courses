@@ -59,12 +59,13 @@ def referenced(html, part_dir):
 def download_text(file_id):
     for attempt in range(6):
         try:
-            r = _session().get(f"{API_BASE}/{file_id}", params={"alt": "media", "key": API_KEY}, timeout=60)
+            STATS["downloads"] = STATS.get("downloads", 0) + 1
+            r = _session().get(f"{API_BASE}/{file_id}", params={"alt": "media", "key": API_KEY}, timeout=(5, 30))
             if r.status_code == 200:
                 return r.content.decode("utf-8", "replace")
         except Exception:
-            pass
-        time.sleep(1.5 * (attempt + 1))
+            _drop_session()
+        time.sleep(1.0 * (attempt + 1))
     return None
 FOLDER = "application/vnd.google-apps.folder"
 pool = ThreadPoolExecutor(16)
@@ -91,9 +92,19 @@ def _session():
     return sess
 
 
+def _drop_session():
+    s_ = getattr(_local, "s", None)
+    if s_ is not None:
+        try:
+            s_.close()
+        except Exception:
+            pass
+    _local.s = None
+
+
 def _get_json(params):
     try:
-        r = _session().get(API_BASE, params=params, timeout=30)
+        r = _session().get(API_BASE, params=params, timeout=(5, 20))
         return r.status_code, (r.json() if r.content else {})
     except ImportError:
         req = urllib.request.Request(API_BASE + "?" + urllib.parse.urlencode(params), headers={"Referer": REFERER})
@@ -117,6 +128,7 @@ def ls(folder_id):
             try:
                 status, j = _get_json(q)
             except Exception as e:
+                _drop_session()  # a dropped keep-alive connection: start a fresh one
                 status, j = 0, {"error": {"message": str(e)}}
             if status == 200:
                 break
@@ -124,7 +136,7 @@ def ls(folder_id):
             STATS["last_error"] = f"{status} {str(j.get('error', {}).get('message', ''))[:120]}"
             if attempt == 7:
                 raise RuntimeError(STATS["last_error"])
-            time.sleep(min(20, 1.0 * 2 ** attempt))
+            time.sleep(min(8, 0.5 * 2 ** attempt))
         for f in j.get("files", []):
             n = f["name"]
             if n.startswith("._") or n == ".DS_Store":
@@ -163,7 +175,7 @@ def _ticker():
     t0 = time.time()
     while True:
         time.sleep(15)
-        print(f"  ...{time.time() - t0:.0f}s, {STATS['calls']} Drive calls, {STATS['retries']} retries {STATS['last_error']}", flush=True)
+        print(f"  ...{time.time() - t0:.0f}s, {STATS['calls']} Drive calls, {STATS.get('downloads', 0)} pages read, {STATS['retries']} retries {STATS['last_error']}", flush=True)
 
 
 AUDIT = {"built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "collections": {}}
