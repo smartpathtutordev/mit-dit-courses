@@ -37,5 +37,5 @@ echo "== locking with the portal password"
 [ -s ~/mathportal/.salt ] || openssl rand -base64 16 > ~/mathportal/.salt
 node encrypt.js public "$(cat ~/mathportal/.password)" "$(cat ~/mathportal/.salt)"
 echo "== deploy"
-curl -fsSL "$RAW/redeploy.sh?$(date +%s)" -o redeploy.sh && bash redeploy.sh
+curl -fsSL "$RAW/redeploy.sh?$(date +%s)" -o redeploy.sh && P="$P" bash redeploy.sh
 echo "DONE https://$SITE.web.app"
