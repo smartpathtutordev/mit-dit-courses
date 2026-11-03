@@ -21,3 +21,22 @@ self.SPTVault = (() => {
   }
   return { b64d, b64e, derive, decrypt, isBox, openJson };
 })();
+
+/* Paths a lesson page refers to by relative path (shared by the page's upload check). */
+self.SPTRefs = (() => {
+  const RE = /["'`(=]\s*((?:\.{1,2}\/)?[^"'`()\s<>{}$]+?\.(?:png|jpe?g|gif|webp|svg|mp3|wav|m4a|ogg|mp4|webm|vtt|json|css|js))(?=["'`)?#\s])/gi;
+  function referenced(html, dir) {
+    const out = new Set();
+    for (const m of html.matchAll(RE)) {
+      const ref = m[1];
+      if (/^(https?:|data:|blob:|\/\/)/i.test(ref)) continue;
+      const parts = dir ? dir.split("/") : [];
+      for (const seg of ref.split("/")) {
+        if (seg === "..") parts.pop(); else if (seg !== "." && seg !== "") parts.push(seg);
+      }
+      out.add(parts.join("/"));
+    }
+    return out;
+  }
+  return { referenced };
+})();

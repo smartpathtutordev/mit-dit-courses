@@ -186,7 +186,10 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     tree = {"built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "languages": {}}
     total_days = total_files = 0
+    only = os.environ.get("ONLY")
     for code, label, root in LANGS:
+        if only and code != only:
+            continue
         t0 = time.time()
         grades = []
         days_todo = []
@@ -240,8 +243,11 @@ def main():
 
         audit_days = []
         # day crawls run several at a time; each one fans out internally
-        with ThreadPoolExecutor(6) as dp:
-            counts = list(dp.map(do_day, days_todo))
+        if os.environ.get("NAV_ONLY") == "1":
+            counts = []  # lesson list only; the portal reads each day's files when it is opened
+        else:
+            with ThreadPoolExecutor(int(os.environ.get('DAY_THREADS', '6'))) as dp:
+                counts = list(dp.map(do_day, days_todo))
         # structure gaps: quarters/weeks/days fewer than the usual count
         structure = []
         def mode(xs):
@@ -261,7 +267,8 @@ def main():
                     if len(w["days"]) < md:
                         structure.append(f"{g['name']}/{q['name']}/{w['name']}: {len(w['days'])} day(s), usually {md}")
         bad = sorted([d for d in audit_days if d["issues"]], key=lambda d: natkey(d["day"]))
-        AUDIT["collections"][code] = {"days": len(audit_days), "ok": len(audit_days) - len(bad),
+        AUDIT["collections"][code] = {"days": len(days_todo), "ok": len(audit_days) - len(bad),
+                                      "pagesChecked": os.environ.get("NAV_ONLY") != "1",
                                       "missingCount": sum(d["missing"] for d in bad),
                                       "structure": structure,
                                       "problems": [{"day": d["day"], "issues": d["issues"]} for d in bad]}
@@ -274,6 +281,18 @@ def main():
     with open(os.path.join(OUT, "audit.json"), "w", encoding="utf-8") as fh:
         json.dump(AUDIT, fh, separators=(",", ":"))
     print(f"TOTAL {total_days} days, {total_files} files")
+    report = os.environ.get("REPORT")
+    if report:
+        with open(report, "w", encoding="utf-8") as fh:
+            for code, a in AUDIT["collections"].items():
+                fh.write(f"## {code}: {a['days']} days, {a['ok']} complete, {len(a['problems'])} with problems, {a.get('missingCount', 0)} files missing\n")
+                for st in a["structure"]:
+                    fh.write(f"STRUCTURE {st}\n")
+                for pr in a["problems"]:
+                    fh.write(f"DAY {pr['day']}\n")
+                    for i in pr["issues"]:
+                        fh.write(f"   - {i}\n")
+        print("REPORT-WRITTEN", report)
 
 
 if __name__ == "__main__":

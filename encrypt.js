@@ -19,13 +19,13 @@ function encFile(f) {
   return 1;
 }
 
-let n = encFile(path.join(dir, "tree.json"));
+let n = fs.existsSync(path.join(dir, "tree.json")) ? encFile(path.join(dir, "tree.json")) : 0;
 if (fs.existsSync(path.join(dir, "audit.json"))) n += encFile(path.join(dir, "audit.json"));
 const walk = d => { for (const e of fs.readdirSync(d, { withFileTypes: true })) {
   const p = path.join(d, e.name);
   if (e.isDirectory()) walk(p); else if (e.name.endsWith(".json")) n += encFile(p);
 } };
-walk(path.join(dir, "m"));
+if (fs.existsSync(path.join(dir, "m"))) walk(path.join(dir, "m"));
 
 const cfgPath = path.join(dir, "config.js");
 let cfg = fs.readFileSync(cfgPath, "utf8");

@@ -203,7 +203,7 @@
       do {
         const u = new URL(CFG.apiBase);
         u.searchParams.set("q", `'${id}' in parents and trashed=false`);
-        u.searchParams.set("fields", "nextPageToken,files(id,name,mimeType,modifiedTime)");
+        u.searchParams.set("fields", "nextPageToken,files(id,name,mimeType,modifiedTime,size)");
         u.searchParams.set("pageSize", "1000");
         u.searchParams.set("supportsAllDrives", "true");
         u.searchParams.set("includeItemsFromAllDrives", "true");
@@ -557,7 +557,12 @@
   function auditFor(l) { return state.audit && state.audit.collections && state.audit.collections[l.code]; }
   function renderAuditBtn() {
     const a = state.lang && auditFor(state.lang), b = $("auditBtn");
-    if (!a) { b.classList.add("hidden"); return; }
+    b.classList.remove("hidden");
+    if (!a || !a.pagesChecked) {
+      b.classList.remove("warn", "good");
+      b.innerHTML = `☑ <span class="label">Upload check</span>`;
+      return;
+    }
     const n = a.problems.length + (a.structure || []).length;
     b.classList.remove("hidden");
     b.classList.toggle("warn", n > 0); b.classList.toggle("good", n === 0);
@@ -570,13 +575,25 @@
     return out.join("\n");
   }
   function showAudit() {
-    const a = auditFor(state.lang); if (!a) return;
+    const a = auditFor(state.lang);
+    $("auditTitle").textContent = `Upload check · ${collLabel(state.lang)}`;
+    if (!a || !a.pagesChecked) {
+      const st = (a && a.structure) || [];
+      $("auditBody").innerHTML = `<p style="margin:0 0 12px;font-weight:600">The check opens every day's Module and Assessment page and lists any picture, narration or video they use that is not in the Drive folder. It takes a few minutes.</p>
+        <button class="tbtn" id="runAudit" style="background:var(--brand);color:#fff;border-color:var(--brand)">Run check now</button>
+        <div id="auditProg" style="margin-top:12px;color:var(--muted);font-weight:700"></div>` +
+        (st.length ? `<h3>Missing or incomplete folders</h3>` + st.map(x => `<div class="item">${String(x).replace(/</g, "&lt;")}</div>`).join("") : "");
+      $("runAudit").onclick = runAudit;
+      $("auditModal").classList.remove("hidden");
+      return;
+    }
     $("auditTitle").textContent = `Upload check · ${collLabel(state.lang)}`;
     const esc = t => String(t).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
     let h = `<div class="sum"><span class="pill">${a.days} days in Drive</span><span class="pill">${a.ok} complete</span>
       <span class="pill">${a.problems.length} with missing files</span><span class="pill">${a.missingCount || 0} files missing</span>
-      <span class="pill">Checked ${esc(new Date(state.audit.built).toLocaleString())}</span></div>
-      <p style="margin:0;color:var(--muted);font-weight:600">A file counts as missing when a lesson page uses it but it is not in the Drive folder.</p>`;
+      <span class="pill">Checked ${esc(new Date(a.checkedAt || state.audit.built).toLocaleString())}</span></div>
+      <p style="margin:0;color:var(--muted);font-weight:600">A file counts as missing when a lesson page uses it but it is not in the Drive folder.
+      <button class="tbtn" id="runAudit2" style="margin-left:8px;padding:4px 10px">Check again</button> <span id="auditProg"></span></p>`;
     if ((a.structure || []).length) h += `<h3>Missing or incomplete folders</h3>` + a.structure.map(x => `<div class="item">${esc(x)}</div>`).join("");
     if (a.problems.length) h += `<h3>Days with missing files</h3>` + a.problems.map((p, i) =>
       `<div class="item"><b data-i="${i}">${esc(p.day)}</b><ul>${p.issues.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
@@ -589,8 +606,76 @@
       if (path.length === LEVELS.length) { open(path, partsFor(state.lang)[0].name); revealInTree(path); }
     });
     $("auditModal").classList.remove("hidden");
+    $("runAudit2").onclick = () => { $("runAudit2").id = "runAudit"; runAudit(); };
   }
   $("auditBtn").onclick = showAudit;
+
+  // Runs the upload check in this browser, a few days at a time.
+  async function crawlDayPage(dayId) {
+    const files = {}, dirs = { "": dayId };
+    let frontier = [["", dayId]];
+    while (frontier.length) {
+      const lists = await Promise.all(frontier.map(async ([pre, id]) => [pre, await listFolder(id)]));
+      frontier = [];
+      for (const [pre, m] of lists) for (const f of m.values()) {
+        const rel = pre ? `${pre}/${f.name}` : f.name;
+        if (f.mimeType === FOLDER) { dirs[rel] = f.id; frontier.push([rel, f.id]); }
+        else files[rel] = f;
+      }
+    }
+    return { files, dirs };
+  }
+  async function checkDay(path) {
+    const issues = []; let missing = 0;
+    const id = await folderAt(path);
+    if (!id) return { issues: ["day folder not found"], missing: 0 };
+    const { files, dirs } = await crawlDayPage(id);
+    for (const p of partsFor(state.lang)) {
+      const part = p.name;
+      if (!(part in dirs)) { issues.push(`${part} folder is missing`); continue; }
+      if (!files[`${part}/index.html`]) { issues.push(`${part}/index.html is missing`); continue; }
+      let html = null;
+      for (let t = 0; t < 3 && html === null; t++) {
+        try { const r = await fetch(vUrl(path, part)); if (r.ok) html = await r.text(); } catch (e) {}
+      }
+      if (html === null) { issues.push(`${part}/index.html could not be read`); continue; }
+      const miss = [...SPTRefs.referenced(html, part)].filter(x => !files[x]).sort();
+      const empty = Object.keys(files).filter(x => x.startsWith(part + "/") && files[x].size === "0").sort();
+      if (miss.length) { missing += miss.length; issues.push(`${part}: ${miss.length} file(s) missing: ${miss.join(", ")}`); }
+      if (empty.length) issues.push(`${part}: ${empty.length} empty (0-byte) file(s): ${empty.join(", ")}`);
+    }
+    return { issues, missing };
+  }
+  async function runAudit() {
+    const lang = state.lang;
+    $("runAudit").disabled = true;
+    listCache.clear();
+    await state.swReady;
+    const days = [];
+    for (const g of await childNames([])) for (const q of await childNames([g])) for (const w of await childNames([g, q]))
+      for (const d of await childNames([g, q, w])) days.push([g, q, w, d]);
+    const results = []; let i = 0, done = 0;
+    const worker = async () => {
+      while (i < days.length) {
+        const path = days[i++];
+        let r;
+        try { r = await checkDay(path); } catch (e) { r = { issues: ["could not be checked: " + e.message], missing: 0 }; }
+        results.push({ day: path.join("/"), ...r });
+        done++;
+        if (lang === state.lang && $("auditProg")) $("auditProg").textContent = `Checked ${done} of ${days.length} days…`;
+      }
+    };
+    await Promise.all(Array.from({ length: 6 }, worker));
+    const coll = new Intl.Collator(undefined, { numeric: true });
+    const bad = results.filter(r => r.issues.length).sort((a, b) => coll.compare(a.day, b.day));
+    state.audit = state.audit || { collections: {} };
+    state.audit.collections = state.audit.collections || {};
+    const prev = state.audit.collections[lang.code] || {};
+    state.audit.collections[lang.code] = { days: days.length, ok: days.length - bad.length, pagesChecked: true,
+      missingCount: bad.reduce((n, r) => n + r.missing, 0), structure: prev.structure || [],
+      problems: bad.map(r => ({ day: r.day, issues: r.issues })), checkedAt: new Date().toISOString() };
+    if (lang === state.lang) { renderAuditBtn(); showAudit(); }
+  }
   $("auditClose").onclick = () => $("auditModal").classList.add("hidden");
   $("auditCopy").onclick = async () => {
     const a = auditFor(state.lang); if (!a) return;

@@ -30,7 +30,7 @@ sed -i "s#apiKey: \"\"#apiKey: \"$KEY\"#" public/config.js
 if [ "${SKIP_BUILD:-0}" != "1" ]; then
   echo "== building file index from Drive"
   rm -rf public/m public/tree.json
-  python3 build_manifest.py public/config.js public "https://$SITE.web.app/"
+  NAV_ONLY="${NAV_ONLY:-1}" python3 build_manifest.py public/config.js public "https://$SITE.web.app/"
 fi
 echo "== locking with the portal password"
 [ -s ~/mathportal/.password ] || { echo "Put the portal password in ~/mathportal/.password first"; exit 1; }
