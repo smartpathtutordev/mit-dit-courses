@@ -4,13 +4,18 @@
 self.PORTAL_CONFIG = {
   apiKey: "",
   apiBase: "https://www.googleapis.com/drive/v3/files",
-  title: "SmartPath MATH Module Review",
-  subject: "MATH",
-  languages: [
-    { code: "ENGLISH", label: "English", folderId: "1XeOfF4C-6KkWmkWxdKoJ_0O7KCp6eMbx", enabled: true },
-    { code: "TAGALOG", label: "Tagalog", folderId: "1bgfIEq1uHeA3XNpgpKyF4kpOG4Rx7CXW", enabled: true }
+  title: "SmartPath Module Review",
+  subjects: [
+    { code: "MATH", label: "Math" },
+    { code: "ENGLISH", label: "English" }
   ],
-  // Folder names inside each DAY folder
+  // One entry per Drive folder. Each folder holds GRADE n / QUARTER n / WEEK n / DAY n / <part>/index.html
+  languages: [
+    { code: "MATH-ENG", label: "English", folderId: "1XeOfF4C-6KkWmkWxdKoJ_0O7KCp6eMbx", subject: "MATH", enabled: true },
+    { code: "MATH-TAG", label: "Tagalog", folderId: "1bgfIEq1uHeA3XNpgpKyF4kpOG4Rx7CXW", subject: "MATH", enabled: true },
+    { code: "ENGLISH", label: "English", folderId: "1Hq_D4gfTTUrvrSniQ-zH9U576eogUzSC", subject: "ENGLISH", enabled: true, parts: [ { name: "FULL MODULE", label: "Module" }, { name: "ASSESSMENT", label: "Assessment" } ] }
+  ],
+  // Default folder names inside each DAY folder
   parts: [
     { name: "MODULE", label: "Module" },
     { name: "ASSESSMENT", label: "Assessment" }

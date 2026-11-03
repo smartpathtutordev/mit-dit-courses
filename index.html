@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SmartPath MATH Module Review</title>
+<title>SmartPath Module Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
@@ -85,6 +85,20 @@
   .lock button{width:100%;border:0;background:var(--brand);color:#fff;font-weight:900;font-size:15px;padding:12px;border-radius:12px}
   .lock button:disabled{opacity:.6}
   .lock .err{color:#b42318;font-weight:800;font-size:13px;min-height:18px;margin-top:10px}
+  #subjects button.on{background:#1d2433;color:#fff}
+  .auditbtn.warn{border-color:#f5b041;color:#9a5b00;background:#fff8eb}
+  .auditbtn.good{border-color:#9be3b8;color:#0d7a3e;background:#effcf4}
+  .modal{position:fixed;inset:0;z-index:60;background:rgba(16,24,40,.45);display:grid;place-items:center;padding:18px}
+  .modal .box{background:var(--panel);border-radius:16px;width:min(860px,100%);max-height:88vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(16,24,40,.25)}
+  .modal .head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--line)}
+  .modal .head h2{margin:0;font-size:18px;font-weight:900;flex:1}
+  .modal .body{overflow:auto;padding:14px 20px 20px;font-size:14px;line-height:1.5}
+  .modal .sum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .modal .pill{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-weight:800;font-size:13px}
+  .modal h3{font-size:14px;font-weight:900;margin:16px 0 6px}
+  .modal .item{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:6px 0}
+  .modal .item b{cursor:pointer;color:var(--brand)}
+  .modal .item ul{margin:4px 0 0;padding-left:18px;color:var(--muted);font-weight:600;font-size:13px;word-break:break-all}
   .lockbtn{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:7px 11px;font-weight:800;font-size:13px}
 
   @media (max-width: 860px){
@@ -102,6 +116,7 @@
   <div class="logo">SP</div>
   <div class="title"><span id="appTitle">Module Review</span><small>Interactive modules and assessments, loaded live from Google Drive</small></div>
   <div class="spacer"></div>
+  <div class="langs" id="subjects"></div>
   <div class="langs" id="langs"></div>
   <button class="lockbtn hidden" id="lockBtn" title="Lock this portal on this device">🔒 Lock</button>
 </header>
@@ -118,6 +133,15 @@
   </form>
 </div>
 
+<div class="modal hidden" id="auditModal">
+  <div class="box">
+    <div class="head"><h2 id="auditTitle">Upload check</h2>
+      <button class="tbtn" id="auditCopy">Copy list</button>
+      <button class="tbtn" id="auditClose">Close</button></div>
+    <div class="body" id="auditBody"></div>
+  </div>
+</div>
+
 <div class="wrap">
   <aside id="side">
     <div class="side-head" id="sideHead">Lessons</div>
@@ -130,6 +154,7 @@
       <div class="seg" id="partSeg"></div>
       <button class="tbtn" id="prevBtn" title="Previous day" disabled>◀ <span class="label">Prev day</span></button>
       <button class="tbtn" id="nextBtn" title="Next day" disabled><span class="label">Next day</span> ▶</button>
+      <button class="tbtn auditbtn hidden" id="auditBtn" title="Files missing from Drive">✓ <span class="label">Upload check</span></button>
       <button class="tbtn" id="reloadBtn" title="Reload from Drive" disabled>⟳ <span class="label">Reload</span></button>
       <a class="tbtn" id="openBtn" target="_blank" rel="noopener" title="Open full screen in a new tab" aria-disabled="true">⤢ <span class="label">Full screen</span></a>
     </div>
@@ -157,6 +182,15 @@
   document.title = CFG.title;
   $("appTitle").textContent = CFG.title;
 
+  const SUBJECTS = CFG.subjects || [{ code: "", label: CFG.subject || "" }];
+  const subjectOf = l => l.subject || SUBJECTS[0].code;
+  const partsFor = l => (l && l.parts) || CFG.parts;
+  // "Math · Tagalog", or just "English" when a subject has one language
+  function collLabel(l) {
+    const su = SUBJECTS.find(x => x.code === subjectOf(l));
+    const multi = CFG.languages.filter(x => subjectOf(x) === subjectOf(l) && x.enabled).length > 1;
+    return [su && su.label, multi ? l.label : ""].filter(Boolean).join(" · ") || l.label;
+  }
   const state = { lang: null, path: null, part: CFG.parts[0].name, swReady: null };
   const listCache = new Map();
 
@@ -233,9 +267,29 @@
 
   /* ---------- Language switch ---------- */
   function renderLangs() {
+    // subject switch (Math / English ...)
+    const sbox = $("subjects");
+    sbox.innerHTML = "";
+    const curSubj = state.lang ? subjectOf(state.lang) : "";
+    const subjList = SUBJECTS.filter(su => CFG.languages.some(l => subjectOf(l) === su.code && l.enabled));
+    sbox.classList.toggle("hidden", subjList.length < 2);
+    for (const su of subjList) {
+      const b = document.createElement("button");
+      b.textContent = su.label;
+      if (su.code === curSubj) b.classList.add("on");
+      b.onclick = () => {
+        if (su.code === curSubj) return;
+        setLang(CFG.languages.find(l => subjectOf(l) === su.code && l.enabled));
+        clearViewer(); writeHash();
+      };
+      sbox.appendChild(b);
+    }
+    // language switch within the subject
     const box = $("langs");
     box.innerHTML = "";
-    for (const l of CFG.languages) {
+    const langs = CFG.languages.filter(l => subjectOf(l) === curSubj);
+    box.classList.toggle("hidden", langs.length < 2);
+    for (const l of langs) {
       const b = document.createElement("button");
       b.textContent = l.label;
       if (!l.enabled) { b.disabled = true; const s = document.createElement("span"); s.className = "soon"; s.textContent = "soon"; b.appendChild(s); }
@@ -253,8 +307,10 @@
     state.lang = l;
     state.path = null;
     renderLangs();
-    $("sideHead").textContent = `${CFG.subject} · ${l.label}`;
+    $("sideHead").textContent = collLabel(l);
+    state.part = partsFor(l)[0].name;
     buildTree();
+    renderAuditBtn();
   }
 
   /* ---------- Lesson tree ---------- */
@@ -320,7 +376,7 @@
     n.className = "dname";
     n.textContent = path[path.length - 1];
     el.appendChild(n);
-    for (const p of CFG.parts) {
+    for (const p of partsFor(state.lang)) {
       const c = document.createElement("button");
       c.className = "chip";
       c.dataset.part = p.name;
@@ -328,7 +384,7 @@
       c.onclick = () => { open(path, p.name); document.body.classList.remove("side-open"); };
       el.appendChild(c);
     }
-    n.onclick = () => { open(path, CFG.parts[0].name); document.body.classList.remove("side-open"); };
+    n.onclick = () => { open(path, partsFor(state.lang)[0].name); document.body.classList.remove("side-open"); };
     n.style.cursor = "pointer";
     return el;
   }
@@ -366,7 +422,7 @@
   function renderParts() {
     const seg = $("partSeg");
     seg.innerHTML = "";
-    for (const p of CFG.parts) {
+    for (const p of partsFor(state.lang)) {
       const b = document.createElement("button");
       b.textContent = p.label;
       b.classList.toggle("on", p.name === state.part);
@@ -381,7 +437,7 @@
     if (!state.path) { c.textContent = "Pick a day from the list"; }
     else {
       c.innerHTML = "";
-      const parts = [state.lang.label, ...state.path];
+      const parts = [collLabel(state.lang), ...state.path];
       parts.forEach((p, i) => {
         if (i) c.append(" › ");
         const s = document.createElement(i === parts.length - 1 ? "b" : "span");
@@ -435,7 +491,7 @@
     if (segs[segs.length - 1].toLowerCase().endsWith(".html")) segs.pop();
     if (segs.length !== LEVELS.length + 1) return;
     const part = segs.pop();
-    if (!CFG.parts.some(x => x.name === part)) return;
+    if (!partsFor(state.lang).some(x => x.name === part)) return;
     const changed = part !== state.part || segs.join("/") !== state.path.join("/");
     if (changed) { state.path = segs; state.part = part; renderBar(); writeHash(); }
   }
@@ -496,6 +552,51 @@
     if (rest.length === LEVELS.length + 1) return { lang, path: rest.slice(0, LEVELS.length), part: rest[LEVELS.length] };
     return { lang, path: null };
   }
+
+  /* ---------- Upload check (built with the file index) ---------- */
+  function auditFor(l) { return state.audit && state.audit.collections && state.audit.collections[l.code]; }
+  function renderAuditBtn() {
+    const a = state.lang && auditFor(state.lang), b = $("auditBtn");
+    if (!a) { b.classList.add("hidden"); return; }
+    const n = a.problems.length + (a.structure || []).length;
+    b.classList.remove("hidden");
+    b.classList.toggle("warn", n > 0); b.classList.toggle("good", n === 0);
+    b.innerHTML = n ? `⚠ <span class="label">Missing files</span> ${a.problems.length}` : `✓ <span class="label">All files present</span>`;
+  }
+  function auditText(a) {
+    const out = [];
+    for (const s of a.structure || []) out.push(`STRUCTURE: ${s}`);
+    for (const p of a.problems) { out.push(p.day); for (const i of p.issues) out.push("   - " + i); }
+    return out.join("\n");
+  }
+  function showAudit() {
+    const a = auditFor(state.lang); if (!a) return;
+    $("auditTitle").textContent = `Upload check · ${collLabel(state.lang)}`;
+    const esc = t => String(t).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    let h = `<div class="sum"><span class="pill">${a.days} days in Drive</span><span class="pill">${a.ok} complete</span>
+      <span class="pill">${a.problems.length} with missing files</span><span class="pill">${a.missingCount || 0} files missing</span>
+      <span class="pill">Checked ${esc(new Date(state.audit.built).toLocaleString())}</span></div>
+      <p style="margin:0;color:var(--muted);font-weight:600">A file counts as missing when a lesson page uses it but it is not in the Drive folder.</p>`;
+    if ((a.structure || []).length) h += `<h3>Missing or incomplete folders</h3>` + a.structure.map(x => `<div class="item">${esc(x)}</div>`).join("");
+    if (a.problems.length) h += `<h3>Days with missing files</h3>` + a.problems.map((p, i) =>
+      `<div class="item"><b data-i="${i}">${esc(p.day)}</b><ul>${p.issues.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
+    else if (!(a.structure || []).length) h += `<h3>Everything the lesson pages use is in Drive.</h3>`;
+    $("auditBody").innerHTML = h;
+    $("auditBody").querySelectorAll("b[data-i]").forEach(el => el.onclick = () => {
+      const p = a.problems[Number(el.dataset.i)];
+      $("auditModal").classList.add("hidden");
+      const path = p.day.split("/");
+      if (path.length === LEVELS.length) { open(path, partsFor(state.lang)[0].name); revealInTree(path); }
+    });
+    $("auditModal").classList.remove("hidden");
+  }
+  $("auditBtn").onclick = showAudit;
+  $("auditClose").onclick = () => $("auditModal").classList.add("hidden");
+  $("auditCopy").onclick = async () => {
+    const a = auditFor(state.lang); if (!a) return;
+    try { await navigator.clipboard.writeText(auditText(a)); $("auditCopy").textContent = "Copied"; } catch (e) { $("auditCopy").textContent = "Copy failed"; }
+    setTimeout(() => $("auditCopy").textContent = "Copy list", 1500);
+  };
 
   /* ---------- Start ---------- */
   const VAULT = window.PORTAL_VAULT || null;
@@ -569,6 +670,10 @@
       if (r.ok) t = await SPTVault.openJson(state.vaultKey, await r.json());
     } catch (e) {}
     state.tree = t;
+    try {
+      const r = await fetch("audit.json", { cache: "no-cache" });
+      if (r.ok) state.audit = await SPTVault.openJson(state.vaultKey, await r.json());
+    } catch (e) {}
     begin();
   }
   function begin() {

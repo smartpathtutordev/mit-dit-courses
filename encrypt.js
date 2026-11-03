@@ -20,6 +20,7 @@ function encFile(f) {
 }
 
 let n = encFile(path.join(dir, "tree.json"));
+if (fs.existsSync(path.join(dir, "audit.json"))) n += encFile(path.join(dir, "audit.json"));
 const walk = d => { for (const e of fs.readdirSync(d, { withFileTypes: true })) {
   const p = path.join(d, e.name);
   if (e.isDirectory()) walk(p); else if (e.name.endsWith(".json")) n += encFile(p);

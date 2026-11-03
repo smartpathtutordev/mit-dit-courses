@@ -26,6 +26,46 @@ REFERER = sys.argv[3] if len(sys.argv) > 3 else "https://smartpath-math-review.w
 API_KEY = re.search(r'apiKey:\s*"([^"]*)"', cfg_text).group(1)
 API_BASE = re.search(r'apiBase:\s*"([^"]*)"', cfg_text).group(1)
 LANGS = re.findall(r'\{\s*code:\s*"([^"]+)",\s*label:\s*"([^"]+)",\s*folderId:\s*"([^"]+)"', cfg_text)
+_default_parts = re.search(r'\n  parts:\s*\[(.*?)\]', cfg_text, re.S)
+DEFAULT_PARTS = re.findall(r'name:\s*"([^"]+)"', _default_parts.group(1)) if _default_parts else ["MODULE", "ASSESSMENT"]
+PARTS = {}
+for line in cfg_text.splitlines():
+    m = re.search(r'code:\s*"([^"]+)",\s*label:', line)
+    if m:
+        names = re.findall(r'name:\s*"([^"]+)"', line)
+        PARTS[m.group(1)] = names or DEFAULT_PARTS
+
+# Files a lesson page refers to by relative path (same rule as the portal's background download)
+REF_RE = re.compile(r"""["'`(=]\s*((?:\.{1,2}/)?[^"'`()\s<>{}$]+?\.(?:png|jpe?g|gif|webp|svg|mp3|wav|m4a|ogg|mp4|webm|vtt|json|css|js))(?=["'`)?#\s])""", re.I)
+
+
+def referenced(html, part_dir):
+    out = set()
+    for m in REF_RE.finditer(html):
+        ref = m.group(1)
+        if re.match(r"^(https?:|data:|blob:|//)", ref, re.I):
+            continue
+        parts = part_dir.split("/") if part_dir else []
+        for seg in ref.split("/"):
+            if seg == "..":
+                if parts:
+                    parts.pop()
+            elif seg not in (".", ""):
+                parts.append(seg)
+        out.add("/".join(parts))
+    return out
+
+
+def download_text(file_id):
+    for attempt in range(6):
+        try:
+            r = _session().get(f"{API_BASE}/{file_id}", params={"alt": "media", "key": API_KEY}, timeout=60)
+            if r.status_code == 200:
+                return r.content.decode("utf-8", "replace")
+        except Exception:
+            pass
+        time.sleep(1.5 * (attempt + 1))
+    return None
 FOLDER = "application/vnd.google-apps.folder"
 pool = ThreadPoolExecutor(16)
 
@@ -126,6 +166,9 @@ def _ticker():
         print(f"  ...{time.time() - t0:.0f}s, {STATS['calls']} Drive calls, {STATS['retries']} retries {STATS['last_error']}", flush=True)
 
 
+AUDIT = {"built": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "collections": {}}
+
+
 def main():
     threading.Thread(target=_ticker, daemon=True).start()
     os.makedirs(OUT, exist_ok=True)
@@ -153,21 +196,71 @@ def main():
         print(f"{code}: navigation read ({len(days_todo)} days, {time.time() - t0:.0f}s); indexing files...", flush=True)
         os.makedirs(os.path.join(OUT, "m", code), exist_ok=True)
 
+        expected = PARTS.get(code, DEFAULT_PARTS)
+
         def do_day(item):
             segs, did = item
             files, dirs = crawl_day(did)
             with open(os.path.join(OUT, "m", code, day_key(segs) + ".json"), "w", encoding="utf-8") as fh:
                 json.dump({"id": did, "f": files, "d": dirs}, fh, separators=(",", ":"))
+            issues, missing_n = [], 0
+            for part in expected:
+                if part not in dirs:
+                    issues.append(f"{part} folder is missing")
+                    continue
+                page = files.get(f"{part}/index.html")
+                if not page:
+                    issues.append(f"{part}/index.html is missing")
+                    continue
+                html = download_text(page[0])
+                if html is None:
+                    issues.append(f"{part}/index.html could not be read")
+                    continue
+                miss = sorted(p for p in referenced(html, part) if p not in files)
+                empty = sorted(p for p, f in files.items() if p.startswith(part + "/") and f[1] == 0 and not p.split("/")[-1].startswith("."))
+                if miss:
+                    missing_n += len(miss)
+                    issues.append(f"{part}: {len(miss)} file(s) missing: " + ", ".join(miss))
+                if empty:
+                    issues.append(f"{part}: {len(empty)} empty (0-byte) file(s): " + ", ".join(empty))
+            audit_days.append({"day": "/".join(segs), "issues": issues, "missing": missing_n})
             return len(files)
 
+        audit_days = []
         # day crawls run several at a time; each one fans out internally
         with ThreadPoolExecutor(6) as dp:
             counts = list(dp.map(do_day, days_todo))
+        # structure gaps: quarters/weeks/days fewer than the usual count
+        structure = []
+        def mode(xs):
+            return max(set(xs), key=xs.count) if xs else 0
+        q_counts = [len(g["quarters"]) for g in grades]
+        w_counts = [len(q["weeks"]) for g in grades for q in g["quarters"]]
+        d_counts = [len(w["days"]) for g in grades for q in g["quarters"] for w in q["weeks"]]
+        mq, mw, md = max(q_counts or [0]), mode(w_counts), mode(d_counts)
+        for g in grades:
+            if len(g["quarters"]) < mq:
+                have = ", ".join(q["name"] for q in g["quarters"])
+                structure.append(f"{g['name']}: only {len(g['quarters'])} quarter(s) ({have})")
+            for q in g["quarters"]:
+                if len(q["weeks"]) < mw:
+                    structure.append(f"{g['name']}/{q['name']}: {len(q['weeks'])} week(s), usually {mw}")
+                for w in q["weeks"]:
+                    if len(w["days"]) < md:
+                        structure.append(f"{g['name']}/{q['name']}/{w['name']}: {len(w['days'])} day(s), usually {md}")
+        bad = sorted([d for d in audit_days if d["issues"]], key=lambda d: natkey(d["day"]))
+        AUDIT["collections"][code] = {"days": len(audit_days), "ok": len(audit_days) - len(bad),
+                                      "missingCount": sum(d["missing"] for d in bad),
+                                      "structure": structure,
+                                      "problems": [{"day": d["day"], "issues": d["issues"]} for d in bad]}
+        print(f"{code}: {len(bad)} day(s) with problems, {len(structure)} structure note(s)", flush=True)
         total_days += len(days_todo)
         total_files += sum(counts)
         print(f"{code}: {len(days_todo)} days, {sum(counts)} files, {time.time() - t0:.0f}s", flush=True)
     with open(os.path.join(OUT, "tree.json"), "w", encoding="utf-8") as fh:
         json.dump(tree, fh, separators=(",", ":"))
+    with open(os.path.join(OUT, "audit.json"), "w", encoding="utf-8") as fh:
+        json.dump(AUDIT, fh, separators=(",", ":"))
     print(f"TOTAL {total_days} days, {total_files} files")
 
 
